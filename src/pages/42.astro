@@ -1,0 +1,268 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const projects = [
+    {
+        title: "Libft",
+        description: "Mi primera librería en C. Una colección de funciones estándar y utilidades esenciales que he utilizado en todo mi cursus.",
+        image: "https://camo.githubusercontent.com/1529d20c38865611394178659d5718dfd1f337f75f92d4f2167d60f488219dd7/68747470733a2f2f6d656469612e67697068792e636f6d2f6d656469612f336f376144634a44566861546b5a316b39612f67697068792e676966", // Placeholder or generated later
+        tags: ["C", "Algorithms", "Basics"],
+        tech: ["Make", "Clang"],
+        link: "https://github.com/VolmerES/libft", // Assuming pattern or user will update
+        status: "125/100"
+    },
+    {
+        title: "Born2BeRoot",
+        description: "Configuración de un servidor virtual seguro usando Debian. Particionado LVM, SSH, UFW y políticas de contraseñas estrictas.",
+        image: "https://user-images.githubusercontent.com/40344933/123659223-5e783700-d831-11eb-9878-a400cc0164ff.jpg",
+        tags: ["SysAdmin", "Virtualization", "Security"],
+        tech: ["VirtualBox", "Debian", "Bash"],
+        link: "#",
+        status: "100/100"
+    },
+    {
+        title: "So Long",
+        description: "Un pequeño juego 2D usando MiniLibX. Gráficos básicos, manejo de eventos y gameplay fluido.",
+        image: "https://raw.githubusercontent.com/ayogun/so_long/master/screenshots/gameplay.gif",
+        tags: ["Graphics", "Game Dev", "2D"],
+        tech: ["C", "MiniLibX"],
+        link: "#",
+        status: "100/100"
+    },
+
+    {
+        title: "Push Swap",
+        description: "Algoritmo de ordenamiento altamente eficiente usando dos pilas y un conjunto limitado de instrucciones.",
+        image: "https://miro.medium.com/max/1400/1*bJ5-D_x-h-k-h-h-h-h-h.png", // Generic placeholder
+        tags: ["Algorithms", "Complexity", "Sorting"],
+        tech: ["C", "Optimization"],
+        link: "#",
+        status: "98/100"
+    },
+    {
+        title: "Philosophers",
+        description: "Solución al problema de los filósofos comensales. Gestión de hilos, mutexes y prevención de deadlocks.",
+        image: "https://miro.medium.com/v2/resize:fit:1200/1*P4k1xE0Y9t3Z1Z1Z1Z1Z1Q.jpeg",
+        tags: ["Concurrency", "Threads", "Mutex"],
+        tech: ["C", "Pthreads"],
+        link: "#",
+        status: "100/100"
+    },
+    {
+        title: "Minishell",
+        description: "Creación de una shell minimalista funcional. Pipes, redirecciones, variables de entorno y manejo de señales.",
+        image: "https://user-images.githubusercontent.com/42/123/123456789/minishell.png",
+        tags: ["Shell", "UNIX", "Processes"],
+        tech: ["C", "Bash Logic"],
+        link: "#",
+        status: "100/100"
+    },
+    {
+        title: "Cub3D",
+        description: "Motor gráfico 3D usando Raycasting, inspirado en Wolfenstein 3D. Texturas, colisiones y movimiento.",
+        image: "https://raw.githubusercontent.com/r-f/cub3d/master/screenshots/gameplay.gif",
+        tags: ["Graphics", "Raycasting", "Math"],
+        tech: ["C", "MiniLibX"],
+        link: "#",
+        status: "100/100"
+    },
+    {
+        title: "C++ Piscine (00-09)",
+        description: "Piscina intensiva de C++. Programación Orientada a Objetos desde lo básico hasta plantillas y contenedores STL.",
+        image: "https://raw.githubusercontent.com/isccrm/cpp-modules-42/master/cpp_badge.png", // Generic placeholder
+        tags: ["OOP", "C++", "STL"],
+        tech: ["C++98", "Classes"],
+        link: "#",
+        status: "100/100"
+    },
+    {
+        title: "Inception",
+        description: "Administración de un cluster de contenedores Docker. Configuración manual de Nginx, WordPress y MariaDB.",
+        image: "https://raw.githubusercontent.com/42Madrid/42Madrid-Inception/main/inception_architecture.png", // Very specific, might need a generic one if broken, but let's try or use a placeholder
+        tags: ["DevOps", "Docker", "SysAdmin"],
+        tech: ["Docker", "Docker-Compose"],
+        link: "#",
+        status: "100/100"
+    },
+    {
+        title: "ft_irc",
+        description: "Creación de un servidor IRC compatible con clientes reales (como irssi). Manejo de sockets no bloqueantes y I/O multiplexing.",
+        image: "https://user-images.githubusercontent.com/44542388/119227599-2a944200-baf8-11eb-92c4-27945d836376.png", // Generic
+        tags: ["Network", "Sockets", "C++"],
+        tech: ["C++98", "Poll/Epoll"],
+        link: "#",
+        status: "100/100"
+    },
+    {
+        title: "Cybersecurity Piscine",
+        description: "Piscina intensiva de Ciberseguridad. Retos de CTF, esteganografía, criptografía, web exploitation y forense.",
+        image: "https://miro.medium.com/max/1400/1*m_T_bHkP2b_j7yXj5j9c1A.png", // Generic cybersecurity placeholder
+        tags: ["Security", "CTF", "Pentesting"],
+        tech: ["Kali Linux", "Wireshark"],
+        link: "#",
+        status: "100/100"
+    },
+    {
+        title: "ft_transcendence",
+        description: "El proyecto final del Common Core. Una plataforma web de Ping-Pong con chat en tiempo real, autenticación OAuth y juego online multijugador.",
+        image: "https://camo.githubusercontent.com/83431189d20c38865611394178659d5718dfd1f337f75f92d4f2167d60f488219dd7/68747470733a2f2f6d656469612e67697068792e636f6d2f6d656469612f336f376144634a44566861546b5a316b39612f67697068792e676966", // Placeholder
+        tags: ["Web", "NestJS", "React/Vue"],
+        tech: ["TypeScript", "Docker", "Socket.io"],
+        link: "#",
+        status: "En Progreso"
+    }
+];
+---
+
+<Layout title="42 PROJECTS | Juan Bautista">
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-md bg-dark-bg/50 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="/" class="text-2xl font-bold font-heading tracking-tighter hover:text-neon-cyan transition-colors">
+                VOLMER<span class="text-neon-pink">.</span>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="/" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">INICIO</a>
+                <a href="/42" class="text-sm font-medium text-neon-cyan transition-colors">42 MADRID</a>
+                <a href="/portfolio" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">PORTAFOLIO</a>
+                <a href="/swipe-gallery-app" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">SWIPE GALLERY APP</a>
+                <a href="/servicios" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">SERVICIOS</a>
+                <a href="/blog" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">BLOG</a>
+                <a href="/#about" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">SOBRE MÍ</a>
+            </nav>
+
+            <a href="#contact" class="hidden md:inline-flex items-center justify-center px-6 py-2 text-sm font-semibold text-dark-bg bg-neon-cyan hover:bg-white transition-all rounded-full">
+                CONTACTAR
+            </a>
+            
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-white hover:text-neon-pink">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative pt-32 pb-20">
+        <!-- Hero Section -->
+        <section class="max-w-7xl mx-auto px-6 mb-24">
+            <div class="max-w-4xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan text-xs font-bold tracking-wider mb-6">
+                    <span class="w-2 h-2 rounded-full bg-neon-cyan animate-pulse"></span>
+                    THE CURSUS
+                </div>
+                <h1 class="font-heading text-5xl md:text-7xl font-bold leading-tight mb-8">
+                    MY JOURNEY AT <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-pink">42 MADRID</span>.
+                </h1>
+                <p class="text-xl text-gray-400 leading-relaxed max-w-2xl">
+                    "Don't panic". Una inmersión profunda en las ciencias de la computación. Aprendizaje entre pares, sin profesores, resolviendo problemas complejos desde cero.
+                </p>
+                
+                <div class="mt-8 flex flex-wrap gap-4">
+                    <span class="px-4 py-2 border border-white/10 rounded-full font-mono text-sm text-gray-300">Norminette Compliance</span>
+                    <span class="px-4 py-2 border border-white/10 rounded-full font-mono text-sm text-gray-300">Memory Management</span>
+                    <span class="px-4 py-2 border border-white/10 rounded-full font-mono text-sm text-gray-300">Peer-to-Peer Learning</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats / Level Section (Static Placeholder) -->
+        <section class="max-w-7xl mx-auto px-6 mb-24">
+             <div class="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-32 bg-neon-cyan/5 blur-3xl rounded-full pointer-events-none"></div>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8 z-10 relative">
+                    <div>
+                        <h3 class="text-2xl font-bold font-heading mb-2">Nivel Actual</h3>
+                        <p class="text-gray-400">Progreso en el Common Core</p>
+                    </div>
+                    
+                    <div class="flex-1 w-full max-w-2xl">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-mono text-neon-cyan">Level 5 - 68%</span>
+                            <span class="text-gray-500">Common Core</span>
+                        </div>
+                        <div class="h-4 bg-gray-800 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-neon-cyan to-neon-pink w-[68%] shadow-[0_0_15px_rgba(5,217,232,0.5)]"></div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <!-- Projects Grid -->
+        <section class="max-w-7xl mx-auto px-6 mb-32">
+            <h2 class="text-3xl font-bold font-heading mb-12 flex items-center gap-4">
+                <span class="w-8 h-1 bg-neon-pink"></span>
+                 PROYECTOS DESTACADOS
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                {projects.map((project) => (
+                    <article class="group relative flex flex-col md:flex-row h-full rounded-2xl overflow-hidden bg-[#0a0a0a] border border-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+                        <!-- Image Container (Smaller for this layout) -->
+                        <div class="w-full md:w-48 h-48 md:h-auto overflow-hidden relative flex-shrink-0">
+                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" style={`background-image: url('${project.image}');`}></div>
+                            <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#0a0a0a] to-transparent opacity-80"></div>
+                            
+                            <!-- Status Badge -->
+                            <div class="absolute top-2 left-2">
+                                <span class={`px-2 py-1 text-[10px] font-bold uppercase tracking-wider border rounded text-white ${project.status.includes('100') || project.status.includes('115') || project.status.includes('125') ? 'bg-green-500/20 border-green-500 text-green-400' : 'bg-yellow-500/20 border-yellow-500 text-yellow-400'}`}>
+                                    {project.status}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-6 flex flex-col flex-grow relative z-10">
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                {project.tags.map(tag => (
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500">
+                                        #{tag}
+                                    </span>
+                                ))}
+                            </div>
+                            
+                            <h3 class="text-2xl font-bold font-heading mb-2 group-hover:text-neon-cyan transition-colors">{project.title}</h3>
+                            <p class="text-sm text-gray-400 mb-6 leading-relaxed">
+                                {project.description}
+                            </p>
+                            
+                            <!-- Tech Stack & Link -->
+                            <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
+                                <div class="flex flex-wrap gap-2">
+                                    {project.tech.map(t => (
+                                        <span class="text-xs font-mono text-neon-pink/80">./{t}</span>
+                                    ))}
+                                </div>
+                                
+                                <a href={project.link} class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-neon-cyan hover:text-black transition-all">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </section>
+
+         <!-- Footer -->
+         <footer class="mt-20 border-t border-white/10 bg-black/40 backdrop-blur-lg">
+            <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <h4 class="text-2xl font-bold font-heading mb-2">VOLMER<span class="text-neon-pink">.</span></h4>
+                    <p class="text-gray-500 text-sm">© 2026 Juan Bautista. All rights reserved.</p>
+                </div>
+                
+                <div class="flex gap-6">
+                    <a href="https://github.com/VolmerES" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-neon-cyan transition-colors">Github</a>
+                    <a href="https://linkedin.com/in/jdelorme" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-neon-cyan transition-colors">LinkedIn</a>
+                    <a href="#" class="text-gray-400 hover:text-neon-cyan transition-colors">Twitter</a>
+                    <a href="#" class="text-gray-400 hover:text-neon-cyan transition-colors">Email</a>
+                </div>
+            </div>
+        </footer>
+    </main>
+</Layout>

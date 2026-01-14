@@ -1,0 +1,145 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: post,
+	}));
+}
+
+const post = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={`${post.data.title} | Blog Volmer`}>
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-md bg-dark-bg/50 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="/" class="text-2xl font-bold font-heading tracking-tighter hover:text-neon-cyan transition-colors">
+                VOLMER<span class="text-neon-pink">.</span>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="/" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">INICIO</a>
+                <a href="/42" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">42 MADRID</a>
+                <a href="/portfolio" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">PORTAFOLIO</a>
+                 <a href="/swipe-gallery-app" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">SWIPE GALLERY APP</a>
+                <a href="/servicios" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">SERVICIOS</a>
+                <a href="/blog" class="text-sm font-medium hover:text-neon-cyan transition-colors text-neon-cyan">BLOG</a>
+                <a href="/#about" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">SOBRE MÍ</a>
+            </nav>
+
+            <a href="/#contact" class="hidden md:inline-flex items-center justify-center px-6 py-2 text-sm font-semibold text-dark-bg bg-neon-cyan hover:bg-white transition-all rounded-full">
+                CONTACTAR
+            </a>
+             <button class="md:hidden text-white hover:text-neon-pink">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+	<main class="relative pt-32 pb-20 min-h-screen">
+        <article class="max-w-3xl mx-auto px-6">
+            <!-- Breadcrumb -->
+             <a href="/blog" class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-neon-cyan mb-8 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Volver al Blog
+            </a>
+
+            <!-- Header -->
+            <header class="mb-12">
+                 <div class="flex items-center gap-4 text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">
+                    <span>{post.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    <span class="w-1 h-1 rounded-full bg-gray-600"></span>
+                    <span>{Math.ceil(post.body.split(/\s+/).length / 200)} min de lectura</span>
+                    {post.data.tags && post.data.tags.map((tag: string) => (
+                        <>
+                             <span class="w-1 h-1 rounded-full bg-gray-600"></span>
+                             <span class="text-neon-pink">{tag}</span>
+                        </>
+                    ))}
+                </div>
+                
+                <h1 class="text-4xl md:text-5xl font-bold font-heading leading-tight mb-8">
+                    {post.data.title}
+                </h1>
+                
+                {post.data.heroImage && (
+                    <div class="rounded-xl overflow-hidden border border-white/10 shadow-2xl mb-8">
+                        <img width={1020} height={510} src={post.data.heroImage} alt="" class="w-full h-auto object-cover" />
+                    </div>
+                )}
+            </header>
+
+            <!-- Content -->
+            <div class="blog-content text-gray-300 leading-relaxed text-lg">
+                <Content />
+            </div>
+        </article>
+        
+        <footer class="mt-20 border-t border-white/10 bg-black/40 backdrop-blur-lg">
+            <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <h4 class="text-2xl font-bold font-heading mb-2">VOLMER<span class="text-neon-pink">.</span></h4>
+                    <p class="text-gray-500 text-sm">© 2026 Juan Bautista. All rights reserved.</p>
+                </div>
+                
+                <div class="flex gap-6">
+                    <a href="https://github.com/VolmerES" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-neon-cyan transition-colors">Github</a>
+                    <a href="https://linkedin.com/in/jdelorme" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-neon-cyan transition-colors">LinkedIn</a>
+                    <a href="#" class="text-gray-400 hover:text-neon-cyan transition-colors">Twitter</a>
+                    <a href="#" class="text-gray-400 hover:text-neon-cyan transition-colors">Email</a>
+                </div>
+            </div>
+        </footer>
+	</main>
+</Layout>
+
+<style is:global>
+    @reference "../../styles/global.css";
+
+    /* Custom simple styling for Markdown content since we might not have typography plugin */
+    .blog-content h1 {
+        @apply text-3xl font-bold text-white mt-8 mb-4 font-heading;
+    }
+    .blog-content h2 {
+        @apply text-2xl font-bold text-white mt-8 mb-4 font-heading;
+    }
+    .blog-content h3 {
+        @apply text-xl font-bold text-white mt-6 mb-3 font-heading;
+    }
+    .blog-content p {
+        @apply mb-6;
+    }
+    .blog-content ul {
+        @apply list-disc list-inside mb-6 pl-4;
+    }
+    .blog-content ol {
+        @apply list-decimal list-inside mb-6 pl-4;
+    }
+    .blog-content li {
+        @apply mb-2;
+    }
+    .blog-content a {
+        @apply text-neon-cyan underline decoration-neon-cyan/30 hover:decoration-neon-cyan transition-all;
+    }
+    .blog-content blockquote {
+        @apply border-l-4 border-neon-pink pl-4 italic text-gray-400 my-8;
+    }
+    .blog-content pre {
+        @apply p-4 rounded-lg bg-black border border-white/10 overflow-x-auto mb-8;
+    }
+    .blog-content code {
+        @apply font-mono text-sm bg-black/50 px-1 py-0.5 rounded text-neon-pink;
+    }
+    .blog-content pre code {
+        @apply bg-transparent p-0 text-gray-300;
+    }
+    .blog-content img {
+        @apply rounded-xl border border-white/10 my-8 w-full;
+    }
+</style>
