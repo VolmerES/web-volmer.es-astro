@@ -1,90 +1,66 @@
 ---
 const pathname = Astro.url.pathname;
-const isSwipeGallery = pathname.includes('/swipe-gallery-app');
-
-const navLinks = [
-    { href: '/', label: 'INICIO' },
-    { href: '/42', label: '42 MADRID' },
-    { href: '/portfolio', label: 'PORTAFOLIO' },
-    { href: '/swipe-gallery-app', label: 'SWIPE GALLERY APP' },
-    { href: '/servicios', label: 'SERVICIOS' },
-    { href: '/blog', label: 'BLOG' },
-];
-
-const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery_swipe_ai&pcampaignid=web_share";
----
-
-<header 
-    id="main-header"
-    data-theme={isSwipeGallery ? "light" : "dark"}
-    class:list={[
-        "fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 backdrop-blur-md border rounded-full shadow-2xl overflow-hidden",
-        "w-[90%] md:w-auto max-w-5xl group hover:scale-[1.02]",
-        isSwipeGallery 
-            ? "bg-white/90 border-gray-200/50" 
-            : "bg-[#121212]/90 border-white/10"
-    ]}
->
-    <!-- Particles Canvas -->
-    <canvas id="header-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-40 z-0"></canvas>
-
-    <div class="relative z-10 h-14 px-4 md:px-6 flex items-center justify-between gap-4 md:gap-8">
-        <a href="/" class:list={[
-            "text-xl font-bold font-heading tracking-tighter transition-colors shrink-0",
-            isSwipeGallery ? "text-gray-900" : "hover:text-neon-cyan text-white"
-        ]}>
-            VOLMER<span class={isSwipeGallery ? "text-purple-600" : "text-neon-pink"}>.</span>
-        </a>
-        
-        <nav class:list={[
-            "hidden md:flex items-center gap-1 rounded-full p-1 border",
-            isSwipeGallery 
-                ? "bg-gray-100/50 border-gray-200" 
-                : "bg-white/5 border-white/5"
-        ]}>
-            {navLinks.map(({ href, label }) => {
-                const isActive = href === '/' ? pathname === '/' : (pathname.startsWith(href) && href !== '/#about');
-                return (
-                    <a 
-                        href={href} 
-                        class:list={[
-                            "text-xs font-bold px-4 py-1.5 rounded-full transition-all duration-300",
-                            isSwipeGallery
-                                ? (isActive ? "bg-black text-white shadow-lg" : "text-gray-500 hover:text-black hover:bg-gray-200/50")
-                                : (isActive ? "bg-white text-black shadow-lg" : "text-gray-400 hover:text-white hover:bg-white/10")
-                        ]}
-                    >
-                        {label}
-                    </a>
-                );
-            })}
-        </nav>
-
-        {isSwipeGallery ? (
-            <a href={appLink} class="hidden md:inline-flex items-center justify-center w-10 h-10 rounded-full bg-black text-white hover:bg-gray-800 transition-all shadow-lg shrink-0 group">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-            </a>
-        ) : (
-             <a href="#contact" class="hidden md:inline-flex items-center justify-center w-10 h-10 rounded-full bg-neon-cyan text-dark-bg hover:bg-white transition-all shadow-[0_0_15px_rgba(5,217,232,0.4)] shrink-0 group">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-            </a>
-        )}
-        
-        <!-- Mobile Menu Button -->
-        <button class:list={[
-            "md:hidden hover:scale-110 transition-transform focus:outline-none",
-            isSwipeGallery ? "text-gray-900" : "text-white hover:text-neon-pink"
-        ]}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+ 
+ const navLinks = [
+     { href: '/', label: 'INICIO' },
+     { href: '/42', label: '42 MADRID' },
+     { href: '/portfolio', label: 'PORTAFOLIO' },
+     { href: '/swipe-gallery-app', label: 'SWIPE GALLERY APP' },
+     { href: '/servicios', label: 'SERVICIOS' },
+     { href: '/blog', label: 'BLOG' },
+ ];
+ 
+ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery_swipe_ai&pcampaignid=web_share";
+ ---
+ 
+ <header 
+     id="main-header"
+     data-theme="dark"
+     class:list={[
+         "fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 backdrop-blur-md border rounded-full shadow-2xl overflow-hidden",
+         "w-[90%] md:w-auto max-w-5xl group hover:scale-[1.02]",
+         "bg-[#121212]/90 border-white/10"
+     ]}
+ >
+     <!-- Particles Canvas -->
+     <canvas id="header-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-40 z-0"></canvas>
+ 
+     <div class="relative z-10 h-14 px-4 md:px-6 flex items-center justify-between gap-4 md:gap-8">
+         <a href="/" class="text-xl font-bold font-heading tracking-tighter transition-colors shrink-0 hover:text-neon-cyan text-white">
+             VOLMER<span class="text-neon-pink">.</span>
+         </a>
+         
+         <nav class="hidden md:flex items-center gap-1 rounded-full p-1 border bg-white/5 border-white/5">
+             {navLinks.map(({ href, label }) => {
+                 const isActive = href === '/' ? pathname === '/' : (pathname.startsWith(href) && href !== '/#about');
+                 return (
+                     <a 
+                         href={href} 
+                         class:list={[
+                             "text-xs font-bold px-4 py-1.5 rounded-full transition-all duration-300",
+                             isActive ? "bg-white text-black shadow-lg" : "text-gray-400 hover:text-white hover:bg-white/10"
+                         ]}
+                     >
+                         {label}
+                     </a>
+                 );
+             })}
+         </nav>
+ 
+         <a href="#contact" class="hidden md:inline-flex items-center justify-center w-10 h-10 rounded-full bg-neon-cyan text-dark-bg hover:bg-white transition-all shadow-[0_0_15px_rgba(5,217,232,0.4)] shrink-0 group">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-        </button>
-    </div>
-</header>
+        </a>
+         
+         <!-- Mobile Menu Button -->
+         <button class="md:hidden hover:scale-110 transition-transform focus:outline-none text-white hover:text-neon-pink">
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+             </svg>
+         </button>
+     </div>
+ </header>
 
 <script>
     class HeaderParticles {
