@@ -28,14 +28,14 @@ const { title } = Astro.props;
         <!-- Background Elements -->
         <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
             <!-- Grid -->
-            <div class="absolute inset-0 bg-[linear-gradient(rgba(5,217,232,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(5,217,232,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
+            <div class="absolute inset-0 bg-[linear-gradient(rgba(5,217,232,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(5,217,232,0.015)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
             
             <!-- Glow spots -->
-            <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-deep-purple/30 blur-[100px] animate-float"></div>
-            <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-neon-pink/10 blur-[100px] animate-float" style="animation-delay: -3s;"></div>
+            <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-deep-purple/20 blur-[100px] animate-float"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-neon-pink/8 blur-[100px] animate-float" style="animation-delay: -3s;"></div>
             
             <!-- Mouse Spotlight (Managed by JS) -->
-            <div id="spotlight" class="absolute inset-0 bg-[radial-gradient(circle_at_var(--x,_50%)_var(--y,_50%),rgba(5,217,232,0.08),transparent_25%)] opacity-0 transition-opacity duration-500"></div>
+            <div id="spotlight" class="absolute inset-0 bg-[radial-gradient(circle_at_var(--x,_50%)_var(--y,_50%),rgba(5,217,232,0.05),transparent_25%)] opacity-0 transition-opacity duration-500"></div>
         </div>
 
         <Header />
