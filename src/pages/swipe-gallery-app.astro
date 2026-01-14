@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 
+import Header from '../components/Header.astro';
 const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery_swipe_ai&pcampaignid=web_share";
 ---
 
@@ -20,16 +21,7 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
 	<body class="bg-gray-50 text-gray-900 font-body selection:bg-purple-200 selection:text-purple-900">
         
         <!-- Navigation (Simplified for Landing) -->
-        <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-                <a href="/" class="text-2xl font-bold font-heading tracking-tighter text-gray-900">
-                    VOLMER<span class="text-purple-600">.</span>
-                </a>
-                <a href={appLink} class="hidden sm:inline-flex items-center justify-center px-6 py-2 text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 transition-all rounded-full">
-                    Descargar App
-                </a>
-            </div>
-        </nav>
+        <Header />
 
         <main class="pt-32">
             <!-- Hero Section -->
