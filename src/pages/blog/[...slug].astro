@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import Cusdis from '../../components/Cusdis.astro';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -54,6 +55,13 @@ const { Content } = await post.render();
             <div class="blog-content text-gray-300 leading-relaxed text-lg">
                 <Content />
             </div>
+
+            <Cusdis 
+                appId="787b7120-bb57-4342-89ec-7e9686347fca" 
+                pageId={post.slug}
+                pageUrl={Astro.url.href}
+                pageTitle={post.data.title}
+            />
         </article>
         
         <footer class="mt-20 border-t border-white/10 bg-black/40 backdrop-blur-lg">
