@@ -1,0 +1,170 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const projects = [
+    {
+        title: "Fitgood",
+        description: "Plataforma de coaching personal y salud integral en Bélgica.",
+        image: "/fitgood-preview.png",
+        tags: ["Web Design", "Corporate", "International"],
+        tech: ["Hostinger Builder"],
+        link: "https://www.fitgood.be",
+        color: "neon-cyan"
+    },
+    {
+        title: "Introspectia Psicología",
+        description: "Sitio web para centro de psicología con diseño calmado y profesional.",
+        image: "/introspectia-preview.png",
+        tags: ["Psychology", "Clean UI"],
+        tech: ["Wordpress", "Elementor"],
+        link: "https://introspectiapsicologia.com/",
+        color: "neon-pink"
+    },
+    {
+        title: "Equidae Psicología",
+        description: "Centro de psicología especializado en terapia asistida con caballos.",
+        image: "/equidae-preview.png",
+        tags: ["Therapy", "Nature UI"],
+        tech: ["Wordpress", "Elementor"],
+        link: "https://equidae.es/",
+        color: "purple-500"
+    },
+    {
+        title: "MesetAIR",
+        description: "Experiencias de vuelo en globo con reserva online integrada.",
+        image: "/mesetair-preview.png",
+        tags: ["Booking", "Adventure"],
+        tech: ["Wordpress", "Elementor"],
+        link: "https://mesetair.com/",
+        color: "yellow-400"
+    },
+    {
+        title: "Psicología Violeta",
+        description: "Espacio seguro para el bienestar emocional. Minimalismo cálido.",
+        image: "/violeta-preview.png",
+        tags: ["Branding", "Health"],
+        tech: ["Astro", "Tailwind"],
+        link: "https://violeta.volmer.es/",
+        color: "emerald-500"
+    },
+    {
+        title: "Maingoo",
+        description: "Gestión inteligente de restaurantes impulsada por Inteligencia Artificial.",
+        image: "/maingoo-preview.png",
+        tags: ["SaaS", "AI", "Startup"],
+        tech: ["Astro", "TypeScript", "Tailwind"],
+        link: "https://maingoo.tech/",
+        color: "neon-cyan"
+    }
+];
+---
+
+<Layout title="PORTAFOLIO | Juan Bautista">
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-md bg-dark-bg/50 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="/" class="text-2xl font-bold font-heading tracking-tighter hover:text-neon-cyan transition-colors">
+                VOLMER<span class="text-neon-pink">.</span>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="/" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">INICIO</a>
+                <a href="/portfolio" class="text-sm font-medium hover:text-neon-cyan transition-colors text-white">PORTAFOLIO</a>
+                <a href="/servicios" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">SERVICIOS</a>
+                <a href="/#about" class="text-sm font-medium hover:text-neon-cyan transition-colors text-gray-400">SOBRE MÍ</a>
+            </nav>
+
+            <a href="#contact" class="hidden md:inline-flex items-center justify-center px-6 py-2 text-sm font-semibold text-dark-bg bg-neon-cyan hover:bg-white transition-all rounded-full">
+                CONTACTAR
+            </a>
+            
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-white hover:text-neon-pink">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative pt-32 pb-20">
+        <!-- Hero Section -->
+        <section class="max-w-7xl mx-auto px-6 mb-24">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan text-xs font-bold tracking-wider mb-6">
+                    <span class="w-2 h-2 rounded-full bg-neon-cyan"></span>
+                    WORK SHOWCASE
+                </div>
+                <h1 class="font-heading text-5xl md:text-7xl font-bold leading-tight mb-8">
+                    CLIENTES QUE <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-pink">CONFÍAN</span> EN MÍ.
+                </h1>
+                <p class="text-xl text-gray-400 leading-relaxed max-w-2xl">
+                    Más que código, construyo relaciones a largo plazo y soluciones que funcionan. Explora una selección de mis proyectos más recientes.
+                </p>
+            </div>
+        </section>
+
+        <!-- Portfolio Grid -->
+        <section class="max-w-7xl mx-auto px-6 mb-32">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {projects.map((project) => (
+                    <article class="group relative flex flex-col h-full rounded-2xl overflow-hidden bg-[#0a0a0a] border border-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+                        <!-- Image Container -->
+                        <div class="h-56 overflow-hidden relative">
+                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" style={`background-image: url('${project.image}');`}></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent"></div>
+                            
+                            <!-- Floating Tags -->
+                            <div class="absolute top-4 left-4 flex flex-wrap gap-2">
+                                {project.tags.map(tag => (
+                                    <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md border border-white/10 rounded text-white">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-6 flex flex-col flex-grow relative z-10">
+                            <h3 class="text-2xl font-bold font-heading mb-2 group-hover:text-neon-cyan transition-colors">{project.title}</h3>
+                            <p class="text-sm text-gray-400 mb-6 line-clamp-3 leading-relaxed">
+                                {project.description}
+                            </p>
+                            
+                            <!-- Tech Stack -->
+                            <div class="mt-auto pt-4 border-t border-white/5">
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    {project.tech.map(t => (
+                                        <span class="text-xs font-mono text-gray-500">#{t}</span>
+                                    ))}
+                                </div>
+                                
+                                <a href={project.link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-neon-pink transition-colors">
+                                    VER PROYECTO 
+                                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </section>
+
+         <!-- Footer -->
+         <footer class="mt-20 border-t border-white/10 bg-black/40 backdrop-blur-lg">
+            <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <h4 class="text-2xl font-bold font-heading mb-2">VOLMER<span class="text-neon-pink">.</span></h4>
+                    <p class="text-gray-500 text-sm">© 2026 Juan Bautista. All rights reserved.</p>
+                </div>
+                
+                <div class="flex gap-6">
+                    <a href="https://github.com/VolmerES" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-neon-cyan transition-colors">Github</a>
+                    <a href="https://linkedin.com/in/jdelorme" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-neon-cyan transition-colors">LinkedIn</a>
+                    <a href="#" class="text-gray-400 hover:text-neon-cyan transition-colors">Twitter</a>
+                    <a href="#" class="text-gray-400 hover:text-neon-cyan transition-colors">Email</a>
+                </div>
+            </div>
+        </footer>
+    </main>
+</Layout>

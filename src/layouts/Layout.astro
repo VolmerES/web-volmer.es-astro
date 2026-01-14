@@ -1,0 +1,57 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Juan Bautista Volmer - Software Engineer Portfolio" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+	</head>
+	<body class="bg-dark-bg text-white overflow-x-hidden selection:bg-neon-pink selection:text-white">
+        
+        <!-- Background Elements -->
+        <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+            <!-- Grid -->
+            <div class="absolute inset-0 bg-[linear-gradient(rgba(5,217,232,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(5,217,232,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
+            
+            <!-- Glow spots -->
+            <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-deep-purple/30 blur-[100px] animate-float"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-neon-pink/10 blur-[100px] animate-float" style="animation-delay: -3s;"></div>
+            
+            <!-- Mouse Spotlight (Managed by JS) -->
+            <div id="spotlight" class="absolute inset-0 bg-[radial-gradient(circle_at_var(--x,_50%)_var(--y,_50%),rgba(5,217,232,0.08),transparent_25%)] opacity-0 transition-opacity duration-500"></div>
+        </div>
+
+		<slot />
+
+        <script>
+            const spotlight = document.getElementById('spotlight');
+            
+            if (spotlight) {
+                document.addEventListener('mousemove', (e) => {
+                    spotlight.style.opacity = '1';
+                    spotlight.style.setProperty('--x', `${e.clientX}px`);
+                    spotlight.style.setProperty('--y', `${e.clientY}px`);
+                });
+                
+                document.addEventListener('mouseleave', () => {
+                    spotlight.style.opacity = '0';
+                });
+            }
+        </script>
+	</body>
+</html>
