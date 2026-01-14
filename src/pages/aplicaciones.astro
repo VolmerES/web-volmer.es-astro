@@ -1,0 +1,217 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const apps = [
+    {
+        title: "Swipe Gallery",
+        tagline: "Organiza tu galería en minutos",
+        description: "Limpia miles de fotos con un simple gesto. Desliza para decidir qué guardar y qué eliminar. Es como Tinder, pero para tus fotos.",
+        image: "/swipe-gallery-banner-main.png",
+        icon: "/swipe-gallery-hero.png",
+        status: "available",
+        statusText: "DISPONIBLE",
+        tags: ["Android", "Productividad", "Gratis"],
+        link: "/swipe-gallery-app",
+        external: false,
+        color: "neon-pink",
+        gradient: "from-neon-pink to-purple-600"
+    },
+    {
+        title: "Movie Swipe",
+        tagline: "Encuentra tu próxima peli ideal",
+        description: "¿No sabes qué ver? Descubre películas con swipe. Desliza a la derecha si te gusta, izquierda si no. Guarda tus favoritas y nunca más te quedes sin ideas.",
+        image: "/movie-swipe-preview.png",
+        icon: "/movie-swipe-icon.png",
+        status: "development",
+        statusText: "EN DESARROLLO",
+        tags: ["Android", "iOS", "Entretenimiento"],
+        link: "#",
+        external: false,
+        color: "purple-500",
+        gradient: "from-purple-500 to-neon-cyan"
+    },
+    {
+        title: "Maingoo",
+        tagline: "IA para restaurantes",
+        description: "Gestión inteligente de restaurantes impulsada por Inteligencia Artificial. Optimiza inventarios, predice demanda y mejora la eficiencia operativa.",
+        image: "/maingoo-preview.png",
+        icon: "/maingoo-preview.png",
+        status: "live",
+        statusText: "EN PRODUCCIÓN",
+        tags: ["Web", "SaaS", "IA"],
+        link: "https://maingoo.tech",
+        external: true,
+        color: "neon-cyan",
+        gradient: "from-neon-cyan to-emerald-500"
+    }
+];
+---
+
+<Layout title="MIS APLICACIONES | Juan Bautista">
+
+    <main class="relative pt-32 pb-20">
+        <!-- Hero Section -->
+        <section class="max-w-7xl mx-auto px-6 mb-24">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-pink/30 bg-neon-pink/5 text-neon-pink text-xs font-bold tracking-wider mb-6">
+                    <span class="w-2 h-2 rounded-full bg-neon-pink animate-pulse"></span>
+                    APP PORTFOLIO
+                </div>
+                <h1 class="font-heading text-5xl md:text-7xl font-bold leading-tight mb-8">
+                    MIS <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-neon-cyan">APLICACIONES</span>
+                </h1>
+                <p class="text-xl text-gray-400 leading-relaxed max-w-2xl">
+                    Proyectos móviles y web que están transformando la forma en que las personas organizan, descubren y gestionan su día a día.
+                </p>
+            </div>
+        </section>
+
+        <!-- Apps Grid -->
+        <section class="max-w-7xl mx-auto px-6 mb-32">
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                {apps.map((app) => (
+                    <article class="group relative flex flex-col h-full rounded-2xl overflow-hidden bg-[#0a0a0a] border border-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-[0_0_40px_rgba(255,255,255,0.08)]">
+                        <!-- Status Badge -->
+                        <div class="absolute top-4 right-4 z-20">
+                            <span class={`
+                                px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider
+                                ${app.status === 'available' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : ''}
+                                ${app.status === 'development' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30 animate-pulse' : ''}
+                                ${app.status === 'live' ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30' : ''}
+                            `}>
+                                {app.statusText}
+                            </span>
+                        </div>
+
+                        <!-- Image Container -->
+                        <div class="h-72 overflow-hidden relative">
+                            <div 
+                                class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100" 
+                                style={`background-image: url('${app.image}');`}
+                            ></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
+                            
+                            <!-- App Icon Overlay -->
+                            <div class="absolute bottom-4 left-4 w-16 h-16 rounded-2xl overflow-hidden border-2 border-white/20 shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                                <img src={app.icon} alt={`${app.title} icon`} class="w-full h-full object-cover" />
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-6 flex flex-col flex-grow relative z-10">
+                            <h3 class="text-3xl font-bold font-heading mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-neon-pink group-hover:to-neon-cyan transition-all duration-300">
+                                {app.title}
+                            </h3>
+                            <p class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">
+                                {app.tagline}
+                            </p>
+                            <p class="text-sm text-gray-400 mb-6 line-clamp-3 leading-relaxed flex-grow">
+                                {app.description}
+                            </p>
+                            
+                            <!-- Tags -->
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                {app.tags.map(tag => (
+                                    <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider bg-white/5 border border-white/10 rounded text-gray-400">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                            
+                            <!-- CTA Button -->
+                            <div class="mt-auto pt-4 border-t border-white/5">
+                                {app.external ? (
+                                    <a 
+                                        href={app.link} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        class={`
+                                            inline-flex items-center gap-2 px-5 py-3 rounded-lg font-bold text-sm
+                                            bg-gradient-to-r ${app.gradient}
+                                            text-white hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]
+                                            transition-all duration-300 hover:scale-105
+                                        `}
+                                    >
+                                        VISITAR SITIO WEB
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
+                                    </a>
+                                ) : app.status === 'available' ? (
+                                    <a 
+                                        href={app.link}
+                                        class={`
+                                            inline-flex items-center gap-2 px-5 py-3 rounded-lg font-bold text-sm
+                                            bg-gradient-to-r ${app.gradient}
+                                            text-white hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]
+                                            transition-all duration-300 hover:scale-105
+                                        `}
+                                    >
+                                        VER MÁS DETALLES
+                                        <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                        </svg>
+                                    </a>
+                                ) : (
+                                    <button 
+                                        disabled
+                                        class="inline-flex items-center gap-2 px-5 py-3 rounded-lg font-bold text-sm bg-white/5 text-gray-500 cursor-not-allowed"
+                                    >
+                                        PRÓXIMAMENTE
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                        </svg>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        <!-- Decorative Gradient -->
+                        <div class={`absolute -bottom-20 -right-20 w-40 h-40 bg-gradient-to-br ${app.gradient} rounded-full blur-[80px] opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none`}></div>
+                    </article>
+                ))}
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-24 relative overflow-hidden rounded-3xl mx-6 border border-white/10 bg-[#0a0a0a]">
+            <!-- Decorative gradients -->
+            <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-neon-pink/10 rounded-full blur-[100px] z-0"></div>
+            <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-neon-cyan/10 rounded-full blur-[100px] z-0"></div>
+
+            <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+                <h2 class="text-4xl md:text-5xl font-heading font-bold mb-8 text-white leading-tight">
+                    ¿TIENES UNA <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-pink">IDEA?</span>
+                </h2>
+                <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+                    Si necesitas desarrollar una aplicación móvil o web, estoy aquí para ayudarte a hacerla realidad.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                    <a 
+                        href="https://wa.me/34622570966" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-3 px-8 py-4 rounded-lg font-bold text-lg bg-gradient-to-r from-neon-pink to-purple-600 text-white hover:shadow-[0_0_30px_rgba(255,42,109,0.3)] transition-all duration-300 hover:scale-105"
+                    >
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                        HABLEMOS POR WHATSAPP
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</Layout>
+
+<style>
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+</style>
