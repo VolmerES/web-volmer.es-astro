@@ -60,13 +60,60 @@ const pathname = Astro.url.pathname;
         </a>
          
          <!-- Mobile Menu Button -->
-         <button class="md:hidden hover:scale-110 transition-transform focus:outline-none text-white hover:text-neon-pink">
-             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-             </svg>
-         </button>
-     </div>
- </header>
+        <button id="menu-toggle" class="md:hidden hover:scale-110 transition-transform focus:outline-none text-white hover:text-neon-pink z-50">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
+    </div>
+</header>
+
+<!-- Mobile Menu Overlay -->
+<div 
+    id="mobile-menu" 
+    class="fixed inset-0 z-[60] bg-[#121212]/98 backdrop-blur-xl translate-x-full transition-transform duration-500 ease-in-out md:hidden flex flex-col items-center justify-center text-center"
+>
+    <!-- Background Particles -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-deep-purple/20 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-neon-pink/10 rounded-full blur-[100px]"></div>
+    </div>
+
+    <!-- Close Button -->
+    <button id="menu-close" class="absolute top-8 right-8 text-white/70 hover:text-neon-cyan transition-colors z-20">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </button>
+
+    <nav class="relative z-10 flex flex-col gap-8">
+        {navLinks.map(({ href, label }) => {
+            const isActive = href === '/' ? pathname === '/' : (pathname.startsWith(href) && href !== '/#about');
+            return (
+                <a 
+                    href={href} 
+                    class:list={[
+                        "text-3xl font-bold tracking-widest transition-all duration-300 font-heading",
+                        isActive 
+                            ? "text-neon-cyan scale-110 drop-shadow-[0_0_10px_rgba(5,217,232,0.5)]" 
+                            : "text-white/60 hover:text-white hover:scale-105"
+                    ]}
+                >
+                    {label}
+                </a>
+            );
+        })}
+        
+        <div class="h-px w-24 bg-white/10 my-4 mx-auto"></div>
+        
+        <a href="#contact" class="flex items-center gap-2 text-neon-pink hover:text-white transition-colors uppercase tracking-widest text-sm font-semibold">
+            <span>Contactar</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+        </a>
+    </nav>
+</div>
 
 <script>
     class HeaderParticles {
@@ -233,4 +280,52 @@ const pathname = Astro.url.pathname;
     });
     // Fallback for non-SPA
     new HeaderParticles();
+
+    // Mobile Menu Logic
+    class MobileMenu {
+        menu: HTMLElement | null;
+        openBtn: HTMLElement | null;
+        closeBtn: HTMLElement | null;
+        links: NodeListOf<HTMLAnchorElement>;
+
+        constructor() {
+            this.menu = document.getElementById('mobile-menu');
+            this.openBtn = document.getElementById('menu-toggle');
+            this.closeBtn = document.getElementById('menu-close');
+            this.links = document.querySelectorAll('#mobile-menu a');
+
+            if (this.menu && this.openBtn && this.closeBtn) {
+                this.init();
+            }
+        }
+
+        init() {
+            this.openBtn?.addEventListener('click', () => this.open());
+            this.closeBtn?.addEventListener('click', () => this.close());
+            
+            // Close on link click
+            this.links.forEach(link => {
+                link.addEventListener('click', () => this.close());
+            });
+        }
+
+        open() {
+            this.menu?.classList.remove('translate-x-full');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        close() {
+            this.menu?.classList.add('translate-x-full');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+    }
+
+    // Initialize Menu
+    const initMenu = () => {
+        new MobileMenu();
+    };
+
+    // Run on both initial load and view transitions
+    initMenu();
+    document.addEventListener('astro:after-swap', initMenu);
 </script>
