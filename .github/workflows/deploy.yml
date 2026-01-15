@@ -23,7 +23,7 @@ jobs:
       - name: Build (Astro)
         run: npm run build
 
-      # Sube SOLO
+      # Sube SOLO  2
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
