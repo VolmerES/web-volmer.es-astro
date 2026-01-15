@@ -51,9 +51,14 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
                         Organiza miles de fotos en minutos con un simple gesto. Desliza a la derecha para guardar, izquierda para borrar. Así de fácil.
                     </p>
                     
-                    <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-12">
-                        <a href={appLink} target="_blank" rel="noopener noreferrer" class="transition-transform hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(5,217,232,0.3)] rounded-lg overflow-hidden">
-                             <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" class="h-16" />
+                    <div class="flex flex-col items-center lg:items-start mb-12">
+                        <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-3">
+                            <a href={appLink} target="_blank" rel="noopener noreferrer" class="transition-transform hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(5,217,232,0.3)] rounded-lg overflow-hidden">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" class="h-16" />
+                            </a>
+                        </div>
+                        <a href="/privacy-policy" class="text-xs text-gray-500 hover:text-gray-300 transition-colors">
+                            Política de Privacidad
                         </a>
                     </div>
 
@@ -283,7 +288,11 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
                         <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" class="h-20" />
                     </a>
                 </div>
-                <p class="mt-8 text-sm text-gray-500">Disponible para Android. Próximamente en iOS.</p>
+                <p class="mt-8 text-sm text-gray-500">
+                    Disponible para Android. Próximamente en iOS. <br class="md:hidden" />
+                    <span class="hidden md:inline mx-2">•</span>
+                    <a href="/privacy-policy" class="hover:text-gray-300 transition-colors">Política de Privacidad</a>
+                </p>
             </div>
          </section>
 
