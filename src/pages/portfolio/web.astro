@@ -1,0 +1,128 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const webProjects = [
+    {
+        title: "Fitgood",
+        description: "Plataforma de coaching personal y salud integral en Bélgica.",
+        image: "/fitgood-preview.png",
+        tags: ["Web Design", "Corporate", "International"],
+        tech: ["Hostinger Builder"],
+        link: "https://www.fitgood.be",
+        color: "neon-cyan"
+    },
+    {
+        title: "Introspectia Psicología",
+        description: "Sitio web para centro de psicología con diseño calmado y profesional.",
+        image: "/introspectia-preview.png",
+        tags: ["Psychology", "Clean UI"],
+        tech: ["Wordpress", "Elementor"],
+        link: "https://introspectiapsicologia.com/",
+        color: "neon-pink"
+    },
+    {
+        title: "Equidae Psicología",
+        description: "Centro de psicología especializado en terapia asistida con caballos.",
+        image: "/equidae-preview.png",
+        tags: ["Therapy", "Nature UI"],
+        tech: ["Wordpress", "Elementor"],
+        link: "https://equidae.es/",
+        color: "purple-500"
+    },
+    {
+        title: "MesetAIR",
+        description: "Experiencias de vuelo en globo con reserva online integrada.",
+        image: "/mesetair-preview.png",
+        tags: ["Booking", "Adventure"],
+        tech: ["Wordpress", "Elementor"],
+        link: "https://mesetair.com/",
+        color: "yellow-400"
+    },
+    {
+        title: "Psicología Violeta",
+        description: "Espacio seguro para el bienestar emocional. Minimalismo cálido.",
+        image: "/violeta-preview.png",
+        tags: ["Branding", "Health"],
+        tech: ["Astro", "Tailwind"],
+        link: "https://violeta.volmer.es/",
+        color: "emerald-500"
+    },
+    {
+        title: "Maingoo",
+        description: "Gestión inteligente de restaurantes impulsada por Inteligencia Artificial.",
+        image: "/maingoo-logo.png",
+        tags: ["SaaS", "AI", "Startup"],
+        tech: ["Astro", "TypeScript", "Tailwind"],
+        link: "https://maingoo.tech/",
+        color: "neon-cyan"
+    }
+];
+---
+
+<Layout title="DESARROLLO WEB | Juan Bautista">
+    <main class="relative pt-32 pb-20">
+        <!-- Hero Section -->
+        <section class="max-w-7xl mx-auto px-6 mb-24">
+            <div class="max-w-3xl">
+                <a href="/portfolio" class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white mb-8 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Volver al Portafolio
+                </a>
+                
+                <h1 class="font-heading text-5xl md:text-7xl font-bold leading-tight mb-8">
+                    DESARROLLO <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-blue-500">WEB</span>
+                </h1>
+                <p class="text-xl text-gray-400 leading-relaxed max-w-2xl">
+                    Sitios web corporativos, landing pages de alto impacto y plataformas SaaS. Diseño moderno centrado en la conversión.
+                </p>
+            </div>
+        </section>
+
+        <!-- Projects Grid -->
+        <section class="max-w-7xl mx-auto px-6 mb-32">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {webProjects.map((project) => (
+                    <article class="group relative flex flex-col h-full rounded-2xl overflow-hidden bg-[#0a0a0a] border border-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+                        <!-- Image Container -->
+                        <div class="h-56 overflow-hidden relative">
+                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" style={`background-image: url('${project.image}');`}></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent"></div>
+                            
+                            <!-- Floating Tags -->
+                            <div class="absolute top-4 left-4 flex flex-wrap gap-2">
+                                {project.tags.map(tag => (
+                                    <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md border border-white/10 rounded text-white">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-6 flex flex-col flex-grow relative z-10">
+                            <h3 class="text-2xl font-bold font-heading mb-2 group-hover:text-neon-cyan transition-colors">{project.title}</h3>
+                            <p class="text-sm text-gray-400 mb-6 line-clamp-3 leading-relaxed">
+                                {project.description}
+                            </p>
+                            
+                            <!-- Tech Stack -->
+                            <div class="mt-auto pt-4 border-t border-white/5">
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    {project.tech.map(t => (
+                                        <span class="text-xs font-mono text-gray-500">#{t}</span>
+                                    ))}
+                                </div>
+                                
+                                <a href={project.link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-neon-pink transition-colors">
+                                    VER PROYECTO 
+                                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </section>
+    </main>
+</Layout>
