@@ -127,9 +127,14 @@ const pathname = Astro.url.pathname;
 
         <!-- Modal Content -->
         <h2 class="text-3xl font-heading font-bold text-white mb-2">Hablemos<span class="text-neon-cyan">.</span></h2>
-        <p class="text-gray-400 mb-8 text-sm">Envíame un correo directo a <span class="text-white font-mono">juanbautista.dev@volmer.es</span></p>
+        <p class="text-gray-400 mb-8 text-sm">Envíame un mensaje directo.</p>
 
         <form id="contact-form" class="space-y-4">
+            <div>
+                 <label for="email" class="block text-xs font-bold text-neon-pink uppercase tracking-wider mb-2">TU EMAIL</label>
+                 <input type="email" id="email" name="email" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors" placeholder="tu@email.com (para responderte)">
+            </div>
+
             <div>
                 <label for="subject" class="block text-xs font-bold text-neon-pink uppercase tracking-wider mb-2">ASUNTO</label>
                 <input type="text" id="subject" name="subject" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors" placeholder="Proyecto web, Duda, Saludo...">
@@ -140,12 +145,9 @@ const pathname = Astro.url.pathname;
                 <textarea id="message" name="message" rows="5" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors resize-none" placeholder="Hola Juan, me gustaría hablar sobre..."></textarea>
             </div>
 
-            <button type="submit" class="w-full bg-gradient-to-r from-neon-cyan to-blue-600 text-white font-bold py-3.5 rounded-lg hover:shadow-[0_0_20px_rgba(5,217,232,0.4)] transition-all transform hover:scale-[1.02]">
-                ABRIR GESTOR DE CORREO
+            <button type="submit" id="submit-btn" class="w-full bg-gradient-to-r from-neon-cyan to-blue-600 text-white font-bold py-3.5 rounded-lg hover:shadow-[0_0_20px_rgba(5,217,232,0.4)] transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:grayscale">
+                ENVIAR MENSAJE
             </button>
-            <p class="text-center text-[10px] text-gray-500 mt-4">
-                Esto abrirá tu cliente de correo predeterminado con el mensaje listo para enviar.
-            </p>
         </form>
     </div>
 </dialog>
@@ -346,27 +348,66 @@ const pathname = Astro.url.pathname;
         });
 
         // Handle Form
-        form.addEventListener('submit', (e) => {
+        // Handle Form
+        form.addEventListener('submit', async (e) => {
              e.preventDefault();
+             const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+             const email = (document.getElementById('email') as HTMLInputElement).value;
              const subject = (document.getElementById('subject') as HTMLInputElement).value;
              const message = (document.getElementById('message') as HTMLTextAreaElement).value;
              
-             const mailtoLink = `mailto:juanbautista.dev@volmer.es?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
-             
-             window.location.href = mailtoLink;
-             closeModal();
+             if (!submitBtn) return;
+
+             const originalText = submitBtn.innerText;
+             submitBtn.innerText = "ENVIANDO...";
+             submitBtn.disabled = true;
+
+             try {
+                 const response = await fetch("https://formspree.io/f/xykkznrl", {
+                     method: "POST",
+                     headers: { "Content-Type": "application/json" },
+                     body: JSON.stringify({
+                         email: email,
+                         subject: subject,
+                         message: message
+                     })
+                 });
+
+                 if (response.ok) {
+                     submitBtn.innerText = "¡ENVIADO!";
+                     submitBtn.classList.remove('from-neon-cyan', 'to-blue-600');
+                     submitBtn.classList.add('bg-emerald-500'); // Success color
+                     
+                     setTimeout(() => {
+                         closeModal();
+                         // Reset form
+                         (form as HTMLFormElement).reset();
+                         submitBtn.innerText = originalText;
+                         submitBtn.classList.remove('bg-emerald-500');
+                         submitBtn.classList.add('from-neon-cyan', 'to-blue-600');
+                         submitBtn.disabled = false;
+                     }, 2000);
+                 } else {
+                     throw new Error('Formspree error');
+                 }
+             } catch (error) {
+                 console.error(error);
+                 submitBtn.innerText = "ERROR - INTENTA NUEVAMENTE";
+                 submitBtn.classList.remove('from-neon-cyan', 'to-blue-600');
+                 submitBtn.classList.add('bg-red-500');
+                 
+                 setTimeout(() => {
+                     submitBtn.innerText = originalText;
+                     submitBtn.classList.remove('bg-red-500');
+                     submitBtn.classList.add('from-neon-cyan', 'to-blue-600');
+                     submitBtn.disabled = false;
+                 }, 3000);
+             }
         });
     };
 
 
-    // Initialize on load
-    document.addEventListener('astro:page-load', () => {
-         new HeaderParticles();
-         initModal();
-    });
-    // Fallback for non-SPA
-    new HeaderParticles();
-    initModal();
+
 
     // Mobile Menu Logic
     class MobileMenu {
@@ -412,7 +453,17 @@ const pathname = Astro.url.pathname;
         new MobileMenu();
     };
 
-    // Run on both initial load and view transitions
-    initMenu();
-    document.addEventListener('astro:after-swap', initMenu);
-</script>
+    // Initialize everything on load (View Transitions compatible)
+    document.addEventListener('astro:page-load', () => {
+         try {
+             new HeaderParticles();
+         } catch(e) { console.error('Particles error:', e); }
+         
+         try {
+            initModal();
+         } catch(e) { console.error('Modal error:', e); }
+         
+         try {
+            initMenu();
+         } catch(e) { console.error('Menu error:', e); }
+    });
