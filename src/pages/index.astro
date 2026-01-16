@@ -224,54 +224,85 @@ const posts = (await getCollection('blog'))
                 <h2 class="text-xl md:text-2xl font-heading font-bold text-white">LO QUE HAGO</h2>
                 <a href="/servicios" class="text-xs font-bold text-gray-500 hover:text-white transition-colors">VER SERVICIOS →</a>
             </div>
-            <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-6 px-6 md:grid md:grid-cols-2 md:gap-6 md:mx-0 md:px-0 md:pb-0 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] md:[mask-image:none]" style="scrollbar-width: none;">
+            <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-6 px-6 md:grid md:grid-cols-2 md:gap-6 md:mx-0 md:px-0 md:pb-0 md:overflow-visible [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] md:[mask-image:none]" style="scrollbar-width: none;">
                 <!-- Web Dev Card -->
-                <a href="/servicios" class="min-w-[280px] w-[85%] max-w-[350px] snap-center md:min-w-0 md:w-auto md:max-w-none group relative overflow-hidden p-5 md:p-6 rounded-2xl bg-[#0a0a0a] border border-white/5 hover:border-neon-cyan/50 transition-all duration-500 hover:-translate-y-1 h-full">
-                    <div class="absolute inset-0 bg-gradient-to-br from-neon-cyan/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <!-- Web Dev Card with Laptop Animation -->
+                <div id="web-card-container" class="min-w-[280px] w-[85%] max-w-[350px] snap-center md:min-w-0 md:w-auto md:max-w-none relative z-0">
+                    <!-- Lottie Animation Script -->
+                    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
                     
-                    <div class="relative z-10 flex flex-col h-full">
-                        <div class="w-10 h-10 md:w-12 md:h-12 mb-4 rounded-xl bg-neon-cyan/10 flex items-center justify-center text-neon-cyan group-hover:scale-110 transition-transform duration-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                            </svg>
-                        </div>
-                        
-                        <h3 class="font-heading text-lg md:text-xl font-bold text-white mb-2 group-hover:text-neon-cyan transition-colors">Desarrollo Web & Apps</h3>
-                        <p class="text-sm text-gray-400 leading-relaxed mb-4">
-                            Transformo ideas en soluciones digitales. Desde sitios web de alto rendimiento hasta aplicaciones móviles nativas y plataformas SaaS.
-                        </p>
-                        
-                        <div class="mt-auto flex gap-2 flex-wrap">
-                             <span class="text-[10px] font-bold uppercase tracking-wider text-neon-cyan bg-neon-cyan/10 px-2 py-1 rounded">Web</span>
-                             <span class="text-[10px] font-bold uppercase tracking-wider text-neon-cyan bg-neon-cyan/10 px-2 py-1 rounded">Mobile</span>
-                             <span class="text-[10px] font-bold uppercase tracking-wider text-neon-cyan bg-neon-cyan/10 px-2 py-1 rounded">Backend</span>
-                        </div>
+                    <!-- Animated Laptop Container (Lottie) -->
+                    <div 
+                        id="scroll-laptop-container" 
+                        class="absolute pointer-events-none z-20 opacity-0"
+                        style="right: -5%; top: -20%; transform: translate(20%, 50%) rotate(10deg); width: 220px; height: 220px;"
+                    >
+                        <dotlottie-wc 
+                            src="https://lottie.host/f649f0c3-81ba-4f5a-b773-462122464e3d/wpVpRTViVw.lottie" 
+                            autoplay 
+                            loop
+                            style="width: 100%; height: 100%;"
+                        ></dotlottie-wc>
                     </div>
-                </a>
+                    
+                    <a href="/servicios" class="block group relative overflow-hidden p-5 md:p-6 rounded-2xl bg-[#0a0a0a] border border-white/5 hover:border-neon-cyan/50 transition-all duration-500 hover:-translate-y-1 h-full">
+                        <div class="absolute inset-0 bg-gradient-to-br from-neon-cyan/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        
+                        <div class="relative z-10 flex flex-col h-full">
+                            <div class="w-10 h-10 md:w-12 md:h-12 mb-4 rounded-xl bg-neon-cyan/10 flex items-center justify-center text-neon-cyan group-hover:scale-110 transition-transform duration-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                </svg>
+                            </div>
+                            
+                            <h3 class="font-heading text-lg md:text-xl font-bold text-white mb-2 group-hover:text-neon-cyan transition-colors">Desarrollo Web & Apps</h3>
+                            <p class="text-sm text-gray-400 leading-relaxed mb-4">
+                                Transformo ideas en soluciones digitales. Desde sitios web de alto rendimiento hasta aplicaciones móviles nativas y plataformas SaaS.
+                            </p>
+                            
+                            <div class="mt-auto flex gap-2 flex-wrap">
+                                 <span class="text-[10px] font-bold uppercase tracking-wider text-neon-cyan bg-neon-cyan/10 px-2 py-1 rounded">Web</span>
+                                 <span class="text-[10px] font-bold uppercase tracking-wider text-neon-cyan bg-neon-cyan/10 px-2 py-1 rounded">Mobile</span>
+                                 <span class="text-[10px] font-bold uppercase tracking-wider text-neon-cyan bg-neon-cyan/10 px-2 py-1 rounded">Backend</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
 
-                <!-- Drone Card -->
-                <a href="/servicios" class="min-w-[280px] w-[85%] max-w-[350px] snap-center md:min-w-0 md:w-auto md:max-w-none group relative overflow-hidden p-5 md:p-6 rounded-2xl bg-[#0a0a0a] border border-white/5 hover:border-emerald-500/50 transition-all duration-500 hover:-translate-y-1 h-full">
-                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <!-- Drone Card with 3D Drone Animation -->
+                <div id="drone-card-container" class="min-w-[280px] w-[85%] max-w-[350px] snap-center md:min-w-0 md:w-auto md:max-w-none relative z-10">
+                    <!-- Animated Drone -->
+                    <img 
+                        id="scroll-drone" 
+                        src="/drone.png" 
+                        alt="Drone" 
+                        class="absolute pointer-events-none z-20 w-32 md:w-48 opacity-0"
+                        style="right: -5%; top: -5%; transform: translate(20%, 50%) rotate(-15deg) scale(0.5);"
+                    />
                     
-                    <div class="relative z-10 flex flex-col h-full">
-                        <div class="w-10 h-10 md:w-12 md:h-12 mb-4 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 group-hover:scale-110 transition-transform duration-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-                            </svg>
-                        </div>
+                    <a href="/servicios" class="block group relative overflow-hidden p-5 md:p-6 rounded-2xl bg-[#0a0a0a] border border-white/5 hover:border-emerald-500/50 transition-all duration-500 hover:-translate-y-1 h-full">
+                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         
-                        <h3 class="font-heading text-lg md:text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Vuelos con Drones</h3>
-                        <p class="text-sm text-gray-400 leading-relaxed mb-4">
-                            Servicios profesionales de grabación aérea en 4K. Perspectivas cinemáticas para eventos, publicidad y sector inmobiliario.
-                        </p>
-                        
-                         <div class="mt-auto flex gap-2 flex-wrap">
-                             <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">4K Video</span>
-                             <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">Fotografía</span>
-                             <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">A1/A3</span>
+                        <div class="relative z-10 flex flex-col h-full">
+                            <div class="w-10 h-10 md:w-12 md:h-12 mb-4 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 group-hover:scale-110 transition-transform duration-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                                </svg>
+                            </div>
+                            
+                            <h3 class="font-heading text-lg md:text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Vuelos con Drones</h3>
+                            <p class="text-sm text-gray-400 leading-relaxed mb-4">
+                                Servicios profesionales de grabación aérea en 4K. Perspectivas cinemáticas para eventos, publicidad y sector inmobiliario.
+                            </p>
+                            
+                             <div class="mt-auto flex gap-2 flex-wrap">
+                                 <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">4K Video</span>
+                                 <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">Fotografía</span>
+                                 <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">A1/A3</span>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -477,12 +508,186 @@ const posts = (await getCollection('blog'))
         }
     };
 
+    // Drone scroll animation
+    const initDroneAnimation = () => {
+        const drone = document.getElementById('scroll-drone');
+        const droneCard = document.getElementById('drone-card-container');
+        
+        if (!drone || !droneCard) return;
+
+        let isHovering = false;
+        let hoverLoopId = null;
+
+        // Loop for continuous hovering animation
+        const animateHover = () => {
+             if (!isHovering) return;
+
+             const time = Date.now() / 1000; // Slower time base
+             
+             // Vertical Float: Mix of two sine waves for more organic/wind-like movement
+             const floatY = (Math.sin(time) * 4) + (Math.sin(time * 2.5) * 1.5); 
+             
+             // Rotation: Subtle micro-corrections (alabeo)
+             const floatRot = Math.cos(time * 0.8) * 2.5; 
+             
+             // Base Y = 10, Base Rot = 5
+             drone.style.transform = `translate(0%, ${10 + floatY}%) rotate(${5 + floatRot}deg) scale(1.4)`;
+             
+             hoverLoopId = requestAnimationFrame(animateHover);
+        };
+
+        const handleScroll = () => {
+            const rect = droneCard.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Starts animation almost as soon as card enters viewport
+            const scrollStart = windowHeight * 0.95;
+            const scrollEnd = windowHeight * 0.6; // Finishes much earlier
+            const scrollProgress = Math.max(0, Math.min(1, (scrollStart - rect.top) / (scrollStart - scrollEnd)));
+            
+            if (scrollProgress > 0 && scrollProgress < 1) {
+                // IN TRANSITION: Calculated by SCROLL
+                isHovering = false; // Stop the auto loop while user is scrolling/controlling
+                if (hoverLoopId) cancelAnimationFrame(hoverLoopId);
+
+                // Smooth easing function (ease-out-cubic)
+                const easeProgress = 1 - Math.pow(1 - scrollProgress, 3);
+                
+                // Calculate transformations
+                // TARGET: Top-Right Corner (relative to CSS top: -5%, right: -5%)
+                // FLIGHT PATH: Swoops in from the far right
+                // Start: 200% X (Right side), 50% Y (Low)
+                // End: 0% X, 10% Y (Visible/Anchored position - slightly lower for alignment)
+                const translateX = 200 - (easeProgress * 200); 
+                const translateY = 50 - (easeProgress * 40); 
+                
+                // Rotation: Bank into the turn!
+                // Starts angled (20deg) to braking (5deg)
+                let rotate = 0;
+                if (easeProgress < 0.8) {
+                   rotate = 20 - (easeProgress * 15); // Banking
+                } else {
+                   rotate = 5; // Level out
+                }
+                
+                // Scale
+                const scale = 0.5 + (easeProgress * 0.9); // Scale to 1.4
+                const opacity = easeProgress; 
+                
+                // Apply transformations
+                drone.style.transform = `translate(${translateX}%, ${translateY}%) rotate(${rotate}deg) scale(${scale})`;
+                drone.style.opacity = opacity.toString();
+                
+            } else if (scrollProgress >= 1) {
+                // FULLY VISIBLE: Start continuous loop if not already running
+                drone.style.opacity = '1';
+                if (!isHovering) {
+                    isHovering = true;
+                    animateHover();
+                }
+            } else {
+                // HIDDEN
+                isHovering = false;
+                if (hoverLoopId) cancelAnimationFrame(hoverLoopId);
+                drone.style.opacity = '0';
+                drone.style.transform = 'translate(200%, 50%) rotate(20deg) scale(0.5)';
+            }
+        };
+
+        // Use requestAnimationFrame for smooth animation
+        let ticking = false;
+        const onScroll = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    handleScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+
+        window.addEventListener('scroll', onScroll);
+        handleScroll(); // Initial check
+    };
+
+    // Laptop scroll animation
+    const initLaptopAnimation = () => {
+        const laptop = document.getElementById('scroll-laptop-container');
+        const laptopCard = document.getElementById('web-card-container');
+        
+        if (!laptop || !laptopCard) return;
+
+        const handleScroll = () => {
+            const rect = laptopCard.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Calculate scroll progress
+            // Starts animation almost as soon as card enters viewport
+            const scrollStart = windowHeight * 0.95;
+            const scrollEnd = windowHeight * 0.6; // Finishes much earlier
+            const scrollProgress = Math.max(0, Math.min(1, (scrollStart - rect.top) / (scrollStart - scrollEnd)));
+            
+            if (scrollProgress > 0 && scrollProgress <= 1) {
+                const easeProgress = 1 - Math.pow(1 - scrollProgress, 3);
+                
+                // Movement: Lateral slide from right (behind drone card) to left
+                // Start: 150% X (Behind Drone Card), 0% Y
+                // End: 0% X, -10% Y (Visible/Anchored position)
+                const translateX = 150 - (easeProgress * 150); 
+                const translateY = -10; // Fixed vertical height mostly
+                
+                // Rotation: Keep it slight and steady
+                const rotate = 5; 
+                
+                // Scale fixed to 1.0 to prevent pixelation (size controlled by CSS)
+                const scale = 1.0;
+                const opacity = easeProgress; // Fade In
+                
+                laptop.style.transform = `translate(${translateX}%, ${translateY}%) rotate(${rotate}deg) scale(${scale})`;
+                laptop.style.opacity = opacity.toString();
+                
+            } else if (scrollProgress > 1) {
+                laptop.style.opacity = '1';
+                
+                // Continuous stable hover at TOP right
+                const time = Date.now() / 1000;
+                const floatY = Math.sin(time) * 3;
+                
+                // Final position: Anchored at Top Right Corner, slightly lifted
+                // Final position: Anchored at Top Right Corner
+                // Scale fixed at 1.0
+                laptop.style.transform = `translate(0%, ${-10 + floatY}%) rotate(5deg) scale(1.0)`;
+            } else {
+                laptop.style.opacity = '0';
+                // Reset to start position (behind drone card)
+                laptop.style.transform = 'translate(150%, -10%) rotate(5deg) scale(1.0)';
+            }
+        };
+
+        let ticking = false;
+        const onScroll = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    handleScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+
+        window.addEventListener('scroll', onScroll);
+        handleScroll();
+    };
+
     // Initialize on load
     document.addEventListener('astro:page-load', () => {
         initChoiceModal();
-
+        initDroneAnimation();
+        initLaptopAnimation();
     });
     initChoiceModal();
+    initDroneAnimation();
+    initLaptopAnimation();
 
 
 </script>
