@@ -224,7 +224,7 @@ const posts = (await getCollection('blog'))
                 <h2 class="text-xl md:text-2xl font-heading font-bold text-white">LO QUE HAGO</h2>
                 <a href="/servicios" class="text-xs font-bold text-gray-500 hover:text-white transition-colors">VER SERVICIOS →</a>
             </div>
-            <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-6 px-6 md:grid md:grid-cols-2 md:gap-6 md:mx-0 md:px-0 md:pb-0 md:overflow-visible [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] md:[mask-image:none]" style="scrollbar-width: none;">
+            <div class="flex overflow-x-auto pt-16 snap-x snap-mandatory gap-4 pb-4 -mx-6 px-6 md:pt-0 md:grid md:grid-cols-2 md:gap-6 md:mx-0 md:px-0 md:pb-0 md:overflow-visible [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] md:[mask-image:none]" style="scrollbar-width: none;">
                 <!-- Web Dev Card -->
                 <!-- Web Dev Card with Laptop Animation -->
                 <div id="web-card-container" class="min-w-[280px] w-[85%] max-w-[350px] snap-center md:min-w-0 md:w-auto md:max-w-none relative z-0">
@@ -234,8 +234,8 @@ const posts = (await getCollection('blog'))
                     <!-- Animated Laptop Container (Lottie) -->
                     <div 
                         id="scroll-laptop-container" 
-                        class="absolute pointer-events-none z-20 opacity-0"
-                        style="right: -5%; top: -20%; transform: translate(20%, 50%) rotate(10deg); width: 220px; height: 220px;"
+                        class="absolute pointer-events-none z-20 opacity-0 w-36 h-36 md:w-[220px] md:h-[220px] top-[-10%] md:top-[-20%]"
+                        style="right: -5%; transform: translate(20%, 50%) rotate(10deg);"
                     >
                         <dotlottie-wc 
                             src="https://lottie.host/f649f0c3-81ba-4f5a-b773-462122464e3d/wpVpRTViVw.lottie" 
@@ -276,8 +276,8 @@ const posts = (await getCollection('blog'))
                         id="scroll-drone" 
                         src="/drone.png" 
                         alt="Drone" 
-                        class="absolute pointer-events-none z-20 w-32 md:w-48 opacity-0"
-                        style="right: -5%; top: -5%; transform: translate(20%, 50%) rotate(-15deg) scale(0.5);"
+                        class="absolute pointer-events-none z-20 w-28 md:w-48 opacity-0 top-[-2%] md:top-[-5%]"
+                        style="right: -5%; transform: translate(20%, 50%) rotate(-15deg) scale(0.5);"
                     />
                     
                     <a href="/servicios" class="block group relative overflow-hidden p-5 md:p-6 rounded-2xl bg-[#0a0a0a] border border-white/5 hover:border-emerald-500/50 transition-all duration-500 hover:-translate-y-1 h-full">
@@ -516,7 +516,7 @@ const posts = (await getCollection('blog'))
         if (!drone || !droneCard) return;
 
         let isHovering = false;
-        let hoverLoopId = null;
+        let hoverLoopId: number | null = null;
 
         // Loop for continuous hovering animation
         const animateHover = () => {
