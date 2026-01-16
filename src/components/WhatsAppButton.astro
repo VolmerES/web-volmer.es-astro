@@ -1,6 +1,6 @@
 ---
 ---
-<div id="whatsapp-widget" class="fixed bottom-20 right-6 z-50 flex flex-col items-end gap-4 font-body">
+<div id="whatsapp-widget" class="fixed bottom-20 right-6 z-[100] flex flex-col items-end gap-4 font-body pointer-events-auto">
     <!-- Chat Window -->
     <div 
         id="chat-window" 
@@ -20,7 +20,7 @@
                 <h3 class="font-bold text-white text-sm">Volmer</h3>
                 <p class="text-xs text-neon-cyan">En línea</p>
             </div>
-            <button id="close-chat" class="ml-auto text-white/50 hover:text-white transition-colors">
+            <button id="close-chat" class="ml-auto text-white/50 hover:text-white transition-colors cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
@@ -45,7 +45,7 @@
                 />
                 <button 
                     id="whatsapp-send"
-                    class="p-2.5 bg-neon-pink text-dark-bg rounded-full hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed group shadow-[0_0_10px_rgba(255,42,109,0.3)]"
+                    class="p-2.5 bg-neon-pink text-dark-bg rounded-full hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed group shadow-[0_0_10px_rgba(255,42,109,0.3)] cursor-pointer"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
@@ -58,7 +58,7 @@
     <!-- Toggle Button -->
     <button 
         id="whatsapp-toggle"
-        class="group relative w-14 h-14 bg-gradient-to-tr from-deep-purple to-neon-pink rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(255,42,109,0.4)] hover:shadow-[0_0_30px_rgba(255,42,109,0.6)] hover:scale-110 transition-all duration-300 z-50 border border-white/20"
+        class="group relative w-14 h-14 bg-gradient-to-tr from-deep-purple to-neon-pink rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(255,42,109,0.4)] hover:shadow-[0_0_30px_rgba(255,42,109,0.6)] hover:scale-110 transition-all duration-300 z-[100] border border-white/20 cursor-pointer"
         aria-label="Abrir chat de WhatsApp"
     >
         <span class="absolute inset-0 rounded-full bg-neon-pink/20 animate-ping opacity-0 group-hover:opacity-100 duration-1000"></span>
