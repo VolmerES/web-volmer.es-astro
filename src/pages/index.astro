@@ -224,10 +224,10 @@ const posts = (await getCollection('blog'))
                 <h2 class="text-xl md:text-2xl font-heading font-bold text-white">LO QUE HAGO</h2>
                 <a href="/servicios" class="text-xs font-bold text-gray-500 hover:text-white transition-colors">VER SERVICIOS →</a>
             </div>
-            <div class="flex flex-col gap-6 pt-8 md:pt-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible">
+            <div class="flex overflow-x-auto pt-16 snap-x snap-mandatory gap-4 pb-4 -mx-6 px-6 md:pt-0 md:grid md:grid-cols-2 md:gap-6 md:mx-0 md:px-0 md:pb-0 md:overflow-visible [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] md:[mask-image:none]" style="scrollbar-width: none;">
                 <!-- Web Dev Card -->
                 <!-- Web Dev Card with Laptop Animation -->
-                <div id="web-card-container" class="w-full relative z-0">
+                <div id="web-card-container" class="min-w-[280px] w-[85%] max-w-[350px] snap-center md:min-w-0 md:w-auto md:max-w-none relative z-0">
                     <!-- Lottie Animation Script -->
                     <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
                     
@@ -270,7 +270,7 @@ const posts = (await getCollection('blog'))
                 </div>
 
                 <!-- Drone Card with 3D Drone Animation -->
-                <div id="drone-card-container" class="w-full relative z-10">
+                <div id="drone-card-container" class="min-w-[280px] w-[85%] max-w-[350px] snap-center md:min-w-0 md:w-auto md:max-w-none relative z-10">
                     <!-- Animated Drone -->
                     <img 
                         id="scroll-drone" 
