@@ -3,7 +3,7 @@ title: "¿Cómo es la piscina de 42Madrid?"
 description: "Relato personal sobre mi experiencia en la prueba de acceso de 42 Madrid: 28 días de código, estrés, compañerismo y mucho aprendizaje."
 pubDate: 10-08-2025
 tags: ["42 Madrid", "Experiencia", "Piscina", "Coding", "Superación"]
-heroImage: "/piscina-hero.png"
+heroImage: "/piscina-42-final.png"
 ---
 
 En este artículo voy a relatar cómo conocí y viví mi experiencia en la prueba de acceso de 42 Madrid, conocida como “la piscina”.
@@ -189,7 +189,7 @@ Y sí, resulta que al final era verdad: **vendí mi alma al diablo.**
 
 Dejo aquí una pequeña foto con todos mis compañeros que llegamos al último día, a los cuales recuerdo con muchísimo cariño.
 
-![Foto de grupo Piscina 42 Madrid](/piscina-42-group.png)
+![Foto de grupo Piscina 42 Madrid](/piscina-42-final.png)
 
 **Gracias, 42.**
 
