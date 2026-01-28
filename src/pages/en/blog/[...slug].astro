@@ -1,14 +1,14 @@
 ---
 import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Cusdis from '../../components/Cusdis.astro';
+import Layout from '../../../layouts/Layout.astro';
+import Cusdis from '../../../components/Cusdis.astro';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts
-        .filter((post) => post.slug.startsWith('es/'))
+        .filter((post) => post.slug.startsWith('en/'))
         .map((post) => ({
-            params: { slug: post.slug.replace(/^es\//, '') },
+            params: { slug: post.slug.replace(/^en\//, '') },
             props: post,
         }));
 }
@@ -23,17 +23,17 @@ const { Content } = await post.render();
 	<main class="relative pt-24 md:pt-32 pb-20 min-h-screen">
         <article class="max-w-3xl mx-auto px-6">
             <!-- Breadcrumb -->
-             <a href="/blog" class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-neon-cyan mb-8 transition-colors">
+             <a href="/en/blog" class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-neon-cyan mb-8 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                Volver al Blog
+                Back to Blog
             </a>
 
             <!-- Header -->
             <header class="mb-12">
                  <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">
-                    <span>{post.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    <span>{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                     <span class="w-1 h-1 rounded-full bg-gray-600"></span>
-                    <span>{Math.ceil(post.body.split(/\s+/).length / 200)} min de lectura</span>
+                    <span>{Math.ceil(post.body.split(/\s+/).length / 200)} min read</span>
                     {post.data.tags && post.data.tags.map((tag: string) => (
                         <>
                              <span class="w-1 h-1 rounded-full bg-gray-600"></span>
@@ -66,21 +66,7 @@ const { Content } = await post.render();
             />
         </article>
         
-        <footer class="mt-20 border-t border-white/10 bg-black/40 backdrop-blur-lg">
-            <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="text-center md:text-left">
-                    <h4 class="text-2xl font-bold font-heading mb-2">VOLMER<span class="text-neon-pink">.</span></h4>
-                    <p class="text-gray-500 text-sm">© 2026 Juan Bautista. All rights reserved.</p>
-                </div>
-                
-                <div class="flex gap-6">
-                    <a href="https://github.com/VolmerES" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-neon-cyan transition-colors">Github</a>
-                    <a href="https://linkedin.com/in/jdelorme" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-neon-cyan transition-colors">LinkedIn</a>
-                    <a href="#" class="text-gray-400 hover:text-neon-cyan transition-colors">Twitter</a>
-                    <a href="#" class="text-gray-400 hover:text-neon-cyan transition-colors">Email</a>
-                </div>
-            </div>
-        </footer>
+
 	</main>
 </Layout>
 

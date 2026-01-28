@@ -1,0 +1,300 @@
+---
+import Layout from '../../layouts/Layout.astro';
+const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery_swipe_ai&pcampaignid=web_share";
+---
+
+<Layout title="Swipe Gallery App | Volmer.es">
+
+    <main class="relative pt-32 pb-20">
+        <!-- Hero Section with Interactive Screenshots -->
+        <section class="max-w-7xl mx-auto px-6 mb-24 lg:mb-32 relative">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                <!-- Left side: Interactive Phone Mockup -->
+                <div class="lg:w-2/5 relative w-full flex justify-center perspective-1000 order-2 lg:order-1">
+                     <!-- Glow behind -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-neon-pink/20 to-purple-600/20 rounded-full blur-[100px] animate-pulse"></div>
+                    
+                    <!-- Phone Frame -->
+                    <div class="relative z-10 max-w-[380px] w-full">
+                        <!-- Phone mockup container -->
+                        <div class="relative bg-gray-900 rounded-[3rem] p-3 shadow-2xl border-4 border-gray-800">
+                            <!-- Screen -->
+                            <div class="relative bg-black rounded-[2.5rem] overflow-hidden aspect-[9/19.5]">
+                                <!-- Active Screenshot Display -->
+                                <img 
+                                    id="mainScreenshot"
+                                    src="/swipe-gallery-screen-1.png" 
+                                    alt="App Screenshot" 
+                                    class="w-full h-full object-cover transition-opacity duration-300"
+                                />
+                                <!-- Reflection effect -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none"></div>
+                            </div>
+                            
+                            <!-- Phone notch (optional decoration) -->
+                            <div class="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-6 bg-gray-900 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right side: Title, Description, Download Button & Screenshot Selector -->
+                <div class="lg:w-3/5 text-center lg:text-left z-10 order-1 lg:order-2">
+                    <span class="inline-block px-4 py-1.5 rounded-full border border-neon-pink/30 bg-neon-pink/10 text-neon-pink text-xs font-bold tracking-wider mb-6 animate-pulse">
+                        <span class="w-2 h-2 rounded-full bg-neon-pink inline-block mr-2"></span>
+                        NOW AVAILABLE ON GOOGLE PLAY
+                    </span>
+                    <h1 class="font-heading text-4xl lg:text-6xl font-bold leading-[1.1] mb-6 text-white">
+                        YOUR GALLERY <span class="text-neon-cyan">CLEAN</span>. <br/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-purple-600">NO STRESS.</span>
+                    </h1>
+                    <p class="text-lg lg:text-xl text-gray-400 mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
+                        Organize thousands of photos in minutes with a simple gesture. Swipe right to keep, left to delete. It's that easy.
+                    </p>
+                    
+                    <div class="flex flex-col items-center lg:items-start mb-12">
+                        <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-3">
+                            <a href={appLink} target="_blank" rel="noopener noreferrer" class="transition-transform hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(5,217,232,0.3)] rounded-lg overflow-hidden">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" class="h-16" />
+                            </a>
+                        </div>
+                        <a href="/en/privacy-policy" class="text-xs text-gray-500 hover:text-gray-300 transition-colors">
+                            Privacy Policy
+                        </a>
+                    </div>
+
+                    <!-- Interactive Screenshot Selector -->
+                    <div class="relative">
+                        <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center justify-center lg:justify-start gap-2">
+                            <span>Screenshots</span>
+                            <div class="flex gap-1 text-neon-pink text-xs">
+                                <span class="animate-bounce">←</span>
+                                <span class="animate-bounce delay-100">→</span>
+                            </div>
+                        </h3>
+                        
+                        <!-- Scrollable Screenshots with gradient fade -->
+                        <div class="relative -mx-6 lg:mx-0">
+                            <div class="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-dark-bg to-transparent z-10 pointer-events-none lg:hidden"></div>
+                            <div class="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-dark-bg to-transparent z-10 pointer-events-none lg:hidden"></div>
+                            
+                            <div class="flex overflow-x-auto gap-3 pb-4 px-6 lg:px-0 snap-x snap-mandatory scrollbar-hide">
+                                {
+                                    [1, 2, 3, 4, 5].map((i) => (
+                                        <button 
+                                            class="screenshot-thumb flex-none w-[110px] snap-start hover:scale-105 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-neon-cyan rounded-xl"
+                                            data-screenshot={i}
+                                            aria-label={`View screenshot ${i}`}
+                                        >
+                                            <div class="relative rounded-xl overflow-hidden border-2 border-white/10 group-hover:border-neon-cyan/50 group-[.active]:border-neon-cyan shadow-lg transition-all duration-300 aspect-[9/19.5]">
+                                                <img 
+                                                    src={`/swipe-gallery-screen-${i}.png`} 
+                                                    alt={`Screenshot ${i}`} 
+                                                    class="w-full h-full object-cover"
+                                                />
+                                                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 group-[.active]:opacity-100 transition-opacity"></div>
+                                                <!-- Active indicator -->
+                                                <div class="absolute inset-0 ring-2 ring-neon-cyan ring-inset opacity-0 group-[.active]:opacity-100 transition-opacity rounded-lg"></div>
+                                            </div>
+                                        </button>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            // Interactive screenshot switcher
+            document.addEventListener('DOMContentLoaded', () => {
+                const mainScreenshot = document.getElementById('mainScreenshot') as HTMLImageElement;
+                const thumbnails = document.querySelectorAll('.screenshot-thumb');
+                
+                if (!mainScreenshot) return;
+                
+                // Set first thumbnail as active by default
+                if (thumbnails.length > 0) {
+                    thumbnails[0].classList.add('active');
+                }
+                
+                thumbnails.forEach(thumb => {
+                    thumb.addEventListener('click', () => {
+                        const screenshotNumber = thumb.getAttribute('data-screenshot');
+                        
+                        if (!screenshotNumber) return;
+                        
+                        // Remove active class from all thumbnails
+                        thumbnails.forEach(t => t.classList.remove('active'));
+                        
+                        // Add active class to clicked thumbnail
+                        thumb.classList.add('active');
+                        
+                        // Fade out effect
+                        mainScreenshot.style.opacity = '0';
+                        
+                        // Change image after fade out
+                        setTimeout(() => {
+                            mainScreenshot.src = `/swipe-gallery-screen-${screenshotNumber}.png`;
+                            mainScreenshot.style.opacity = '1';
+                        }, 150);
+                    });
+                });
+            });
+        </script>
+
+        <!-- Scroll Down Indicator -->
+        <section class="py-12 flex flex-col items-center justify-center">
+            <p class="text-gray-400 text-sm font-medium mb-4 tracking-wider">SWIPE TO DISCOVER MORE</p>
+            <div class="animate-bounce">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-neon-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </div>
+        </section>
+
+        <!-- Problem / Solution Section -->
+        <section class="py-24 relative overflow-hidden">
+             <!-- Decorative Line -->
+             <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-transparent via-neon-cyan/20 to-transparent"></div>
+
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-20">
+                    <h2 class="text-3xl md:text-5xl font-heading font-bold mb-6 text-white">PHOTO CHAOS, <span class="text-neon-cyan">SOLVED.</span></h2>
+                    <p class="text-xl text-gray-400">We all have a gallery full of screenshots, old memes, and duplicates. Cleaning it manually is boring. Swipe Gallery turns it into a game.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Problem 1 -->
+                    <div class="p-8 rounded-2xl bg-[#0a0a0a] border border-red-500/20 hover:border-red-500/50 hover:shadow-[0_0_30px_rgba(239,68,68,0.1)] transition-all duration-500 group">
+                        <div class="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center text-red-500 mb-6 group-hover:scale-110 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-white">Cluttered Gallery</h3>
+                        <p class="text-gray-400">Thousands of photos taking up useless space on your phone and backups.</p>
+                    </div>
+
+                     <!-- Problem 2 -->
+                     <div class="p-8 rounded-2xl bg-[#0a0a0a] border border-orange-500/20 hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.1)] transition-all duration-500 group">
+                        <div class="w-14 h-14 bg-orange-500/10 rounded-xl flex items-center justify-center text-orange-500 mb-6 group-hover:scale-110 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-white">Wasted Time</h3>
+                        <p class="text-gray-400">Reviewing photo by photo in the traditional gallery is slow and tedious.</p>
+                    </div>
+
+                     <!-- Solution -->
+                     <div class="p-8 rounded-2xl bg-[#0a0a0a] border border-neon-cyan/20 hover:border-neon-cyan hover:shadow-[0_0_30px_rgba(5,217,232,0.15)] transition-all duration-500 group relative overflow-hidden">
+                         <div class="absolute top-0 right-0 w-32 h-32 bg-neon-cyan/10 rounded-full blur-[50px] group-hover:bg-neon-cyan/20 transition-all"></div>
+                        <div class="w-14 h-14 bg-neon-cyan/10 rounded-xl flex items-center justify-center text-neon-cyan mb-6 group-hover:scale-110 transition-transform relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-white relative z-10">Zen Cleaning</h3>
+                        <p class="text-gray-400 relative z-10">Decide in seconds. Keep only what matters. Reclaim your space.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <!-- How it works -->
+         <section class="py-32 max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="flex-1 relative pl-10">
+                    <!-- Connecting Line -->
+                    <div class="absolute left-[27px] top-8 bottom-8 w-0.5 bg-gradient-to-b from-neon-pink via-purple-600 to-transparent opacity-50"></div>
+
+                    <!-- Step 1 -->
+                    <div class="relative flex gap-8 mb-20 group">
+                        <div class="w-14 h-14 rounded-full bg-dark-bg border border-neon-pink text-neon-pink flex items-center justify-center font-bold text-xl z-10 shrink-0 shadow-[0_0_15px_rgba(255,42,109,0.3)] group-hover:bg-neon-pink group-hover:text-white transition-all duration-300">1</div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-neon-pink transition-colors">Swipe to decide</h3>
+                            <p class="text-gray-400">Swipe <span class="text-green-400 font-bold">right</span> to save. Swipe <span class="text-red-400 font-bold">left</span> to send to trash.</p>
+                        </div>
+                    </div>
+
+                     <!-- Step 2 -->
+                     <div class="relative flex gap-8 mb-20 group">
+                        <div class="w-14 h-14 rounded-full bg-dark-bg border border-purple-500 text-purple-500 flex items-center justify-center font-bold text-xl z-10 shrink-0 shadow-[0_0_15px_rgba(168,85,247,0.3)] group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">2</div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-purple-500 transition-colors">Final Review</h3>
+                            <p class="text-gray-400">Nothing is deleted instantly. At the end of the month or folder, review what you marked for deletion. Total safety.</p>
+                        </div>
+                    </div>
+
+                     <!-- Step 3 -->
+                     <div class="relative flex gap-8 group">
+                        <div class="w-14 h-14 rounded-full bg-dark-bg border border-neon-cyan text-neon-cyan flex items-center justify-center font-bold text-xl z-10 shrink-0 shadow-[0_0_15px_rgba(5,217,232,0.3)] group-hover:bg-neon-cyan group-hover:text-black transition-all duration-300">3</div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-neon-cyan transition-colors">Secure Deletion</h3>
+                            <p class="text-gray-400">Confirm and free up space on your device instantly. Enjoy a tidy gallery.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </section>
+
+          <!-- Features Grid -->
+        <section class="max-w-7xl mx-auto px-6 mb-32">
+            <h2 class="text-3xl font-heading font-bold mb-16 text-center text-white">DESIGNED FOR <span class="text-neon-cyan">SPEED</span></h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Feature 1 -->
+                <div class="group bg-[#0a0a0a] p-6 rounded-2xl border border-white/5 hover:border-white/20 transition-all hover:-translate-y-1">
+                    <div class="text-4xl mb-4 grayscale group-hover:grayscale-0 transition-all">🚀</div>
+                    <h3 class="font-bold text-lg mb-2 text-white">Super Fast</h3>
+                    <p class="text-sm text-gray-400">Optimized to load thousands of photos without slowing down.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="group bg-[#0a0a0a] p-6 rounded-2xl border border-white/5 hover:border-white/20 transition-all hover:-translate-y-1">
+                    <div class="text-4xl mb-4 grayscale group-hover:grayscale-0 transition-all">📂</div>
+                    <h3 class="font-bold text-lg mb-2 text-white">By Folders</h3>
+                    <p class="text-sm text-gray-400">Organize month by month or select specific folders.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="group bg-[#0a0a0a] p-6 rounded-2xl border border-white/5 hover:border-white/20 transition-all hover:-translate-y-1">
+                    <div class="text-4xl mb-4 grayscale group-hover:grayscale-0 transition-all">🛡️</div>
+                    <h3 class="font-bold text-lg mb-2 text-white">Private</h3>
+                    <p class="text-sm text-gray-400">Your photos never leave your device. 100% Offline.</p>
+                </div>
+                <!-- Feature 4 -->
+                 <div class="group bg-[#0a0a0a] p-6 rounded-2xl border border-white/5 hover:border-white/20 transition-all hover:-translate-y-1">
+                    <div class="text-4xl mb-4 grayscale group-hover:grayscale-0 transition-all">🎨</div>
+                    <h3 class="font-bold text-lg mb-2 text-white">Dark Mode</h3>
+                    <p class="text-sm text-gray-400">Polished interface available in light and dark themes.</p>
+                </div>
+            </div>
+        </section>
+
+         <!-- Final CTA -->
+         <section class="py-24 relative overflow-hidden rounded-3xl mx-6 border border-white/10 bg-[#0a0a0a]">
+            <!-- Decorative gradients -->
+            <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-neon-pink/10 rounded-full blur-[100px] z-0"></div>
+            <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-neon-cyan/10 rounded-full blur-[100px] z-0"></div>
+
+            <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+                <h2 class="text-4xl md:text-6xl font-heading font-bold mb-8 text-white leading-tight">
+                    RECLAIM SPACE <br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-pink">TODAY</span>
+                </h2>
+                <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+                    Join users who have already cleaned gigabytes of digital trash. Your phone will thank you.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                     <a href={appLink} target="_blank" rel="noopener noreferrer" class="transition-transform hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] rounded-lg overflow-hidden">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" class="h-20" />
+                    </a>
+                </div>
+                <p class="mt-8 text-sm text-gray-500">
+                    Available for Android. Coming soon to iOS. <br class="md:hidden" />
+                    <span class="hidden md:inline mx-2">•</span>
+                    <a href="/en/privacy-policy" class="hover:text-gray-300 transition-colors">Privacy Policy</a>
+                </p>
+            </div>
+         </section>
+
+    </main>
+</Layout>

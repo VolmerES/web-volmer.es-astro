@@ -1,17 +1,24 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const pathname = Astro.url.pathname;
- 
- const navLinks = [
-     { href: '/', label: 'INICIO' },
-     { href: '/42', label: '42 MADRID' },
-     { href: '/aplicaciones', label: 'APLICACIONES' },
-     { href: '/portfolio', label: 'PORTAFOLIO' },
-     { href: '/servicios', label: 'SERVICIOS' },
-     { href: '/blog', label: 'BLOG' },
- ];
- 
- const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery_swipe_ai&pcampaignid=web_share";
- ---
+const currentPath = pathname.replace(`/${lang}`, '');
+
+const prefix = lang === 'es' ? '' : `/${lang}`;
+
+const navLinks = [
+    { href: `${prefix}/`, label: t('nav.home') },
+    { href: `${prefix}/42`, label: t('nav.42') },
+    { href: `${prefix}/aplicaciones`, label: t('nav.apps') },
+    { href: `${prefix}/portfolio`, label: t('nav.portfolio') },
+    { href: `${prefix}/servicios`, label: t('nav.services') },
+    { href: `${prefix}/blog`, label: t('nav.blog') },
+];
+
+const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery_swipe_ai&pcampaignid=web_share";
+---
  
  <header 
      id="main-header"
@@ -26,13 +33,13 @@ const pathname = Astro.url.pathname;
      <canvas id="header-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-40 z-0"></canvas>
  
      <div class="relative z-10 h-14 px-4 md:px-6 flex items-center justify-between gap-4 md:gap-8">
-         <a href="/" class="text-xl font-bold font-heading tracking-tighter transition-colors shrink-0 hover:text-neon-cyan text-white">
+         <a href={`/${lang}/`} class="text-xl font-bold font-heading tracking-tighter transition-colors shrink-0 hover:text-neon-cyan text-white">
              VOLMER<span class="text-neon-pink">.</span>
          </a>
          
          <nav class="hidden md:flex items-center gap-1 rounded-full p-1 border bg-white/5 border-white/5">
              {navLinks.map(({ href, label }) => {
-                 const isActive = href === '/' ? pathname === '/' : (pathname.startsWith(href) && href !== '/#about');
+                 const isActive = href === `/${lang}/` ? pathname === `/${lang}/` : (pathname.startsWith(href) && href !== `/${lang}/`);
                  return (
                      <a 
                          href={href} 
@@ -52,12 +59,22 @@ const pathname = Astro.url.pathname;
                  );
              })}
          </nav>
+
+        <div class="flex items-center gap-2">
+            <!-- Language Switcher -->
+            <a 
+                href={lang === 'es' ? `/en${currentPath}` : (currentPath || '/')}
+                class="hidden md:inline-flex items-center justify-center px-3 py-1 text-xs font-bold rounded-full border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:border-white/30 transition-all"
+            >
+                {lang === 'es' ? 'EN' : 'ES'}
+            </a>
  
          <a href="#" id="contact-btn" class="hidden md:inline-flex items-center justify-center w-10 h-10 rounded-full bg-neon-cyan text-dark-bg hover:bg-white transition-all shadow-[0_0_15px_rgba(5,217,232,0.4)] shrink-0 group">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
         </a>
+        </div>
          
          <!-- Mobile Menu Button -->
         <button id="menu-toggle" class="md:hidden hover:scale-110 transition-transform focus:outline-none text-white hover:text-neon-pink z-50">
@@ -92,7 +109,7 @@ const pathname = Astro.url.pathname;
         <!-- Navigation Links -->
         <nav class="flex-1 flex flex-col items-center justify-center gap-6 w-full max-w-sm">
             {navLinks.map(({ href, label }, index) => {
-                const isActive = href === '/' ? pathname === '/' : (pathname.startsWith(href) && href !== '/#about');
+                const isActive = href === `/${lang}/` ? pathname === `/${lang}/` : (pathname.startsWith(href) && href !== `/${lang}/`);
                 return (
                     <a 
                         href={href} 
@@ -111,6 +128,15 @@ const pathname = Astro.url.pathname;
                     </a>
                 );
             })}
+
+            <!-- Mobile Language Switcher -->
+            <a 
+                href={lang === 'es' ? `/en${currentPath}` : `/es${currentPath}`}
+                class="menu-item mt-4 w-auto text-center py-2 px-8 rounded-full border border-white/10 bg-white/5 text-gray-400 font-bold hover:text-white hover:border-white/30 transition-all"
+                style={`animation-delay: ${navLinks.length * 0.1}s;`}
+            >
+                {lang === 'es' ? 'English' : 'Español'}
+            </a>
         </nav>
 
         <!-- Footer: Contact + Social -->

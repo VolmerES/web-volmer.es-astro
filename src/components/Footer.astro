@@ -1,5 +1,25 @@
 ---
 const currentYear = new Date().getFullYear();
+const lang = Astro.url.pathname.startsWith('/en') ? 'en' : 'es';
+
+const i18n = {
+  es: {
+    privacy: "Política de Privacidad",
+    cookies: "Política de Cookies",
+    rights: "Juan Bautista. Todos los derechos reservados.",
+    privacyLink: "/politica-privacidad",
+    cookiesLink: "/politica-de-cookies"
+  },
+  en: {
+    privacy: "Privacy Policy",
+    cookies: "Cookie Policy",
+    rights: "Juan Bautista. All rights reserved.",
+    privacyLink: "/en/privacy-policy",
+    cookiesLink: "/en/cookie-policy"
+  }
+};
+
+const t = i18n[lang];
 ---
 
 <footer class="border-t border-white/10 bg-black/40 backdrop-blur-lg mt-auto">
@@ -7,10 +27,10 @@ const currentYear = new Date().getFullYear();
         <div class="text-center md:text-left">
             <h4 class="text-2xl font-bold font-heading mb-2">VOLMER<span class="text-neon-pink">.</span></h4>
             <div class="flex flex-col gap-1">
-                <p class="text-gray-500 text-sm">© {currentYear} Juan Bautista. All rights reserved.</p>
-                <div class="flex gap-4">
-                    <a href="/politica-privacidad" class="text-gray-600 text-xs hover:text-neon-cyan transition-colors">Política de Privacidad</a>
-                    <a href="/politica-de-cookies" class="text-gray-600 text-xs hover:text-neon-cyan transition-colors">Política de Cookies</a>
+                <p class="text-gray-500 text-sm">© {currentYear} {t.rights}</p>
+                <div class="flex gap-4 justify-center md:justify-start">
+                    <a href={t.privacyLink} class="text-gray-600 text-xs hover:text-neon-cyan transition-colors">{t.privacy}</a>
+                    <a href={t.cookiesLink} class="text-gray-600 text-xs hover:text-neon-cyan transition-colors">{t.cookies}</a>
                 </div>
             </div>
         </div>

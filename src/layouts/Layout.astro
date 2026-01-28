@@ -8,13 +8,17 @@ import { ClientRouter } from 'astro:transitions';
 
 interface Props {
 	title: string;
+    showBackground?: boolean;
 }
 
 const { title } = Astro.props;
+
+import { getLangFromUrl } from '../i18n/ui';
+const lang = getLangFromUrl(Astro.url);
 ---
 
 <!doctype html>
-<html lang="es" class="scroll-smooth">
+<html lang={lang} class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Juan Bautista Volmer - Software Engineer Portfolio" />

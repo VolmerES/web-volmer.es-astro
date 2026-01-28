@@ -1,7 +1,7 @@
 ---
 title: "De un ASUS a 42 Madrid"
 description: "Mi camino en la informática: desde un pequeño ASUS heredado en 2008 hasta descubrir 42 Madrid, pasando por scripts de broma y antenas caseras."
-pubDate: 10-01-2025
+pubDate: 2025-01-10
 tags: ["Personal", "42 Madrid", "Historia", "Tech"]
 heroImage: "/retro-setup.png"
 ---
