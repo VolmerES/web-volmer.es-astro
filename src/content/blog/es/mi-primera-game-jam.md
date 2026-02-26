@@ -1,5 +1,5 @@
 ---
-title: "Mi primera Game Jam: perdimos, y estaba bien que pasara"
+title: "¿Como perder una game jam?"
 description: "Crónica de mi primera participación en una Game Jam en enero de 2025. Una historia de 5 programadores, una sardina por Madrid y muchas lecciones aprendidas."
 pubDate: 2026-01-28
 tags: ["Game Jam", "Unity", "Madrid in Game", "Postmortem", "Aprendizaje"]
