@@ -2,12 +2,13 @@
 interface Props {
     slug: string;
     lang?: 'es' | 'en';
+    readOnly?: boolean;
 }
 
-const { slug, lang = 'es' } = Astro.props;
+const { slug, lang = 'es', readOnly = false } = Astro.props;
 ---
 
-<span class="view-counter inline-flex items-center gap-1.5 opacity-0 transition-opacity duration-500" data-slug={slug} data-lang={lang}>
+<span class="view-counter inline-flex items-center gap-1.5 opacity-0 transition-opacity duration-500" data-slug={slug} data-lang={lang} data-readonly={readOnly ? 'true' : undefined}>
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -24,6 +25,7 @@ const { slug, lang = 'es' } = Astro.props;
         for (const counter of counters) {
             const slug = counter.getAttribute('data-slug');
             const lang = counter.getAttribute('data-lang') || 'es';
+            const readOnly = counter.getAttribute('data-readonly') === 'true';
             const countEl = counter.querySelector('.view-count');
             if (!slug || !countEl) continue;
 
@@ -33,7 +35,7 @@ const { slug, lang = 'es' } = Astro.props;
             try {
                 let viewCount: number;
 
-                if (alreadyViewed) {
+                if (readOnly || alreadyViewed) {
                     // Solo leer el conteo actual sin incrementar
                     const { data, error } = await supabase
                         .from('page_views')

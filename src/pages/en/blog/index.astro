@@ -1,6 +1,7 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import ViewCounter from '../../../components/ViewCounter.astro';
 
 const posts = (await getCollection('blog'))
     .filter((post) => post.id.startsWith('en/'))
@@ -181,6 +182,9 @@ const posts = (await getCollection('blog'))
                                         </span>
                                         <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider bg-neon-pink/80 backdrop-blur-md border border-white/10 rounded text-white">
                                             {Math.ceil(post.body.split(/\s+/).length / 200)} min
+                                        </span>
+                                        <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md border border-white/10 rounded text-white">
+                                            <ViewCounter slug={post.slug} lang="en" readOnly />
                                         </span>
                                     </div>
                                 </div>
