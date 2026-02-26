@@ -1,0 +1,83 @@
+---
+interface Props {
+    slug: string;
+    lang?: 'es' | 'en';
+}
+
+const { slug, lang = 'es' } = Astro.props;
+---
+
+<span class="view-counter inline-flex items-center gap-1.5 opacity-0 transition-opacity duration-500" data-slug={slug} data-lang={lang}>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+    </svg>
+    <span class="view-count">—</span>
+</span>
+
+<script>
+    import { supabase } from '../lib/supabase';
+
+    async function initViewCounters() {
+        const counters = document.querySelectorAll('.view-counter');
+
+        for (const counter of counters) {
+            const slug = counter.getAttribute('data-slug');
+            const lang = counter.getAttribute('data-lang') || 'es';
+            const countEl = counter.querySelector('.view-count');
+            if (!slug || !countEl) continue;
+
+            const sessionKey = `viewed_${slug}`;
+            const alreadyViewed = sessionStorage.getItem(sessionKey);
+
+            try {
+                let viewCount: number;
+
+                if (alreadyViewed) {
+                    // Solo leer el conteo actual sin incrementar
+                    const { data, error } = await supabase
+                        .from('page_views')
+                        .select('view_count')
+                        .eq('slug', slug)
+                        .single();
+
+                    if (error && error.code === 'PGRST116') {
+                        // No existe aún, mostrar 0
+                        viewCount = 0;
+                    } else if (error) {
+                        throw error;
+                    } else {
+                        viewCount = data.view_count;
+                    }
+                } else {
+                    // Incrementar y obtener el conteo
+                    const { data, error } = await supabase
+                        .rpc('increment_views', { page_slug: slug });
+
+                    if (error) throw error;
+                    viewCount = data as number;
+                    sessionStorage.setItem(sessionKey, 'true');
+                }
+
+                // Formatear texto según idioma
+                if (lang === 'en') {
+                    countEl.textContent = `${viewCount} ${viewCount === 1 ? 'view' : 'views'}`;
+                } else {
+                    countEl.textContent = `${viewCount} ${viewCount === 1 ? 'lectura' : 'lecturas'}`;
+                }
+            } catch (err) {
+                console.error('Error fetching view count:', err);
+                countEl.textContent = '';
+                (counter as HTMLElement).style.display = 'none';
+                return;
+            }
+
+            // Fade in
+            (counter as HTMLElement).style.opacity = '1';
+        }
+    }
+
+    // Ejecutar al cargar y con View Transitions
+    initViewCounters();
+    document.addEventListener('astro:after-swap', initViewCounters);
+</script>
