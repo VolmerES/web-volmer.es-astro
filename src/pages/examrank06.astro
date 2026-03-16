@@ -729,8 +729,9 @@
 
                 <!-- Given Code: extract_message -->
                 <div class="subject-section">
-                    <div class="subject-section-title" onclick="toggleSection(this)">
-                        <span class="arrow open">▶</span> Código dado: extract_message
+                    <div class="subject-section-title" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span onclick="toggleSection(this.parentElement)" style="cursor: pointer;"><span class="arrow open">▶</span> Código dado: extract_message</span>
+                        <button class="btn" style="padding: 2px 8px; font-size: 10px; background: var(--bg-editor);" onclick="insertSnippet('extract_message')">Insertar</button>
                     </div>
                     <div class="subject-section-content">
                         <p style="font-size: 11px; color: var(--text-dim); margin-bottom: 6px;">Esta función extrae un mensaje completo terminado en '\n' del buffer de un cliente.</p>
@@ -764,8 +765,9 @@
 
                 <!-- Given Code: str_join -->
                 <div class="subject-section">
-                    <div class="subject-section-title" onclick="toggleSection(this)">
-                        <span class="arrow open">▶</span> Código dado: str_join
+                    <div class="subject-section-title" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span onclick="toggleSection(this.parentElement)" style="cursor: pointer;"><span class="arrow open">▶</span> Código dado: str_join</span>
+                        <button class="btn" style="padding: 2px 8px; font-size: 10px; background: var(--bg-editor);" onclick="insertSnippet('str_join')">Insertar</button>
                     </div>
                     <div class="subject-section-content">
                         <p style="font-size: 11px; color: var(--text-dim); margin-bottom: 6px;">Concatena el buffer previo con lo recién leído.</p>
@@ -801,10 +803,24 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
             Comprobar
         </button>
-        <button class="btn btn-solution" id="btn-solution" onclick="showSolution()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-            Ver solución
-        </button>
+        <!-- Solution Dropdown Content instead of simple button -->
+        <div class="dropdown" style="position: relative;">
+            <button class="btn btn-solution" id="btn-solution" onclick="toggleSolutionMenu()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                Ver solución ▼
+            </button>
+            <div id="solution-menu" class="solution-dropdown hidden">
+                <button class="solution-item" onclick="showSolutionPart('includes')">Includes y globales</button>
+                <button class="solution-item" onclick="showSolutionPart('fatal_error')">fatal_error</button>
+                <button class="solution-item" onclick="showSolutionPart('notify_other')">notify_other</button>
+                <button class="solution-item" onclick="showSolutionPart('register_client')">register_client</button>
+                <button class="solution-item" onclick="showSolutionPart('remove_client')">remove_client</button>
+                <button class="solution-item" onclick="showSolutionPart('send_msg')">send_msg</button>
+                <button class="solution-item" onclick="showSolutionPart('main')">main</button>
+                <div style="height: 1px; background: var(--border); margin: 4px 0;"></div>
+                <button class="solution-item" style="color: var(--accent-red);" onclick="showSolutionPart('all')">Copiar todo (Sobrescribir)</button>
+            </div>
+        </div>
         <button class="btn btn-reset" onclick="resetEditor()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
             Reset
@@ -827,6 +843,44 @@
             <span class="statusbar-item">LF</span>
         </div>
     </div>
+
+    <!-- Include CSS for the dropdown -->
+    <style>
+        .solution-dropdown {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            margin-bottom: 8px;
+            background: var(--bg-sidebar);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            min-width: 200px;
+            z-index: 100;
+            padding: 4px;
+        }
+        .solution-dropdown.hidden {
+            display: none;
+        }
+        .solution-item {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            text-align: left;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+        .solution-item:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-bright);
+        }
+    </style>
 
     <!-- Results Overlay -->
     <div class="results-overlay" id="results-overlay">
@@ -886,10 +940,52 @@
         });
 
         require(['vs/editor/editor.main'], function () {
+            // Register custom language features to colorize fd_set, sockaddr_in, socklen_t as types
+            monaco.languages.setMonarchTokensProvider('c', {
+                tokenizer: {
+                    root: [
+                        [/\b(fd_set|sockaddr_in|socklen_t)\b/, 'type.identifier'],
+                        [/^[ \t]*#include/, 'keyword.directive.include'],
+                        [/\b(int|char|void|struct)\b/, 'keyword'],
+                        [/\b(if|else|while|for|return|break|continue)\b/, 'keyword'],
+                        [/\b(sizeof)\b/, 'keyword'],
+                        [/[{}()\[\]]/, '@brackets'],
+                        [/[0-9]+/, 'number'],
+                        [/"([^"\\]|\\.)*$/, 'string.invalid'],
+                        [/"/, 'string', '@string'],
+                        [/'[^\\']'/, 'string'],
+                        [/'/, 'string.invalid'],
+                        [/\/\*/, 'comment', '@comment'],
+                        [/\/\/.*$/, 'comment']
+                    ],
+                    string: [
+                        [/[^\\"]+/, 'string'],
+                        [/\\./, 'string.escape.invalid'],
+                        [/"/, 'string', '@pop']
+                    ],
+                    comment: [
+                        [/[^\/*]+/, 'comment'],
+                        [/\*\//, 'comment', '@pop'],
+                        [/[\/*]/, 'comment']
+                    ]
+                }
+            });
+
+            // Add custom theme rule for 'type.identifier' to make it green
+            monaco.editor.defineTheme('custom-exam-dark', {
+                base: 'vs-dark',
+                inherit: true,
+                rules: [
+                    { token: 'type.identifier', foreground: '4ec9b0' },
+                    { token: 'keyword.directive.include', foreground: 'c586c0' }
+                ],
+                colors: {}
+            });
+
             editor = monaco.editor.create(document.getElementById('editor-container'), {
                 value: '',
                 language: 'c',
-                theme: 'vs-dark',
+                theme: 'custom-exam-dark',
                 fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
                 fontSize: 14,
                 lineHeight: 22,
@@ -948,18 +1044,52 @@
 
         // ====== NORMALIZE CODE ======
         function normalizeCode(code) {
-            // Remove single-line comments
-            let normalized = code.replace(/\/\/.*$/gm, '');
-            // Remove multi-line comments
-            normalized = normalized.replace(/\/\*[\s\S]*?\*\//g, '');
-            // Split into lines
-            let lines = normalized.split('\n');
-            // Trim each line, replace tabs with spaces, collapse whitespace
-            lines = lines.map(line => line.replace(/\t/g, '    ').trimEnd());
-            // Remove empty lines
-            lines = lines.filter(line => line.trim() !== '');
-            // Normalize leading whitespace to single tab per level
-            return lines;
+            let lines = code.split('\n');
+            let includes = [];
+            let cleanLines = [];
+            
+            let inMultiLineComment = false;
+
+            for (let i = 0; i < lines.length; i++) {
+                let originalLine = lines[i];
+                let lineNum = i + 1;
+                
+                // Handle multi-line comments
+                if (inMultiLineComment) {
+                    if (originalLine.includes('*/')) {
+                        inMultiLineComment = false;
+                        originalLine = originalLine.split('*/')[1] || '';
+                    } else {
+                        continue;
+                    }
+                }
+                if (originalLine.includes('/*')) {
+                    if (originalLine.includes('*/')) {
+                        originalLine = originalLine.replace(/\/\*[\s\S]*?\*\//g, '');
+                    } else {
+                        inMultiLineComment = true;
+                        originalLine = originalLine.split('/*')[0] || '';
+                    }
+                }
+
+                // Handle single-line comments
+                let lineParts = originalLine.split('//');
+                let line = lineParts[0];
+
+                line = line.replace(/\t/g, '    ').trim();
+                let normalizedText = line.replace(/\s+/g, ' ');
+                
+                if (line.startsWith('#include')) {
+                    includes.push({ text: normalizedText, lineNum: lineNum, original: lines[i] });
+                } else if (normalizedText !== '') {
+                    cleanLines.push({ text: normalizedText, lineNum: lineNum, original: lines[i] });
+                }
+            }
+
+            // Sort includes alphabetically
+            includes.sort((a, b) => a.text.localeCompare(b.text));
+
+            return [...includes, ...cleanLines];
         }
 
         // ====== LCS DIFF ======
@@ -969,7 +1099,7 @@
 
             for (let i = 1; i <= m; i++) {
                 for (let j = 1; j <= n; j++) {
-                    if (a[i - 1].trim() === b[j - 1].trim()) {
+                    if (a[i - 1].text === b[j - 1].text) {
                         dp[i][j] = dp[i - 1][j - 1] + 1;
                     } else {
                         dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
@@ -981,14 +1111,14 @@
             const diff = [];
             let i = m, j = n;
             while (i > 0 || j > 0) {
-                if (i > 0 && j > 0 && a[i - 1].trim() === b[j - 1].trim()) {
-                    diff.unshift({ type: 'match', line: a[i - 1] });
+                if (i > 0 && j > 0 && a[i - 1].text === b[j - 1].text) {
+                    diff.unshift({ type: 'match', userItem: a[i - 1], solItem: b[j - 1] });
                     i--; j--;
                 } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
-                    diff.unshift({ type: 'added', line: b[j - 1] });
+                    diff.unshift({ type: 'added', solItem: b[j - 1] });
                     j--;
                 } else {
-                    diff.unshift({ type: 'removed', line: a[i - 1] });
+                    diff.unshift({ type: 'removed', userItem: a[i - 1] });
                     i--;
                 }
             }
@@ -1043,18 +1173,27 @@
                 `;
 
                 let diffHTML = '<div class="diff-container">';
-                let lineNum = 1;
+                let lastLineNum = 0;
                 diff.forEach(d => {
-                    const escapedLine = escapeHtml(d.line || '');
+                    let lineStr = '';
+                    let lineNumStr = '';
+                    
+                    if (d.type === 'match' || d.type === 'removed') {
+                        lineStr = escapeHtml(d.userItem.original);
+                        lineNumStr = d.userItem.lineNum;
+                    } else if (d.type === 'added') {
+                        lineStr = escapeHtml(d.solItem.original);
+                        lineNumStr = 'Falta';
+                    }
+
                     const sign = d.type === 'match' ? ' ' : d.type === 'added' ? '+' : '-';
                     diffHTML += `
                         <div class="diff-line ${d.type}">
-                            <span class="diff-line-num">${lineNum}</span>
+                            <span class="diff-line-num">${lineNumStr}</span>
                             <span class="diff-line-sign">${sign}</span>
-                            <span class="diff-line-content">${escapedLine}</span>
+                            <span class="diff-line-content">${lineStr}</span>
                         </div>
                     `;
-                    lineNum++;
                 });
                 diffHTML += '</div>';
                 bodyEl.innerHTML = diffHTML;
@@ -1072,10 +1211,86 @@
         }
 
         // ====== SHOW SOLUTION ======
-        function showSolution() {
+        function toggleSolutionMenu() {
+            document.getElementById('solution-menu').classList.toggle('hidden');
+        }
+
+        // Hide menu if clicked outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                const menu = document.getElementById('solution-menu');
+                if (menu) menu.classList.add('hidden');
+            }
+        });
+
+        function showSolutionPart(part) {
             if (!editor) return;
-            const solutionCode = getSolutionCode().trim();
-            editor.setValue(solutionCode);
+            document.getElementById('solution-menu').classList.add('hidden');
+
+            const fullCode = getSolutionCode();
+            
+            if (part === 'all') {
+                if (confirm('¿Quieres SOBRESCRIBIR tu código con la solución completa?')) {
+                    editor.setValue(fullCode);
+                }
+                return;
+            }
+
+            let snippet = '';
+
+            switch(part) {
+                case 'includes':
+                    snippet = `#include <unistd.h>\n#include <string.h>\n#include <stdlib.h>\n#include <stdio.h>\n#include <sys/socket.h>\n#include <netinet/in.h>\n\nint count, max_fd, ids[65536];\nchar *msgs[65536], buf_read[1001], buf_write[42];\nfd_set rfds, wfds, afds;\n`;
+                    break;
+                case 'fatal_error':
+                    snippet = `void fatal_error(void)\n{\n\twrite(2, "Fatal error\\n", 12);\n\texit(1);\n}\n`;
+                    break;
+                case 'notify_other':
+                    snippet = `void notify_other(int author, char *str)\n{\n\tfor (int fd = 0; fd <= max_fd; fd++)\n\t{\n\t\tif (FD_ISSET(fd, &wfds) && fd != author)\n\t\t\tsend(fd, str, strlen(str), 0);\n\t}\n}\n`;
+                    break;
+                case 'register_client':
+                    snippet = `void register_client(int fd)\n{\n\tif (fd > max_fd)\n\t\tmax_fd = fd;\n\tids[fd] = count++;\n\tmsgs[fd] = 0;\n\tFD_SET(fd, &afds);\n\tsprintf(buf_write, "server: client %d just arrived\\n", ids[fd]);\n\tnotify_other(fd, buf_write);\n}\n`;
+                    break;
+                case 'remove_client':
+                    snippet = `void remove_client(int fd)\n{\n\tsprintf(buf_write, "server: client %d just left\\n", ids[fd]);\n\tnotify_other(fd, buf_write);\n\tfree(msgs[fd]);\n\tFD_CLR(fd, &afds);\n\tclose(fd);\n}\n`;
+                    break;
+                case 'send_msg':
+                    snippet = `void send_msg(int fd)\n{\n\tchar *msg;\n\n\twhile (extract_message(&msgs[fd], &msg))\n\t{\n\t\tsprintf(buf_write, "client %d: ", ids[fd]);\n\t\tnotify_other(fd, buf_write);\n\t\tnotify_other(fd, msg);\n\t\tfree(msg);\n\t}\n}\n`;
+                    break;
+                case 'main':
+                    snippet = `int main(int ac, char **av)\n{\n\tstruct sockaddr_in serv;\n\tint sockfd, clientfd, n;\n\tsocklen_t len;\n\n\tif (ac != 2)\n\t\treturn (write(2, "Wrong number of arguments\\n", 26), 1);\n\n\tsockfd = socket(AF_INET, SOCK_STREAM, 0);\n\tif (sockfd < 0)\n\t\tfatal_error();\n\n\tmax_fd = sockfd;\n\tFD_ZERO(&afds);\n\tFD_SET(sockfd, &afds);\n\n\tbzero(&serv, sizeof(serv));\n\tserv.sin_family = AF_INET;\n\tserv.sin_addr.s_addr = htonl(2130706433);\n\tserv.sin_port = htons(atoi(av[1]));\n\n\tif (bind(sockfd, (const struct sockaddr *)&serv, sizeof(serv))\n\t\t|| listen(sockfd, SOMAXCONN))\n\t\tfatal_error();\n\n\twhile (1)\n\t{\n\t\trfds = wfds = afds;\n\n\t\tif (select(max_fd + 1, &rfds, &wfds, 0, 0) < 0)\n\t\t\tfatal_error();\n\n\t\tfor (int fd = 0; fd <= max_fd; fd++)\n\t\t{\n\t\t\tif (!FD_ISSET(fd, &rfds))\n\t\t\t\tcontinue;\n\n\t\t\tif (fd == sockfd)\n\t\t\t{\n\t\t\t\tlen = sizeof(serv);\n\t\t\t\tclientfd = accept(sockfd, (struct sockaddr *)&serv, &len);\n\t\t\t\tif (clientfd >= 0)\n\t\t\t\t{\n\t\t\t\t\tregister_client(clientfd);\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t}\n\t\t\telse\n\t\t\t{\n\t\t\t\tn = recv(fd, buf_read, 1000, 0);\n\n\t\t\t\tif (n <= 0)\n\t\t\t\t{\n\t\t\t\t\tremove_client(fd);\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\n\t\t\t\tbuf_read[n] = 0;\n\n\t\t\t\tmsgs[fd] = str_join(msgs[fd], buf_read);\n\n\t\t\t\tsend_msg(fd);\n\t\t\t}\n\t\t}\n\t}\n}\n`;
+                    break;
+            }
+
+            if (snippet) {
+                // Insert at cursor position instead of replacing entire file
+                const position = editor.getPosition();
+                editor.executeEdits("solution-insert", [{
+                    range: new monaco.Range(position.lineNumber, 1, position.lineNumber, 1),
+                    text: snippet + '\n'
+                }]);
+                editor.focus();
+            }
+        }
+
+        // ====== INSERT GIVEN SNIPPET ======
+        function insertSnippet(type) {
+            if (!editor) return;
+            let snippet = '';
+            if (type === 'extract_message') {
+                snippet = `int extract_message(char **buf, char **msg)\n{\n\tchar *newbuf;\n\tint i = 0;\n\n\t*msg = 0;\n\tif (!*buf)\n\t\treturn (0);\n\twhile ((*buf)[i])\n\t{\n\t\tif ((*buf)[i] == '\\n')\n\t\t{\n\t\t\tnewbuf = calloc(1, strlen(*buf + i + 1) + 1);\n\t\t\tif (!newbuf)\n\t\t\t\treturn (-1);\n\t\t\tstrcpy(newbuf, *buf + i + 1);\n\t\t\t*msg = *buf;\n\t\t\t(*msg)[i + 1] = 0;\n\t\t\t*buf = newbuf;\n\t\t\treturn (1);\n\t\t}\n\t\ti++;\n\t}\n\treturn (0);\n}\n`;
+            } else if (type === 'str_join') {
+                snippet = `char *str_join(char *buf, char *add)\n{\n\tchar *newbuf;\n\tint len = buf ? strlen(buf) : 0;\n\n\tnewbuf = malloc(len + strlen(add) + 1);\n\tif (!newbuf)\n\t\treturn (0);\n\tnewbuf[0] = 0;\n\tif (buf)\n\t\tstrcat(newbuf, buf);\n\tfree(buf);\n\tstrcat(newbuf, add);\n\treturn (newbuf);\n}\n`;
+            }
+
+            if (snippet) {
+                const position = editor.getPosition();
+                editor.executeEdits("snippet-insert", [{
+                    range: new monaco.Range(position.lineNumber, 1, position.lineNumber, 1),
+                    text: snippet + '\n'
+                }]);
+                editor.focus();
+            }
         }
 
         // ====== RESET ======
