@@ -804,21 +804,21 @@
             Comprobar
         </button>
         <!-- Solution Dropdown Content instead of simple button -->
-        <div class="dropdown" style="position: relative;">
-            <button class="btn btn-solution" id="btn-solution" onclick="toggleSolutionMenu()">
+        <div class="dropdown">
+            <button class="btn btn-solution" id="btn-solution" onclick="toggleSolutionMenu(event)">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
                 Ver solución ▼
             </button>
             <div id="solution-menu" class="solution-dropdown hidden">
-                <button class="solution-item" onclick="showSolutionPart('includes')">Includes y globales</button>
-                <button class="solution-item" onclick="showSolutionPart('fatal_error')">fatal_error</button>
-                <button class="solution-item" onclick="showSolutionPart('notify_other')">notify_other</button>
-                <button class="solution-item" onclick="showSolutionPart('register_client')">register_client</button>
-                <button class="solution-item" onclick="showSolutionPart('remove_client')">remove_client</button>
-                <button class="solution-item" onclick="showSolutionPart('send_msg')">send_msg</button>
-                <button class="solution-item" onclick="showSolutionPart('main')">main</button>
+                <button class="solution-item" onclick="showSolutionPart('includes', event)">Includes y globales</button>
+                <button class="solution-item" onclick="showSolutionPart('fatal_error', event)">fatal_error</button>
+                <button class="solution-item" onclick="showSolutionPart('notify_other', event)">notify_other</button>
+                <button class="solution-item" onclick="showSolutionPart('register_client', event)">register_client</button>
+                <button class="solution-item" onclick="showSolutionPart('remove_client', event)">remove_client</button>
+                <button class="solution-item" onclick="showSolutionPart('send_msg', event)">send_msg</button>
+                <button class="solution-item" onclick="showSolutionPart('main', event)">main</button>
                 <div style="height: 1px; background: var(--border); margin: 4px 0;"></div>
-                <button class="solution-item" style="color: var(--accent-red);" onclick="showSolutionPart('all')">Copiar todo (Sobrescribir)</button>
+                <button class="solution-item" style="color: var(--accent-red);" onclick="showSolutionPart('all', event)">Copiar todo (Sobrescribir)</button>
             </div>
         </div>
         <button class="btn btn-reset" onclick="resetEditor()">
@@ -846,11 +846,13 @@
 
     <!-- Include CSS for the dropdown -->
     <style>
+        .dropdown {
+            position: relative;
+        }
         .solution-dropdown {
             position: absolute;
-            bottom: 100%;
+            bottom: calc(100% + 10px);
             left: 0;
-            margin-bottom: 8px;
             background: var(--bg-sidebar);
             border: 1px solid var(--border);
             border-radius: 6px;
@@ -1137,7 +1139,7 @@
 
             // Check if they match
             const isMatch = userNorm.length === solNorm.length &&
-                userNorm.every((line, i) => line.trim() === solNorm[i].trim());
+                userNorm.every((line, i) => line.text === solNorm[i].text);
 
             const overlay = document.getElementById('results-overlay');
             const titleEl = document.getElementById('results-title');
@@ -1211,7 +1213,8 @@
         }
 
         // ====== SHOW SOLUTION ======
-        function toggleSolutionMenu() {
+        function toggleSolutionMenu(e) {
+            if (e) e.stopPropagation();
             document.getElementById('solution-menu').classList.toggle('hidden');
         }
 
@@ -1223,7 +1226,8 @@
             }
         });
 
-        function showSolutionPart(part) {
+        function showSolutionPart(part, e) {
+            if (e) e.stopPropagation();
             if (!editor) return;
             document.getElementById('solution-menu').classList.add('hidden');
 
