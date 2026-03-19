@@ -810,15 +810,45 @@
                 Ver solución ▼
             </button>
             <div id="solution-menu" class="solution-dropdown hidden">
-                <button class="solution-item" onclick="showSolutionPart('includes', event)">Includes y globales</button>
-                <button class="solution-item" onclick="showSolutionPart('fatal_error', event)">fatal_error</button>
-                <button class="solution-item" onclick="showSolutionPart('notify_other', event)">notify_other</button>
-                <button class="solution-item" onclick="showSolutionPart('register_client', event)">register_client</button>
-                <button class="solution-item" onclick="showSolutionPart('remove_client', event)">remove_client</button>
-                <button class="solution-item" onclick="showSolutionPart('send_msg', event)">send_msg</button>
-                <button class="solution-item" onclick="showSolutionPart('main', event)">main</button>
+                <style>
+                    .solution-item-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 8px; }
+                    .solution-item-row .solution-item { flex: 1; padding: 4px 8px; margin: 0; }
+                    .solution-item-row .btn-view { background: rgba(255,255,255,0.1); border: none; color: var(--text-main); padding: 4px 8px; border-radius: 4px; cursor: pointer; transition: all 0.15s; font-size: 11px; }
+                    .solution-item-row .btn-view:hover { background: rgba(255,255,255,0.2); color: var(--text-bright); }
+                </style>
+                <div class="solution-item-row">
+                    <button class="solution-item" onclick="showSolutionPart('includes', event)">Includes y globales</button>
+                    <button class="btn-view" onclick="viewSolutionPart('includes', event)">Ver</button>
+                </div>
+                <div class="solution-item-row">
+                    <button class="solution-item" onclick="showSolutionPart('fatal_error', event)">fatal_error</button>
+                    <button class="btn-view" onclick="viewSolutionPart('fatal_error', event)">Ver</button>
+                </div>
+                <div class="solution-item-row">
+                    <button class="solution-item" onclick="showSolutionPart('notify_other', event)">notify_other</button>
+                    <button class="btn-view" onclick="viewSolutionPart('notify_other', event)">Ver</button>
+                </div>
+                <div class="solution-item-row">
+                    <button class="solution-item" onclick="showSolutionPart('register_client', event)">register_client</button>
+                    <button class="btn-view" onclick="viewSolutionPart('register_client', event)">Ver</button>
+                </div>
+                <div class="solution-item-row">
+                    <button class="solution-item" onclick="showSolutionPart('remove_client', event)">remove_client</button>
+                    <button class="btn-view" onclick="viewSolutionPart('remove_client', event)">Ver</button>
+                </div>
+                <div class="solution-item-row">
+                    <button class="solution-item" onclick="showSolutionPart('send_msg', event)">send_msg</button>
+                    <button class="btn-view" onclick="viewSolutionPart('send_msg', event)">Ver</button>
+                </div>
+                <div class="solution-item-row">
+                    <button class="solution-item" onclick="showSolutionPart('main', event)">main</button>
+                    <button class="btn-view" onclick="viewSolutionPart('main', event)">Ver</button>
+                </div>
                 <div style="height: 1px; background: var(--border); margin: 4px 0;"></div>
-                <button class="solution-item" style="color: var(--accent-red);" onclick="showSolutionPart('all', event)">Copiar todo (Sobrescribir)</button>
+                <div class="solution-item-row">
+                    <button class="solution-item" style="color: var(--accent-red);" onclick="showSolutionPart('all', event)">Copiar todo (Sobrescribir)</button>
+                    <button class="btn-view" onclick="viewSolutionPart('all', event)">Ver todo</button>
+                </div>
             </div>
         </div>
         <button class="btn btn-reset" onclick="resetEditor()">
@@ -892,6 +922,19 @@
                 <button class="results-close" onclick="closeResults()">✕</button>
             </div>
             <div class="results-body" id="results-body"></div>
+        </div>
+    </div>
+
+    <!-- View Function Overlay -->
+    <div class="results-overlay" id="view-function-overlay">
+        <div class="results-card" style="max-width: 700px;">
+            <div class="results-header">
+                <div class="results-title" id="view-function-title" style="color: var(--accent);">Visualizar Función</div>
+                <button class="results-close" onclick="closeViewFunction()">✕</button>
+            </div>
+            <div class="results-body" style="padding: 16px;">
+                <pre class="subject-code" id="view-function-code" style="margin-top: 0;"></pre>
+            </div>
         </div>
     </div>
 
@@ -1257,31 +1300,7 @@
                 return;
             }
 
-            let snippet = '';
-
-            switch(part) {
-                case 'includes':
-                    snippet = `#include <unistd.h>\n#include <string.h>\n#include <stdlib.h>\n#include <stdio.h>\n#include <sys/socket.h>\n#include <netinet/in.h>\n\nint count, max_fd, ids[65536];\nchar *msgs[65536], buf_read[1001], buf_write[42];\nfd_set rfds, wfds, afds;\n`;
-                    break;
-                case 'fatal_error':
-                    snippet = `void fatal_error(void)\n{\n\twrite(2, "Fatal error\\n", 12);\n\texit(1);\n}\n`;
-                    break;
-                case 'notify_other':
-                    snippet = `void notify_other(int author, char *str)\n{\n\tfor (int fd = 0; fd <= max_fd; fd++)\n\t{\n\t\tif (FD_ISSET(fd, &wfds) && fd != author)\n\t\t\tsend(fd, str, strlen(str), 0);\n\t}\n}\n`;
-                    break;
-                case 'register_client':
-                    snippet = `void register_client(int fd)\n{\n\tif (fd > max_fd)\n\t\tmax_fd = fd;\n\tids[fd] = count++;\n\tmsgs[fd] = 0;\n\tFD_SET(fd, &afds);\n\tsprintf(buf_write, "server: client %d just arrived\\n", ids[fd]);\n\tnotify_other(fd, buf_write);\n}\n`;
-                    break;
-                case 'remove_client':
-                    snippet = `void remove_client(int fd)\n{\n\tsprintf(buf_write, "server: client %d just left\\n", ids[fd]);\n\tnotify_other(fd, buf_write);\n\tfree(msgs[fd]);\n\tFD_CLR(fd, &afds);\n\tclose(fd);\n}\n`;
-                    break;
-                case 'send_msg':
-                    snippet = `void send_msg(int fd)\n{\n\tchar *msg;\n\n\twhile (extract_message(&msgs[fd], &msg))\n\t{\n\t\tsprintf(buf_write, "client %d: ", ids[fd]);\n\t\tnotify_other(fd, buf_write);\n\t\tnotify_other(fd, msg);\n\t\tfree(msg);\n\t}\n}\n`;
-                    break;
-                case 'main':
-                    snippet = `int main(int ac, char **av)\n{\n\tstruct sockaddr_in serv;\n\tint sockfd, clientfd, n;\n\tsocklen_t len;\n\n\tif (ac != 2)\n\t\treturn (write(2, "Wrong number of arguments\\n", 26), 1);\n\n\tsockfd = socket(AF_INET, SOCK_STREAM, 0);\n\tif (sockfd < 0)\n\t\tfatal_error();\n\n\tmax_fd = sockfd;\n\tFD_ZERO(&afds);\n\tFD_SET(sockfd, &afds);\n\n\tbzero(&serv, sizeof(serv));\n\tserv.sin_family = AF_INET;\n\tserv.sin_addr.s_addr = htonl(2130706433);\n\tserv.sin_port = htons(atoi(av[1]));\n\n\tif (bind(sockfd, (const struct sockaddr *)&serv, sizeof(serv))\n\t\t|| listen(sockfd, SOMAXCONN))\n\t\tfatal_error();\n\n\twhile (1)\n\t{\n\t\trfds = wfds = afds;\n\n\t\tif (select(max_fd + 1, &rfds, &wfds, 0, 0) < 0)\n\t\t\tfatal_error();\n\n\t\tfor (int fd = 0; fd <= max_fd; fd++)\n\t\t{\n\t\t\tif (!FD_ISSET(fd, &rfds))\n\t\t\t\tcontinue;\n\n\t\t\tif (fd == sockfd)\n\t\t\t{\n\t\t\t\tlen = sizeof(serv);\n\t\t\t\tclientfd = accept(sockfd, (struct sockaddr *)&serv, &len);\n\t\t\t\tif (clientfd >= 0)\n\t\t\t\t{\n\t\t\t\t\tregister_client(clientfd);\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t}\n\t\t\telse\n\t\t\t{\n\t\t\t\tn = recv(fd, buf_read, 1000, 0);\n\n\t\t\t\tif (n <= 0)\n\t\t\t\t{\n\t\t\t\t\tremove_client(fd);\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\n\t\t\t\tbuf_read[n] = 0;\n\n\t\t\t\tmsgs[fd] = str_join(msgs[fd], buf_read);\n\n\t\t\t\tsend_msg(fd);\n\t\t\t}\n\t\t}\n\t}\n}\n`;
-                    break;
-            }
+            let snippet = getSnippetForPart(part);
 
             if (snippet) {
                 // Insert at cursor position instead of replacing entire file
@@ -1292,6 +1311,41 @@
                 }]);
                 editor.focus();
             }
+        }
+
+        function viewSolutionPart(part, e) {
+            if (e) e.stopPropagation();
+            document.getElementById('solution-menu').classList.add('hidden');
+
+            let snippet = getSnippetForPart(part);
+            if (snippet) {
+                document.getElementById('view-function-title').innerText = part;
+                document.getElementById('view-function-code').innerText = snippet;
+                document.getElementById('view-function-overlay').classList.add('visible');
+            }
+        }
+
+        // Helper to get snippets
+        function getSnippetForPart(part) {
+            switch(part) {
+                case 'includes':
+                    return `#include <unistd.h>\n#include <string.h>\n#include <stdlib.h>\n#include <stdio.h>\n#include <sys/socket.h>\n#include <netinet/in.h>\n\nint count, max_fd, ids[65536];\nchar *msgs[65536], buf_read[1001], buf_write[42];\nfd_set rfds, wfds, afds;\n`;
+                case 'fatal_error':
+                    return `void fatal_error(void)\n{\n\twrite(2, "Fatal error\\n", 12);\n\texit(1);\n}\n`;
+                case 'notify_other':
+                    return `void notify_other(int author, char *str)\n{\n\tfor (int fd = 0; fd <= max_fd; fd++)\n\t{\n\t\tif (FD_ISSET(fd, &wfds) && fd != author)\n\t\t\tsend(fd, str, strlen(str), 0);\n\t}\n}\n`;
+                case 'register_client':
+                    return `void register_client(int fd)\n{\n\tif (fd > max_fd)\n\t\tmax_fd = fd;\n\tids[fd] = count++;\n\tmsgs[fd] = 0;\n\tFD_SET(fd, &afds);\n\tsprintf(buf_write, "server: client %d just arrived\\n", ids[fd]);\n\tnotify_other(fd, buf_write);\n}\n`;
+                case 'remove_client':
+                    return `void remove_client(int fd)\n{\n\tsprintf(buf_write, "server: client %d just left\\n", ids[fd]);\n\tnotify_other(fd, buf_write);\n\tfree(msgs[fd]);\n\tFD_CLR(fd, &afds);\n\tclose(fd);\n}\n`;
+                case 'send_msg':
+                    return `void send_msg(int fd)\n{\n\tchar *msg;\n\n\twhile (extract_message(&msgs[fd], &msg))\n\t{\n\t\tsprintf(buf_write, "client %d: ", ids[fd]);\n\t\tnotify_other(fd, buf_write);\n\t\tnotify_other(fd, msg);\n\t\tfree(msg);\n\t}\n}\n`;
+                case 'main':
+                    return `int main(int ac, char **av)\n{\n\tstruct sockaddr_in serv;\n\tint sockfd, clientfd, n;\n\tsocklen_t len;\n\n\tif (ac != 2)\n\t\treturn (write(2, "Wrong number of arguments\\n", 26), 1);\n\n\tsockfd = socket(AF_INET, SOCK_STREAM, 0);\n\tif (sockfd < 0)\n\t\tfatal_error();\n\n\tmax_fd = sockfd;\n\tFD_ZERO(&afds);\n\tFD_SET(sockfd, &afds);\n\n\tbzero(&serv, sizeof(serv));\n\tserv.sin_family = AF_INET;\n\tserv.sin_addr.s_addr = htonl(2130706433);\n\tserv.sin_port = htons(atoi(av[1]));\n\n\tif (bind(sockfd, (const struct sockaddr *)&serv, sizeof(serv))\n\t\t|| listen(sockfd, SOMAXCONN))\n\t\tfatal_error();\n\n\twhile (1)\n\t{\n\t\trfds = wfds = afds;\n\n\t\tif (select(max_fd + 1, &rfds, &wfds, 0, 0) < 0)\n\t\t\tfatal_error();\n\n\t\tfor (int fd = 0; fd <= max_fd; fd++)\n\t\t{\n\t\t\tif (!FD_ISSET(fd, &rfds))\n\t\t\t\tcontinue;\n\n\t\t\tif (fd == sockfd)\n\t\t\t{\n\t\t\t\tlen = sizeof(serv);\n\t\t\t\tclientfd = accept(sockfd, (struct sockaddr *)&serv, &len);\n\t\t\t\tif (clientfd >= 0)\n\t\t\t\t{\n\t\t\t\t\tregister_client(clientfd);\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t}\n\t\t\telse\n\t\t\t{\n\t\t\t\tn = recv(fd, buf_read, 1000, 0);\n\n\t\t\t\tif (n <= 0)\n\t\t\t\t{\n\t\t\t\t\tremove_client(fd);\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\n\t\t\t\tbuf_read[n] = 0;\n\n\t\t\t\tmsgs[fd] = str_join(msgs[fd], buf_read);\n\n\t\t\t\tsend_msg(fd);\n\t\t\t}\n\t\t}\n\t}\n}\n`;
+                case 'all':
+                    return getSolutionCode();
+            }
+            return '';
         }
 
         // ====== INSERT GIVEN SNIPPET ======
@@ -1329,10 +1383,15 @@
             document.getElementById('results-overlay').classList.remove('visible');
         }
 
+        function closeViewFunction() {
+            document.getElementById('view-function-overlay').classList.remove('visible');
+        }
+
         // Close results on Escape
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closeResults();
+                closeViewFunction();
             }
         });
     </script>
