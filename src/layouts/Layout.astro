@@ -9,23 +9,42 @@ import { ClientRouter } from 'astro:transitions';
 interface Props {
 	title: string;
     showBackground?: boolean;
+    description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description = "Juan Bautista Volmer - Software Engineer Portfolio" } = Astro.props;
 
 import { getLangFromUrl } from '../i18n/ui';
 const lang = getLangFromUrl(Astro.url);
+
+const site = 'https://volmer.es';
+const pathname = Astro.url.pathname;
+const canonicalURL = site + pathname;
+const isEnglish = pathname.startsWith('/en/') || pathname === '/en';
+const isExamrank = pathname.includes('examrank06');
+const esPath = isEnglish ? (pathname.replace(/^\/en/, '') || '/') : pathname;
+const enPath = isEnglish ? pathname : '/en' + pathname;
+const esURL = site + esPath;
+const enURL = site + enPath;
 ---
 
 <!doctype html>
 <html lang={lang} class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Juan Bautista Volmer - Software Engineer Portfolio" />
+		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<link rel="canonical" href={canonicalURL} />
+		{!isExamrank && (
+			<>
+				<link rel="alternate" hreflang="es" href={esURL} />
+				<link rel="alternate" hreflang="en" href={enURL} />
+				<link rel="alternate" hreflang="x-default" href={esURL} />
+			</>
+		)}
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">

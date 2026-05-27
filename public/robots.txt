@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /examrank06
+Disallow: /en/examrank06
+
+Sitemap: https://volmer.es/sitemap-index.xml

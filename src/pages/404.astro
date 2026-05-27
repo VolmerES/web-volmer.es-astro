@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="404 - Página no encontrada | volmer.es" description="Esta página no existe o ha sido movida.">
+    <main class="relative flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">
+        <div class="relative">
+            <!-- Glow -->
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-64 h-64 bg-neon-pink/10 rounded-full blur-[80px]"></div>
+            </div>
+
+            <p class="relative text-[120px] md:text-[200px] font-heading font-bold leading-none text-transparent bg-clip-text bg-gradient-to-br from-neon-cyan via-neon-pink to-deep-purple opacity-30 select-none">
+                404
+            </p>
+        </div>
+
+        <h1 class="text-2xl md:text-4xl font-heading font-bold text-white -mt-6 md:-mt-10 mb-4">
+            Página no encontrada
+        </h1>
+        <p class="text-gray-400 max-w-md mb-8">
+            La URL que buscas no existe o ha sido movida. Vuelve al inicio para encontrar lo que necesitas.
+        </p>
+
+        <a
+            href="/"
+            class="px-6 py-3 bg-neon-pink text-white font-bold rounded-lg hover:bg-pink-600 transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(255,42,109,0.4)]"
+        >
+            ← VOLVER AL INICIO
+        </a>
+    </main>
+</Layout>
