@@ -1,0 +1,306 @@
+---
+import { getLangFromUrl, useTranslations, useRoutes, brand } from '../../i18n/ui';
+import { featuredProjects, clientLogos, techStack } from '../../data/projects';
+import { services } from '../../data/services';
+import ServiceCard from '../ServiceCard.astro';
+import ProjectCard from '../ProjectCard.astro';
+import ProcessSteps from '../ProcessSteps.astro';
+import ReviewsCarousel from '../ReviewsCarousel.astro';
+import { getCollection } from 'astro:content';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const r = useRoutes(lang);
+
+const posts = (await getCollection('blog'))
+    .filter((post) => post.id.startsWith(`${lang}/`))
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .slice(0, 3);
+
+const dateLocale = lang === 'es' ? 'es-ES' : 'en-GB';
+
+const stats = [
+    { value: '6+', label: t('home.stat1') },
+    { value: '5,0★', label: t('home.stat2') },
+    { value: '1:1', label: t('home.stat3') },
+];
+---
+
+<main class="relative pt-28 md:pt-32 pb-12 md:pb-16">
+
+    <!-- ============ HERO ============ -->
+    <section class="max-w-7xl mx-auto px-6 pb-12 md:pb-16">
+        <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-16">
+
+            <!-- Texto -->
+            <div class="flex-1 flex flex-col items-start z-10 w-full">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/30 bg-green-500/10 text-green-400 text-[10px] font-bold tracking-wider mb-6">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                    {t('home.badge')}
+                </div>
+
+                <h1 class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6">
+                    <span class="block text-gray-200">{t('home.title1')}</span>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-pink">
+                        {t('home.title2')}
+                    </span>
+                </h1>
+
+                <p class="text-base md:text-lg text-gray-400 max-w-xl mb-8 leading-relaxed">
+                    {t('home.subtitle')}
+                </p>
+
+                <div class="flex flex-wrap gap-3 mb-10">
+                    <button class="open-quote-modal px-6 py-3 bg-neon-pink text-white text-sm font-bold rounded-lg hover:bg-pink-600 transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(255,42,109,0.4)] flex items-center gap-2">
+                        {t('cta.quote')}
+                    </button>
+                    <a href={r.projects} class="px-6 py-3 bg-white/5 border border-white/15 text-white text-sm font-bold rounded-lg hover:bg-white/10 hover:border-neon-cyan/50 hover:text-neon-cyan transition-all flex items-center gap-2">
+                        {t('cta.projects')}
+                    </a>
+                </div>
+
+                <!-- Cifras de confianza -->
+                <div class="grid grid-cols-3 gap-4 w-full max-w-lg border-t border-white/5 pt-6">
+                    {stats.map(({ value, label }) => (
+                        <div>
+                            <p class="font-heading text-2xl md:text-3xl font-bold text-white mb-1">{value}</p>
+                            <p class="text-[10px] md:text-xs text-gray-500 leading-tight">{label}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <!-- Retrato -->
+            <div class="flex-1 w-full max-w-sm relative">
+                <div class="absolute -top-10 -right-10 w-72 h-72 bg-neon-cyan/10 rounded-full blur-[80px] -z-10 mix-blend-screen animate-pulse"></div>
+                <div class="absolute -bottom-10 -left-10 w-72 h-72 bg-neon-pink/10 rounded-full blur-[80px] -z-10 mix-blend-screen animate-pulse" style="animation-delay: 0.7s;"></div>
+
+                <div class="relative flex flex-col items-center">
+                    <div class="relative w-40 h-40 md:w-64 md:h-64 rounded-full p-1.5 border border-white/10 bg-[#050505]/80 backdrop-blur-2xl shadow-2xl group hover:border-white/30 transition-colors duration-500">
+                        <img
+                            src="/profile.png"
+                            alt={brand.person}
+                            width="256"
+                            height="256"
+                            class="w-full h-full object-cover rounded-full filter grayscale-[20%] contrast-[110%] group-hover:filter-none transition-all duration-500"
+                        />
+                        <div class="absolute inset-0 rounded-full border border-white/5 scale-110 pointer-events-none"></div>
+                    </div>
+
+                    <!-- Tarjeta de confianza -->
+                    <div class="mt-6 w-full bg-[#080808]/90 border border-white/10 rounded-xl p-5 backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+                        <div class="flex items-center gap-3 mb-4 pb-4 border-b border-white/5">
+                            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-neon-cyan to-neon-pink flex items-center justify-center text-dark-bg font-bold text-sm shrink-0">
+                                JD
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-sm font-bold text-white truncate">{brand.person}</p>
+                                <p class="text-[11px] text-gray-500">{brand.name}</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2.5 text-xs">
+                            <p class="flex items-center gap-2 text-gray-400">
+                                <span class="text-yellow-400 shrink-0">★★★★★</span>
+                                <span class="truncate">{t('home.stat2')}</span>
+                            </p>
+                            <p class="flex items-center gap-2 text-gray-400">
+                                <svg class="w-4 h-4 text-neon-cyan shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span class="truncate">{t('contact.responseTime')}</span>
+                            </p>
+                            <p class="flex items-center gap-2 text-gray-400">
+                                <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span class="truncate">{t('home.stat3')}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ LOGOS DE CLIENTES ============ -->
+    <section class="max-w-7xl mx-auto px-6 py-10 border-t border-white/5">
+        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-6 text-center">{t('home.trustCompanies')}</p>
+        <div class="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
+            <div class="flex animate-marquee-companies whitespace-nowrap gap-12 w-max hover:[animation-play-state:paused]">
+                {Array(2).fill(null).map(() => (
+                    <div class="flex items-center gap-12 shrink-0">
+                        {clientLogos.map((client) => (
+                            <a href={client.url} target="_blank" rel="noopener noreferrer" aria-label={client.name}>
+                                <img
+                                    src={client.logo}
+                                    alt={client.name}
+                                    loading="lazy"
+                                    class="h-8 md:h-10 w-auto object-contain opacity-40 grayscale hover:opacity-90 hover:grayscale-0 transition-all duration-300"
+                                />
+                            </a>
+                        ))}
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SERVICIOS ============ -->
+    <section class="max-w-7xl mx-auto px-6 py-12 md:py-16 border-t border-white/5">
+        <div class="flex items-end justify-between mb-10 gap-4">
+            <div>
+                <span class="text-neon-cyan text-xs font-bold tracking-widest uppercase mb-2 block">{t('home.servicesTag')}</span>
+                <h2 class="text-2xl md:text-4xl font-heading font-bold text-white">{t('home.servicesTitle')}</h2>
+            </div>
+            <a href={r.services} class="hidden sm:block text-xs font-bold text-gray-500 hover:text-white transition-colors shrink-0">
+                {t('cta.services')} →
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {services.map((service) => <ServiceCard service={service} />)}
+        </div>
+
+        <div class="mt-8 text-center sm:hidden">
+            <a href={r.services} class="text-sm font-bold text-gray-400 hover:text-white transition-colors">
+                {t('cta.services')} →
+            </a>
+        </div>
+    </section>
+
+    <!-- ============ PROYECTOS DESTACADOS ============ -->
+    <section class="max-w-7xl mx-auto px-6 py-12 md:py-16 border-t border-white/5">
+        <div class="flex items-end justify-between mb-10 gap-4">
+            <div>
+                <span class="text-neon-pink text-xs font-bold tracking-widest uppercase mb-2 block">{t('home.projectsTag')}</span>
+                <h2 class="text-2xl md:text-4xl font-heading font-bold text-white">{t('home.projectsTitle')}</h2>
+            </div>
+            <a href={r.projects} class="hidden sm:block text-xs font-bold text-gray-500 hover:text-white transition-colors shrink-0">
+                {t('cta.all')} →
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {featuredProjects.map((project) => <ProjectCard project={project} />)}
+        </div>
+
+        <div class="mt-8 text-center sm:hidden">
+            <a href={r.projects} class="text-sm font-bold text-gray-400 hover:text-white transition-colors">
+                {t('cta.all')} →
+            </a>
+        </div>
+    </section>
+
+    <!-- ============ RESEÑAS ============ -->
+    <ReviewsCarousel />
+
+    <!-- ============ PROCESO ============ -->
+    <section class="max-w-7xl mx-auto px-6 py-12 md:py-16 border-t border-white/5">
+        <div class="text-center mb-12">
+            <span class="text-neon-cyan text-xs font-bold tracking-widest uppercase mb-2 block">{t('home.processTag')}</span>
+            <h2 class="text-2xl md:text-4xl font-heading font-bold text-white">{t('home.processTitle')}</h2>
+        </div>
+        <ProcessSteps />
+    </section>
+
+    <!-- ============ TECNOLOGÍAS ============ -->
+    <section class="max-w-7xl mx-auto px-6 py-10 border-t border-white/5 overflow-hidden">
+        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-5 text-center">{t('home.trustTech')}</p>
+        <div class="relative w-full [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <div class="flex animate-marquee whitespace-nowrap gap-8 w-max hover:[animation-play-state:paused]">
+                {Array(2).fill(null).map(() => (
+                    <div class="flex gap-8 opacity-80 grayscale hover:grayscale-0 transition-all duration-500 text-sm shrink-0">
+                        {techStack.map((tech) => (
+                            <span class="font-bold cursor-default" style={`color: ${tech.color}`}>{tech.name}</span>
+                        ))}
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ BLOG ============ -->
+    <section class="max-w-7xl mx-auto px-6 py-12 md:py-16 border-t border-white/5">
+        <div class="flex items-end justify-between mb-10 gap-4">
+            <div>
+                <span class="text-neon-cyan text-xs font-bold tracking-widest uppercase mb-2 block">{t('home.blogTag')}</span>
+                <h2 class="text-2xl md:text-4xl font-heading font-bold text-white">{t('home.blogTitle')}</h2>
+            </div>
+            {posts.length > 0 && (
+                <a href={r.blog} class="hidden sm:block text-xs font-bold text-gray-500 hover:text-white transition-colors shrink-0">
+                    {t('cta.all')} →
+                </a>
+            )}
+        </div>
+
+        {posts.length === 0 ? (
+            <div class="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] px-6 py-12 text-center">
+                <p class="text-gray-500 text-sm">{t('home.blogEmpty')}</p>
+            </div>
+        ) : (
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {posts.map((post) => (
+                    <article class="group relative flex flex-col h-full rounded-xl overflow-hidden bg-[#111] border border-white/10 hover:border-neon-cyan/50 transition-all duration-300">
+                        <a href={`${r.blog}/${post.slug.replace(/^(es|en)\//, '')}/`} class="flex flex-col h-full">
+                            <div class="h-36 bg-gray-900 relative overflow-hidden shrink-0">
+                                {post.data.heroImage && (
+                                    <div
+                                        class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                                        style={`background-image: url('${post.data.heroImage}');`}
+                                    ></div>
+                                )}
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent"></div>
+                                <span class="absolute top-3 left-3 px-2 py-1 text-[10px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md border border-white/10 rounded text-white">
+                                    {post.data.pubDate.toLocaleDateString(dateLocale, { month: 'short', day: 'numeric' })}
+                                </span>
+                            </div>
+                            <div class="p-5 flex flex-col flex-grow">
+                                <h3 class="text-lg font-bold font-heading mb-2 leading-tight group-hover:text-neon-cyan transition-colors line-clamp-2">
+                                    {post.data.title}
+                                </h3>
+                                <p class="text-xs text-gray-500 line-clamp-2 mb-4">{post.data.description}</p>
+                                <span class="text-neon-cyan text-xs font-bold flex items-center gap-1 mt-auto">
+                                    {t('cta.readMore')} <span class="group-hover:translate-x-1 transition-transform">→</span>
+                                </span>
+                            </div>
+                        </a>
+                    </article>
+                ))}
+            </div>
+        )}
+    </section>
+
+    <!-- ============ CTA FINAL ============ -->
+    <section class="max-w-5xl mx-auto px-6 py-12 md:py-16">
+        <div class="relative text-center py-14 md:py-20 px-6 bg-gradient-to-tr from-white/5 to-transparent rounded-3xl border border-white/10 overflow-hidden">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-neon-cyan/10 rounded-full blur-[100px] -z-10"></div>
+
+            <h2 class="text-3xl md:text-5xl font-heading font-bold mb-5 text-white">{t('home.finalTitle')}</h2>
+            <p class="text-base md:text-lg text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">{t('home.finalSubtitle')}</p>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
+                <button class="open-quote-modal w-full sm:w-auto px-8 py-4 text-base font-bold text-dark-bg bg-neon-cyan hover:bg-white transition-all rounded-full shadow-[0_0_20px_rgba(5,217,232,0.4)]">
+                    {t('cta.quote')}
+                </button>
+                <a href={r.contact} class="w-full sm:w-auto px-8 py-4 text-base font-bold text-white bg-white/5 border border-white/15 hover:bg-white/10 hover:border-white/30 transition-all rounded-full">
+                    {t('cta.contact')}
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<style>
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+        animation: marquee 30s linear infinite;
+    }
+    .animate-marquee-companies {
+        animation: marquee 40s linear infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .animate-marquee,
+        .animate-marquee-companies {
+            animation: none;
+        }
+    }
+</style>

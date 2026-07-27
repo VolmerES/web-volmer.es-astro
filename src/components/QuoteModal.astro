@@ -1,0 +1,419 @@
+---
+import { getLangFromUrl, useTranslations, brand } from '../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+/**
+ * Modal de presupuesto en varios pasos.
+ * Se abre desde cualquier elemento con la clase `.open-quote-modal`.
+ *
+ * Los textos del correo generado se pasan por data-attributes para que el
+ * script no tenga que conocer el idioma ni duplicar el diccionario.
+ */
+const mailCopy = lang === 'es'
+    ? {
+        intro: 'Hola Juan,\n\nMe gustaría solicitar un presupuesto con los siguientes detalles:\n\n',
+        app: 'Estoy interesado en el desarrollo de una aplicación móvil (iOS/Android). Busco una solución profesional y me gustaría hablar sobre los detalles del proyecto.',
+        drone: 'Estoy interesado en contratar servicios de vuelo con dron. Necesito grabación aérea en 4K y/o fotografía para un proyecto concreto.',
+        web: 'Estoy interesado en un proyecto de desarrollo web.',
+        maintenance: '\nConcretamente, necesito servicios de MANTENIMIENTO para optimizar, arreglar o actualizar una web existente.',
+        creation: '\nConcretamente, necesito la CREACIÓN de un sitio web nuevo.',
+        ecommerceYes: '\nAdemás, el proyecto REQUIERE una tienda online para vender productos o servicios.',
+        ecommerceNo: '\nEl proyecto NO requiere tienda online: sería una web corporativa o landing informativa.',
+        outro: '\n\nQuedo a la espera de tu respuesta para concretar los siguientes pasos.\n\nUn saludo.',
+        phoneLine: '\n\nTeléfono de contacto: ',
+        subjectPrefix: 'Presupuesto: ',
+        subjectApp: 'App móvil',
+        subjectDrone: 'Dron',
+        subjectWeb: 'Web',
+        labelService: 'Servicio',
+        labelType: 'Tipo',
+        labelEcommerce: 'Tienda online',
+        typeNew: 'Creación nueva',
+        typeMaintenance: 'Mantenimiento',
+        yes: 'Sí',
+        no: 'No',
+        emailRequired: 'Introduce tu email para que pueda responderte.',
+    }
+    : {
+        intro: "Hi Juan,\n\nI'd like to request a quote with the following details:\n\n",
+        app: "I'm interested in developing a mobile app (iOS/Android). I'm looking for a professional solution and would like to discuss the project.",
+        drone: "I'm interested in drone filming services. I need 4K aerial footage and/or photography for a specific project.",
+        web: "I'm interested in a web development project.",
+        maintenance: '\nSpecifically, I need MAINTENANCE work to optimise, fix or update an existing site.',
+        creation: '\nSpecifically, I need a NEW website built from scratch.',
+        ecommerceYes: '\nThe project also REQUIRES an online store to sell products or services.',
+        ecommerceNo: '\nThe project does NOT require an online store: it would be a corporate or informational site.',
+        outro: '\n\nLooking forward to your reply so we can agree the next steps.\n\nBest regards.',
+        phoneLine: '\n\nContact phone: ',
+        subjectPrefix: 'Quote: ',
+        subjectApp: 'Mobile app',
+        subjectDrone: 'Drone',
+        subjectWeb: 'Web',
+        labelService: 'Service',
+        labelType: 'Type',
+        labelEcommerce: 'Online store',
+        typeNew: 'Build from scratch',
+        typeMaintenance: 'Maintenance',
+        yes: 'Yes',
+        no: 'No',
+        emailRequired: 'Please enter your email so I can reply.',
+    };
+
+const serviceOptions = [
+    {
+        value: 'app',
+        title: t('budget.optApp'),
+        desc: t('budget.optAppDesc'),
+        classes: 'hover:border-neon-pink/50 hover:bg-neon-pink/10',
+        iconWrap: 'bg-neon-pink/20 text-neon-pink group-hover:bg-neon-pink group-hover:text-white',
+        icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    },
+    {
+        value: 'web',
+        title: t('budget.optWeb'),
+        desc: t('budget.optWebDesc'),
+        classes: 'hover:border-neon-cyan/50 hover:bg-neon-cyan/10',
+        iconWrap: 'bg-neon-cyan/20 text-neon-cyan group-hover:bg-neon-cyan group-hover:text-dark-bg',
+        icon: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+    },
+    {
+        value: 'drone',
+        title: t('budget.optDrone'),
+        desc: t('budget.optDroneDesc'),
+        classes: 'hover:border-emerald-500/50 hover:bg-emerald-500/10',
+        iconWrap: 'bg-emerald-500/20 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white',
+        icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
+    },
+];
+---
+
+<dialog
+    id="quote-modal"
+    data-mail={JSON.stringify(mailCopy)}
+    data-formspree={brand.formspree}
+    data-whatsapp={brand.whatsapp}
+    class="bg-transparent p-0 m-0 backdrop:bg-black/80 backdrop:backdrop-blur-sm w-full h-full max-w-none max-h-none fixed inset-0 z-[120] open:flex items-center justify-center pointer-events-none open:pointer-events-auto transition-all duration-300 opacity-0 open:opacity-100"
+>
+    <div class="bg-[#121212] border border-white/10 rounded-2xl w-full max-w-2xl mx-4 relative overflow-y-auto max-h-[90vh] shadow-2xl scale-95 open:scale-100 transition-all duration-300 p-6 md:p-8">
+
+        <!-- Cabecera -->
+        <div class="flex justify-between items-start mb-8">
+            <div>
+                <h2 class="text-2xl font-heading font-bold text-white">{t('budget.title')}<span class="text-neon-cyan">.</span></h2>
+                <div class="flex gap-1 mt-2">
+                    <span id="step-1-indicator" class="w-8 h-1 bg-neon-cyan rounded-full transition-colors"></span>
+                    <span id="step-2-indicator" class="w-8 h-1 bg-white/10 rounded-full transition-colors"></span>
+                    <span id="step-3-indicator" class="w-8 h-1 bg-white/10 rounded-full transition-colors"></span>
+                </div>
+            </div>
+            <button id="close-quote-modal" class="text-gray-400 hover:text-white transition-colors shrink-0" aria-label="Cerrar">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div id="modal-content" class="relative">
+            <!-- Paso 1: servicio -->
+            <div id="stage-1" class="stage-content transition-all duration-300">
+                <h3 class="text-lg md:text-xl font-bold text-white mb-6">{t('budget.q1')}</h3>
+                <div class="grid gap-3">
+                    {serviceOptions.map((option) => (
+                        <button
+                            data-service={option.value}
+                            class:list={["service-select p-4 rounded-xl border border-white/10 bg-white/5 transition-all text-left flex items-center gap-4 group", option.classes]}
+                        >
+                            <div class:list={["w-10 h-10 rounded-full flex items-center justify-center transition-colors shrink-0", option.iconWrap]}>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d={option.icon} />
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-white">{option.title}</span>
+                                <span class="text-xs text-gray-400">{option.desc}</span>
+                            </div>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <!-- Paso 2: tipo de web -->
+            <div id="stage-2-web" class="stage-content hidden transition-all duration-300">
+                <button class="back-btn text-xs text-gray-400 hover:text-white mb-4 flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                    {t('budget.back')}
+                </button>
+                <h3 class="text-lg md:text-xl font-bold text-white mb-6">{t('budget.q2')}</h3>
+                <div class="grid gap-3">
+                    <button data-web-type="creation" class="web-type-select p-4 rounded-xl border border-white/10 bg-white/5 hover:border-neon-cyan/50 hover:bg-neon-cyan/10 transition-all text-left group">
+                        <span class="block font-bold text-white text-lg mb-1 group-hover:text-neon-cyan">{t('budget.optNew')}</span>
+                        <span class="text-xs text-gray-400">{t('budget.optNewDesc')}</span>
+                    </button>
+                    <button data-web-type="maintenance" class="web-type-select p-4 rounded-xl border border-white/10 bg-white/5 hover:border-neon-cyan/50 hover:bg-neon-cyan/10 transition-all text-left group">
+                        <span class="block font-bold text-white text-lg mb-1 group-hover:text-neon-cyan">{t('budget.optMaintenance')}</span>
+                        <span class="text-xs text-gray-400">{t('budget.optMaintenanceDesc')}</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Paso 3: e-commerce -->
+            <div id="stage-3-web-creation" class="stage-content hidden transition-all duration-300">
+                <button class="back-btn text-xs text-gray-400 hover:text-white mb-4 flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                    {t('budget.back')}
+                </button>
+                <h3 class="text-lg md:text-xl font-bold text-white mb-6">{t('budget.q3')}</h3>
+                <div class="grid gap-3">
+                    <button data-ecommerce="yes" class="ecommerce-select p-4 rounded-xl border border-white/10 bg-white/5 hover:border-neon-cyan/50 hover:bg-neon-cyan/10 transition-all text-left group">
+                        <span class="block font-bold text-white text-lg group-hover:text-neon-cyan">{t('budget.optYes')}</span>
+                    </button>
+                    <button data-ecommerce="no" class="ecommerce-select p-4 rounded-xl border border-white/10 bg-white/5 hover:border-neon-cyan/50 hover:bg-neon-cyan/10 transition-all text-left group">
+                        <span class="block font-bold text-white text-lg group-hover:text-neon-cyan">{t('budget.optNo')}</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Paso final: contacto -->
+            <div id="stage-final" class="stage-content hidden transition-all duration-300">
+                <h3 class="text-lg md:text-xl font-bold text-white mb-2">{t('budget.summaryTitle')}</h3>
+                <p class="text-gray-400 mb-6 text-sm">{t('budget.summaryDesc')}</p>
+
+                <div class="bg-white/5 border border-white/10 rounded-lg p-4 mb-6">
+                    <p id="summary-text" class="font-mono text-neon-cyan text-sm whitespace-pre-line"></p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="quote-email" class="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">{t('budget.emailLabel')}</label>
+                        <input type="email" id="quote-email" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors" placeholder="tu@email.com">
+                    </div>
+                    <div>
+                        <label for="quote-phone" class="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">{t('budget.phoneLabel')}</label>
+                        <input type="tel" id="quote-phone" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors" placeholder="+34 ...">
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label for="quote-message" class="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">{t('budget.messageLabel')}</label>
+                    <textarea id="quote-message" rows="7" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors resize-y text-sm leading-relaxed"></textarea>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <button id="quote-send-mail" class="w-full bg-white text-black font-bold py-3.5 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        {t('budget.sendMail')}
+                    </button>
+                    <a href="#" id="quote-send-whatsapp" class="w-full bg-[#25D366] text-white font-bold py-3.5 rounded-lg hover:bg-[#128C7E] transition-colors flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                        {t('budget.sendWhatsapp')}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+        const modal = document.getElementById('quote-modal') as HTMLDialogElement | null;
+        if (!modal) return;
+
+        const triggers = document.querySelectorAll('.open-quote-modal');
+        const closeBtn = document.getElementById('close-quote-modal');
+
+        const copy = JSON.parse(modal.dataset.mail || '{}');
+        const formspree = modal.dataset.formspree || '';
+        const whatsapp = modal.dataset.whatsapp || '';
+
+        let selection = { service: '', webType: '', ecommerce: '' };
+        let history: string[] = ['stage-1'];
+
+        const showStage = (stageId: string) => {
+            document.querySelectorAll('.stage-content').forEach((el) => el.classList.add('hidden'));
+            document.getElementById(stageId)?.classList.remove('hidden');
+
+            const indicators = [
+                document.getElementById('step-1-indicator'),
+                document.getElementById('step-2-indicator'),
+                document.getElementById('step-3-indicator'),
+            ];
+            indicators.forEach((i) => i?.classList.replace('bg-neon-cyan', 'bg-white/10'));
+
+            const lit = stageId === 'stage-1' ? 1 : stageId.includes('stage-2') ? 2 : 3;
+            indicators.slice(0, lit).forEach((i) => i?.classList.replace('bg-white/10', 'bg-neon-cyan'));
+        };
+
+        const serviceLabel = () =>
+            selection.service === 'app' ? copy.subjectApp
+            : selection.service === 'drone' ? copy.subjectDrone
+            : copy.subjectWeb;
+
+        const buildMessage = () => {
+            let body = copy.intro;
+
+            if (selection.service === 'app') {
+                body += copy.app;
+            } else if (selection.service === 'drone') {
+                body += copy.drone;
+            } else {
+                body += copy.web;
+                body += selection.webType === 'maintenance' ? copy.maintenance : copy.creation;
+                if (selection.webType === 'creation') {
+                    body += selection.ecommerce === 'yes' ? copy.ecommerceYes : copy.ecommerceNo;
+                }
+            }
+
+            return body + copy.outro;
+        };
+
+        const updateSummary = () => {
+            const summaryEl = document.getElementById('summary-text');
+            if (summaryEl) {
+                let text = `• ${copy.labelService}: ${serviceLabel()}`;
+                if (selection.service === 'web') {
+                    text += `\n• ${copy.labelType}: ${selection.webType === 'creation' ? copy.typeNew : copy.typeMaintenance}`;
+                    if (selection.webType === 'creation') {
+                        text += `\n• ${copy.labelEcommerce}: ${selection.ecommerce === 'yes' ? copy.yes : copy.no}`;
+                    }
+                }
+                summaryEl.innerText = text;
+            }
+
+            const messageBox = document.getElementById('quote-message') as HTMLTextAreaElement | null;
+            if (messageBox) messageBox.value = buildMessage();
+        };
+
+        const withPhone = () => {
+            const messageInput = document.getElementById('quote-message') as HTMLTextAreaElement | null;
+            const phoneInput = document.getElementById('quote-phone') as HTMLInputElement | null;
+            let message = messageInput?.value || '';
+            if (phoneInput?.value) message += copy.phoneLine + phoneInput.value;
+            return message;
+        };
+
+        // --- Envío por correo (Formspree) ---
+        const mailBtn = document.getElementById('quote-send-mail') as HTMLButtonElement | null;
+        const originalMailText = mailBtn?.innerText || '';
+
+        mailBtn?.addEventListener('click', async () => {
+            const emailInput = document.getElementById('quote-email') as HTMLInputElement | null;
+            const phoneInput = document.getElementById('quote-phone') as HTMLInputElement | null;
+
+            if (!emailInput?.value) {
+                alert(copy.emailRequired);
+                emailInput?.focus();
+                return;
+            }
+
+            mailBtn.innerText = '...';
+            mailBtn.disabled = true;
+
+            try {
+                const response = await fetch(formspree, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: emailInput.value,
+                        phone: phoneInput?.value || '',
+                        subject: copy.subjectPrefix + serviceLabel(),
+                        message: withPhone(),
+                    }),
+                });
+
+                if (!response.ok) throw new Error('Formspree error');
+
+                mailBtn.innerText = '✓';
+                mailBtn.style.backgroundColor = '#10b981';
+                setTimeout(() => {
+                    closeModal();
+                    mailBtn.innerText = originalMailText;
+                    mailBtn.style.backgroundColor = '';
+                    mailBtn.disabled = false;
+                    emailInput.value = '';
+                    if (phoneInput) phoneInput.value = '';
+                }, 1800);
+            } catch (error) {
+                console.error(error);
+                mailBtn.innerText = '✕';
+                mailBtn.style.backgroundColor = '#ef4444';
+                setTimeout(() => {
+                    mailBtn.innerText = originalMailText;
+                    mailBtn.style.backgroundColor = '';
+                    mailBtn.disabled = false;
+                }, 2500);
+            }
+        });
+
+        // --- Envío por WhatsApp ---
+        document.getElementById('quote-send-whatsapp')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(withPhone())}`, '_blank');
+        });
+
+        // --- Apertura y cierre ---
+        const openModal = (e: Event) => {
+            e.preventDefault();
+            selection = { service: '', webType: '', ecommerce: '' };
+            history = ['stage-1'];
+            showStage('stage-1');
+            modal.showModal();
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeModal = () => {
+            modal.close();
+            document.body.style.overflow = '';
+        };
+
+        triggers.forEach((btn) => btn.addEventListener('click', openModal));
+        closeBtn?.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        // El botón nativo de Escape también debe restaurar el scroll.
+        modal.addEventListener('close', () => {
+            document.body.style.overflow = '';
+        });
+
+        // --- Navegación entre pasos ---
+        document.querySelectorAll('.service-select').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                selection.service = (e.currentTarget as HTMLElement).dataset.service || '';
+                const next = selection.service === 'web' ? 'stage-2-web' : 'stage-final';
+                history.push(next);
+                showStage(next);
+                if (next === 'stage-final') updateSummary();
+            });
+        });
+
+        document.querySelectorAll('.web-type-select').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                selection.webType = (e.currentTarget as HTMLElement).dataset.webType || '';
+                const next = selection.webType === 'creation' ? 'stage-3-web-creation' : 'stage-final';
+                history.push(next);
+                showStage(next);
+                if (next === 'stage-final') updateSummary();
+            });
+        });
+
+        document.querySelectorAll('.ecommerce-select').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                selection.ecommerce = (e.currentTarget as HTMLElement).dataset.ecommerce || '';
+                history.push('stage-final');
+                showStage('stage-final');
+                updateSummary();
+            });
+        });
+
+        document.querySelectorAll('.back-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                if (history.length > 1) {
+                    history.pop();
+                    const prev = history[history.length - 1];
+                    if (prev) showStage(prev);
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,92 @@
+---
+import { getLangFromUrl, useTranslations, useRoutes } from '../../i18n/ui';
+import { webProjects, appProjects, clientLogos } from '../../data/projects';
+import ProjectCard from '../ProjectCard.astro';
+import ReviewsCarousel from '../ReviewsCarousel.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const r = useRoutes(lang);
+---
+
+<main class="relative pt-28 md:pt-36 pb-16">
+
+    <!-- ============ HERO ============ -->
+    <section class="max-w-7xl mx-auto px-6 mb-16 md:mb-20">
+        <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-pink/30 bg-neon-pink/5 text-neon-pink text-xs font-bold tracking-wider mb-6">
+                <span class="w-2 h-2 rounded-full bg-neon-pink"></span>
+                {t('projects.badge')}
+            </div>
+            <h1 class="font-heading text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] mb-8">
+                {t('projects.title1')} <br />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-neon-cyan">
+                    {t('projects.title2')}
+                </span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 leading-relaxed max-w-2xl">
+                {t('projects.subtitle')}
+            </p>
+        </div>
+    </section>
+
+    <!-- ============ LOGOS ============ -->
+    <section class="max-w-7xl mx-auto px-6 mb-16 md:mb-20">
+        <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 py-8 border-y border-white/5">
+            {clientLogos.map((client) => (
+                <a href={client.url} target="_blank" rel="noopener noreferrer" aria-label={client.name}>
+                    <img
+                        src={client.logo}
+                        alt={client.name}
+                        loading="lazy"
+                        class="h-7 md:h-9 w-auto object-contain opacity-40 grayscale hover:opacity-90 hover:grayscale-0 transition-all duration-300"
+                    />
+                </a>
+            ))}
+        </div>
+    </section>
+
+    <!-- ============ WEBS ============ -->
+    <section class="max-w-7xl mx-auto px-6 mb-20 md:mb-28">
+        <h2 class="text-2xl md:text-3xl font-heading font-bold text-white mb-8 flex items-center gap-3">
+            <span class="w-2 h-2 rounded-full bg-neon-cyan"></span>
+            {t('projects.webTitle')}
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {webProjects.map((project) => <ProjectCard project={project} detailed />)}
+        </div>
+    </section>
+
+    <!-- ============ APPS ============ -->
+    <section class="max-w-7xl mx-auto px-6 mb-20 md:mb-28">
+        <h2 class="text-2xl md:text-3xl font-heading font-bold text-white mb-8 flex items-center gap-3">
+            <span class="w-2 h-2 rounded-full bg-neon-pink"></span>
+            {t('projects.appsTitle')}
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {appProjects.map((project) => <ProjectCard project={project} detailed />)}
+        </div>
+    </section>
+
+    <!-- ============ RESEÑAS ============ -->
+    <ReviewsCarousel />
+
+    <!-- ============ CTA ============ -->
+    <section class="max-w-5xl mx-auto px-6 pt-8">
+        <div class="relative text-center py-14 md:py-20 px-6 bg-gradient-to-tr from-white/5 to-transparent rounded-3xl border border-white/10 overflow-hidden">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-neon-pink/10 rounded-full blur-[100px] -z-10"></div>
+
+            <h2 class="text-3xl md:text-5xl font-heading font-bold mb-5 text-white">{t('home.finalTitle')}</h2>
+            <p class="text-base md:text-lg text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">{t('home.finalSubtitle')}</p>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
+                <button class="open-quote-modal w-full sm:w-auto px-8 py-4 text-base font-bold text-dark-bg bg-neon-cyan hover:bg-white transition-all rounded-full shadow-[0_0_20px_rgba(5,217,232,0.4)]">
+                    {t('cta.quote')}
+                </button>
+                <a href={r.services} class="w-full sm:w-auto px-8 py-4 text-base font-bold text-white bg-white/5 border border-white/15 hover:bg-white/10 hover:border-white/30 transition-all rounded-full">
+                    {t('cta.services')}
+                </a>
+            </div>
+        </div>
+    </section>
+</main>

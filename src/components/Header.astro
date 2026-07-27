@@ -1,83 +1,88 @@
 ---
-import { getLangFromUrl, useTranslations } from '../i18n/ui';
+import { getLangFromUrl, useTranslations, useRoutes, getAlternateUrl, brand } from '../i18n/ui';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const pathname = Astro.url.pathname;
-const currentPath = pathname.replace(`/${lang}`, '');
-
-const prefix = lang === 'es' ? '' : `/${lang}`;
+const r = useRoutes(lang);
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 const navLinks = [
-    { href: `${prefix}/`, label: t('nav.home') },
-    { href: `${prefix}/42`, label: t('nav.42') },
-    { href: `${prefix}/aplicaciones`, label: t('nav.apps') },
-    { href: `${prefix}/portfolio`, label: t('nav.portfolio') },
-    { href: `${prefix}/servicios`, label: t('nav.services') },
-    { href: `${prefix}/blog`, label: t('nav.blog') },
+    { href: r.services, label: t('nav.services') },
+    { href: r.projects, label: t('nav.projects') },
+    { href: r.about, label: t('nav.about') },
+    { href: r.blog, label: t('nav.blog') },
 ];
 
-const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery_swipe_ai&pcampaignid=web_share";
----
- 
- <header 
-     id="main-header"
-     data-theme="dark"
-     class:list={[
-         "fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 backdrop-blur-md border rounded-full shadow-2xl overflow-hidden",
-         "w-[90%] md:w-auto max-w-5xl group hover:scale-[1.02]",
-         "bg-[#121212]/90 border-white/10"
-     ]}
- >
-     <!-- Particles Canvas -->
-     <canvas id="header-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-40 z-0"></canvas>
- 
-     <div class="relative z-10 h-14 px-4 md:px-6 flex items-center justify-between gap-4 md:gap-8">
-         <a href={`${prefix}/`} class="text-xl font-bold font-heading tracking-tighter transition-colors shrink-0 hover:text-neon-cyan text-white">
-             VOLMER<span class="text-neon-pink">.</span>
-         </a>
-         
-         <nav class="hidden md:flex items-center gap-1 rounded-full p-1 border bg-white/5 border-white/5">
-             {navLinks.map(({ href, label }) => {
-                 const isActive = href === `/${lang}/` ? pathname === `/${lang}/` : (pathname.startsWith(href) && href !== `/${lang}/`);
-                 return (
-                     <a 
-                         href={href} 
-                         class:list={[
-                             "relative text-xs font-bold px-4 py-1.5 rounded-full transition-colors duration-300",
-                             isActive ? "text-black" : "text-gray-400 hover:text-white hover:bg-white/10"
-                         ]}
-                     >
-                         {isActive && (
-                             <div 
-                                 class="absolute inset-0 bg-white rounded-full shadow-lg -z-10"
-                                 transition:name="header-active-indicator"
-                             ></div>
-                         )}
-                         <span class="relative z-10">{label}</span>
-                     </a>
-                 );
-             })}
-         </nav>
+const alternateUrl = getAlternateUrl(Astro.url.pathname, lang);
 
-        <div class="flex items-center gap-2">
+const isActive = (href: string) => {
+    const clean = href.replace(/\/$/, '') || '/';
+    return clean === '/' ? pathname === '/' : pathname.startsWith(clean);
+};
+---
+
+<header
+    id="main-header"
+    data-theme="dark"
+    class:list={[
+        "fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 backdrop-blur-md border rounded-full shadow-2xl overflow-hidden",
+        "w-[90%] md:w-auto max-w-5xl group hover:scale-[1.02]",
+        "bg-[#121212]/90 border-white/10"
+    ]}
+>
+    <!-- Particles Canvas -->
+    <canvas id="header-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-40 z-0"></canvas>
+
+    <div class="relative z-10 h-14 px-4 md:px-6 flex items-center justify-between gap-4 md:gap-8">
+        <a href={r.home} class="flex items-baseline gap-1.5 shrink-0 group/logo">
+            <span class="text-xl font-bold font-heading tracking-tighter text-white group-hover/logo:text-neon-cyan transition-colors">
+                {brand.logo}<span class="text-neon-pink">.</span>
+            </span>
+            <span class="hidden sm:block text-[9px] font-bold tracking-[0.25em] text-neon-cyan/70 group-hover/logo:text-neon-cyan transition-colors">
+                {brand.logoSuffix}
+            </span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-1 rounded-full p-1 border bg-white/5 border-white/5">
+            {navLinks.map(({ href, label }) => (
+                <a
+                    href={href}
+                    class:list={[
+                        "relative text-xs font-bold px-4 py-1.5 rounded-full transition-colors duration-300",
+                        isActive(href) ? "text-black" : "text-gray-400 hover:text-white hover:bg-white/10"
+                    ]}
+                >
+                    {isActive(href) && (
+                        <div
+                            class="absolute inset-0 bg-white rounded-full shadow-lg -z-10"
+                            transition:name="header-active-indicator"
+                        ></div>
+                    )}
+                    <span class="relative z-10">{label}</span>
+                </a>
+            ))}
+        </nav>
+
+        <div class="hidden md:flex items-center gap-2">
             <!-- Language Switcher -->
-            <a 
-                href={lang === 'es' ? `/en${currentPath}` : (currentPath || '/')}
-                class="hidden md:inline-flex items-center justify-center px-3 py-1 text-xs font-bold rounded-full border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:border-white/30 transition-all"
+            <a
+                href={alternateUrl}
+                class="inline-flex items-center justify-center px-3 py-1 text-xs font-bold rounded-full border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:border-white/30 transition-all"
             >
                 {lang === 'es' ? 'EN' : 'ES'}
             </a>
- 
-         <a href="#" id="contact-btn" class="hidden md:inline-flex items-center justify-center w-10 h-10 rounded-full bg-neon-cyan text-dark-bg hover:bg-white transition-all shadow-[0_0_15px_rgba(5,217,232,0.4)] shrink-0 group">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-        </a>
+
+            <!-- Primary CTA -->
+            <a
+                href={r.contact}
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neon-cyan text-dark-bg text-xs font-bold hover:bg-white transition-all shadow-[0_0_15px_rgba(5,217,232,0.4)] shrink-0"
+            >
+                {t('cta.quoteShort')}
+            </a>
         </div>
-         
-         <!-- Mobile Menu Button -->
-        <button id="menu-toggle" class="md:hidden hover:scale-110 transition-transform focus:outline-none text-white hover:text-neon-pink z-50">
+
+        <!-- Mobile Menu Button -->
+        <button id="menu-toggle" class="md:hidden hover:scale-110 transition-transform focus:outline-none text-white hover:text-neon-pink z-50" aria-label="Menu">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
@@ -86,8 +91,8 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
 </header>
 
 <!-- Mobile Menu Overlay -->
-<div 
-    id="mobile-menu" 
+<div
+    id="mobile-menu"
     class="fixed inset-0 z-[110] bg-gradient-to-br from-[#0a0a0a]/95 via-[#121212]/98 to-[#0a0a0a]/95 backdrop-blur-2xl opacity-0 pointer-events-none transition-all duration-500 ease-out md:hidden"
 >
     <!-- Enhanced Background Effects -->
@@ -100,39 +105,36 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
     <!-- Glass Card Container -->
     <div class="relative z-10 h-full flex flex-col items-center justify-between py-20 px-8">
         <!-- Close Button -->
-        <button id="menu-close" class="absolute top-8 right-8 w-12 h-12 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/70 hover:text-neon-cyan hover:border-neon-cyan/50 hover:bg-white/10 transition-all duration-300 backdrop-blur-md">
+        <button id="menu-close" class="absolute top-8 right-8 w-12 h-12 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/70 hover:text-neon-cyan hover:border-neon-cyan/50 hover:bg-white/10 transition-all duration-300 backdrop-blur-md" aria-label="Cerrar">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
         </button>
 
         <!-- Navigation Links -->
-        <nav class="flex-1 flex flex-col items-center justify-center gap-6 w-full max-w-sm">
-            {navLinks.map(({ href, label }, index) => {
-                const isActive = href === `/${lang}/` ? pathname === `/${lang}/` : (pathname.startsWith(href) && href !== `/${lang}/`);
-                return (
-                    <a 
-                        href={href} 
-                        class:list={[
-                            "menu-item w-full text-center py-3 px-6 rounded-xl font-heading font-bold text-2xl tracking-wide transition-all duration-300 relative overflow-hidden group",
-                            isActive 
-                                ? "text-neon-cyan bg-neon-cyan/10 border border-neon-cyan/30 shadow-[0_0_20px_rgba(5,217,232,0.2)]" 
-                                : "text-white/70 hover:text-white hover:bg-white/5 border border-white/10 hover:border-neon-pink/50"
-                        ]}
-                        style={`animation-delay: ${index * 0.1}s;`}
-                    >
-                        <span class="relative z-10">{label}</span>
-                        {!isActive && (
-                            <div class="absolute inset-0 bg-gradient-to-r from-neon-cyan/0 via-neon-pink/10 to-neon-cyan/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                        )}
-                    </a>
-                );
-            })}
+        <nav class="flex-1 flex flex-col items-center justify-center gap-5 w-full max-w-sm">
+            {navLinks.map(({ href, label }, index) => (
+                <a
+                    href={href}
+                    class:list={[
+                        "menu-item w-full text-center py-3 px-6 rounded-xl font-heading font-bold text-2xl tracking-wide transition-all duration-300 relative overflow-hidden group",
+                        isActive(href)
+                            ? "text-neon-cyan bg-neon-cyan/10 border border-neon-cyan/30 shadow-[0_0_20px_rgba(5,217,232,0.2)]"
+                            : "text-white/70 hover:text-white hover:bg-white/5 border border-white/10 hover:border-neon-pink/50"
+                    ]}
+                    style={`animation-delay: ${index * 0.1}s;`}
+                >
+                    <span class="relative z-10">{label}</span>
+                    {!isActive(href) && (
+                        <div class="absolute inset-0 bg-gradient-to-r from-neon-cyan/0 via-neon-pink/10 to-neon-cyan/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                    )}
+                </a>
+            ))}
 
             <!-- Mobile Language Switcher -->
-            <a 
-                href={lang === 'es' ? `/en${currentPath}` : `/es${currentPath}`}
-                class="menu-item mt-4 w-auto text-center py-2 px-8 rounded-full border border-white/10 bg-white/5 text-gray-400 font-bold hover:text-white hover:border-white/30 transition-all"
+            <a
+                href={alternateUrl}
+                class="menu-item mt-2 w-auto text-center py-2 px-8 rounded-full border border-white/10 bg-white/5 text-gray-400 font-bold hover:text-white hover:border-white/30 transition-all"
                 style={`animation-delay: ${navLinks.length * 0.1}s;`}
             >
                 {lang === 'es' ? 'English' : 'Español'}
@@ -142,19 +144,19 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
         <!-- Footer: Contact + Social -->
         <div class="flex flex-col items-center gap-6 w-full">
             <div class="h-px w-32 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-            
-            <a href="#contact" class="open-contact-modal flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-neon-pink to-deep-purple rounded-full text-white font-bold text-sm uppercase tracking-wider hover:shadow-[0_0_20px_rgba(255,42,109,0.4)] transition-all hover:scale-105">
+
+            <a href={r.contact} class="flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-neon-pink to-deep-purple rounded-full text-white font-bold text-sm uppercase tracking-wider hover:shadow-[0_0_20px_rgba(255,42,109,0.4)] transition-all hover:scale-105">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <span>Hablemos</span>
+                <span>{t('cta.quoteShort')}</span>
             </a>
 
             <div class="flex items-center gap-4">
-                <a href="https://github.com/VolmerES" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-neon-cyan/50 hover:bg-white/10 transition-all">
+                <a href={brand.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-neon-cyan/50 hover:bg-white/10 transition-all">
                     <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
                 </a>
-                <a href="https://linkedin.com/in/jdelorme" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-blue-500 hover:border-blue-500/50 hover:bg-white/10 transition-all">
+                <a href={brand.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-blue-500 hover:border-blue-500/50 hover:bg-white/10 transition-all">
                     <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.063 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 22.227.792 23 1.771 23h20.451C23.2 23 24 22.227 24 21.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                 </a>
             </div>
@@ -167,13 +169,13 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
         opacity: 1;
         pointer-events: auto;
     }
-    
+
     #mobile-menu.menu-open .menu-item {
         animation: slideInStagger 0.5s ease-out forwards;
         opacity: 0;
         transform: translateY(-20px);
     }
-    
+
     @keyframes slideInStagger {
         to {
             opacity: 1;
@@ -181,43 +183,6 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
         }
     }
 </style>
-
-<!-- Contact Modal -->
-<dialog id="contact-modal" class="bg-transparent p-0 m-0 backdrop:bg-black/80 backdrop:backdrop-blur-sm w-full h-full max-w-none max-h-none fixed inset-0 z-[120] open:flex items-center justify-center pointer-events-none open:pointer-events-auto transition-all duration-300 opacity-0 open:opacity-100">
-    <div class="bg-[#121212] border border-white/10 rounded-2xl w-full max-w-lg mx-4 relative overflow-hidden shadow-2xl scale-95 open:scale-100 transition-all duration-300 p-8 cyberpunk-modal">
-        <!-- Close Button -->
-        <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-
-        <!-- Modal Content -->
-        <h2 class="text-3xl font-heading font-bold text-white mb-2">Hablemos<span class="text-neon-cyan">.</span></h2>
-        <p class="text-gray-400 mb-8 text-sm">Envíame un mensaje directo.</p>
-
-        <form id="contact-form" class="space-y-4">
-            <div>
-                 <label for="email" class="block text-xs font-bold text-neon-pink uppercase tracking-wider mb-2">TU EMAIL</label>
-                 <input type="email" id="email" name="email" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors" placeholder="tu@email.com (para responderte)">
-            </div>
-
-            <div>
-                <label for="subject" class="block text-xs font-bold text-neon-pink uppercase tracking-wider mb-2">ASUNTO</label>
-                <input type="text" id="subject" name="subject" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors" placeholder="Proyecto web, Duda, Saludo...">
-            </div>
-            
-            <div>
-                <label for="message" class="block text-xs font-bold text-neon-pink uppercase tracking-wider mb-2">MENSAJE</label>
-                <textarea id="message" name="message" rows="5" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors resize-none" placeholder="Hola Juan, me gustaría hablar sobre..."></textarea>
-            </div>
-
-            <button type="submit" id="submit-btn" class="w-full bg-gradient-to-r from-neon-cyan to-blue-600 text-white font-bold py-3.5 rounded-lg hover:shadow-[0_0_20px_rgba(5,217,232,0.4)] transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:grayscale">
-                ENVIAR MENSAJE
-            </button>
-        </form>
-    </div>
-</dialog>
 
 <script>
     class HeaderParticles {
@@ -237,12 +202,12 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
             this.mouseX = -1000;
             this.mouseY = -1000;
             this.isLight = false;
-            
+
             if (!this.canvas || !this.header) return;
 
             this.ctx = this.canvas.getContext('2d');
             this.isLight = this.header.dataset.theme === 'light';
-            
+
             this.init();
         }
 
@@ -271,7 +236,7 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
                     vx: (Math.random() - 0.5) * 0.5,
                     vy: (Math.random() - 0.5) * 0.5,
                     size: Math.random() * 2 + 0.5,
-                    color: this.isLight 
+                    color: this.isLight
                         ? (Math.random() > 0.5 ? '#9333ea' : '#000000') // Purple/Black for light
                         : (Math.random() > 0.5 ? '#05d9e8' : '#ff2a6d')  // Cyan/Pink for dark
                 });
@@ -284,15 +249,15 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
                 this.particles = [];
                 this.createParticles();
             });
-            
+
             // Track mouse relative to the header
             document.addEventListener('mousemove', (e) => {
                 if (!this.header) return;
                 const rect = this.header.getBoundingClientRect();
                 if (
-                    e.clientX >= rect.left && 
-                    e.clientX <= rect.right && 
-                    e.clientY >= rect.top && 
+                    e.clientX >= rect.left &&
+                    e.clientX <= rect.right &&
+                    e.clientY >= rect.top &&
                     e.clientY <= rect.bottom
                 ) {
                     this.mouseX = e.clientX - rect.left;
@@ -328,13 +293,13 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
                     const forceDirectionX = dx / distance;
                     const forceDirectionY = dy / distance;
                     const force = (maxDist - distance) / maxDist;
-                    
+
                     // Push away nicely
-                    const repulsionStrength = 2; 
+                    const repulsionStrength = 2;
                     p.vx -= forceDirectionX * force * repulsionStrength;
                     p.vy -= forceDirectionY * force * repulsionStrength;
                 }
-                
+
                 // Limit max speed
                 const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
                 const maxSpeed = 1.5;
@@ -374,108 +339,6 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
         }
     }
 
-    // Modal Logic
-    const initModal = () => {
-        const modal = document.getElementById('contact-modal') as HTMLDialogElement;
-        const form = document.getElementById('contact-form') as HTMLFormElement;
-        const closeBtn = document.getElementById('close-modal');
-        
-        // Triggers
-        const contactBtn = document.getElementById('contact-btn');
-        const classTriggers = document.querySelectorAll('.open-contact-modal');
-
-        if (!modal || !form) return;
-
-        const openModal = (e: Event) => {
-            e.preventDefault();
-            modal.showModal();
-            document.body.style.overflow = 'hidden';
-        };
-
-        if (contactBtn) {
-            contactBtn.addEventListener('click', openModal);
-        }
-
-        classTriggers.forEach(btn => {
-            btn.addEventListener('click', openModal);
-        });
-
-        const closeModal = () => {
-            modal.close();
-            document.body.style.overflow = '';
-        };
-
-        if (closeBtn) {
-            closeBtn.addEventListener('click', closeModal);
-        }
-        
-        // Close on click outside
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-
-        // Handle Form
-        // Handle Form
-        form.addEventListener('submit', async (e) => {
-             e.preventDefault();
-             const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
-             const email = (document.getElementById('email') as HTMLInputElement).value;
-             const subject = (document.getElementById('subject') as HTMLInputElement).value;
-             const message = (document.getElementById('message') as HTMLTextAreaElement).value;
-             
-             if (!submitBtn) return;
-
-             const originalText = submitBtn.innerText;
-             submitBtn.innerText = "ENVIANDO...";
-             submitBtn.disabled = true;
-
-             try {
-                 const response = await fetch("https://formspree.io/f/xykkznrl", {
-                     method: "POST",
-                     headers: { "Content-Type": "application/json" },
-                     body: JSON.stringify({
-                         email: email,
-                         subject: subject,
-                         message: message
-                     })
-                 });
-
-                 if (response.ok) {
-                     submitBtn.innerText = "¡ENVIADO!";
-                     submitBtn.classList.remove('from-neon-cyan', 'to-blue-600');
-                     submitBtn.classList.add('bg-emerald-500'); // Success color
-                     
-                     setTimeout(() => {
-                         closeModal();
-                         // Reset form
-                         (form as HTMLFormElement).reset();
-                         submitBtn.innerText = originalText;
-                         submitBtn.classList.remove('bg-emerald-500');
-                         submitBtn.classList.add('from-neon-cyan', 'to-blue-600');
-                         submitBtn.disabled = false;
-                     }, 2000);
-                 } else {
-                     throw new Error('Formspree error');
-                 }
-             } catch (error) {
-                 console.error(error);
-                 submitBtn.innerText = "ERROR - INTENTA NUEVAMENTE";
-                 submitBtn.classList.remove('from-neon-cyan', 'to-blue-600');
-                 submitBtn.classList.add('bg-red-500');
-                 
-                 setTimeout(() => {
-                     submitBtn.innerText = originalText;
-                     submitBtn.classList.remove('bg-red-500');
-                     submitBtn.classList.add('from-neon-cyan', 'to-blue-600');
-                     submitBtn.disabled = false;
-                 }, 3000);
-             }
-        });
-    };
-
-
-
-
     // Mobile Menu Logic
     class MobileMenu {
         menu: HTMLElement | null;
@@ -497,7 +360,7 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
         init() {
             this.openBtn?.addEventListener('click', () => this.open());
             this.closeBtn?.addEventListener('click', () => this.close());
-            
+
             // Close on link click
             this.links.forEach(link => {
                 link.addEventListener('click', () => this.close());
@@ -515,22 +378,14 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
         }
     }
 
-    // Initialize Menu
-    const initMenu = () => {
-        new MobileMenu();
-    };
-
     // Initialize everything on load (View Transitions compatible)
     document.addEventListener('astro:page-load', () => {
-         try {
-             new HeaderParticles();
-         } catch(e) { console.error('Particles error:', e); }
-         
-         try {
-            initModal();
-         } catch(e) { console.error('Modal error:', e); }
-         
-         try {
-            initMenu();
-         } catch(e) { console.error('Menu error:', e); }
+        try {
+            new HeaderParticles();
+        } catch (e) { console.error('Particles error:', e); }
+
+        try {
+            new MobileMenu();
+        } catch (e) { console.error('Menu error:', e); }
     });
+</script>
