@@ -14,6 +14,12 @@ export const brand = {
   linkedin: "https://linkedin.com/in/jdelorme",
   maps: "https://www.google.com/maps/place/Volmer+Tech/@23.1139177,-94.2923106,3z/data=!4m6!3m5!1s0x25d3edcd640fe0a3:0xd35547f3117ff6d0!8m2!3d23.1139177!4d-94.2923106!16s%2Fg%2F11y3n_0_0?entry=ttu",
   formspree: "https://formspree.io/f/xykkznrl",
+  /**
+   * Panel de clientes (Next.js, repo customer-volmer-es).
+   * Ojo: el CLAUDE.md de ese repo menciona clientes.volmer.es, que no es
+   * el dominio en producción. El bueno es customer.volmer.es.
+   */
+  clientPanel: "https://customer.volmer.es/login",
 };
 
 export const ui = {
@@ -32,6 +38,7 @@ export const ui = {
     "cta.services": "VER SERVICIOS",
     "cta.all": "VER TODO",
     "cta.contact": "CONTACTAR",
+    "cta.clientLogin": "Acceso clientes",
     "cta.readMore": "LEER ARTÍCULO",
     "cta.viewSite": "VER WEB",
     "cta.viewCase": "VER CASO",
@@ -240,6 +247,7 @@ export const ui = {
     "cta.services": "VIEW SERVICES",
     "cta.all": "VIEW ALL",
     "cta.contact": "GET IN TOUCH",
+    "cta.clientLogin": "Client login",
     "cta.readMore": "READ ARTICLE",
     "cta.viewSite": "VISIT SITE",
     "cta.viewCase": "VIEW CASE STUDY",

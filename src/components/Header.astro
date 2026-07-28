@@ -64,6 +64,24 @@ const isActive = (href: string) => {
         </nav>
 
         <div class="hidden md:flex items-center gap-2">
+            <!--
+              Acceso al panel: enlace de servicio, no llamada a la acción.
+              Va apagado a propósito para no competir con el botón de presupuesto,
+              que es el objetivo de la página para quien aún no es cliente.
+            -->
+            <a
+                href={brand.clientPanel}
+                class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all shrink-0"
+                title={t('cta.clientLogin')}
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span class="hidden lg:inline whitespace-nowrap">{t('cta.clientLogin')}</span>
+            </a>
+
+            <span class="w-px h-4 bg-white/10 shrink-0"></span>
+
             <!-- Language Switcher -->
             <a
                 href={alternateUrl}
@@ -131,11 +149,23 @@ const isActive = (href: string) => {
                 </a>
             ))}
 
+            <!-- Acceso al panel de clientes -->
+            <a
+                href={brand.clientPanel}
+                class="menu-item mt-2 inline-flex items-center gap-2 text-center py-2 px-6 rounded-full text-gray-400 font-medium text-sm hover:text-white transition-all"
+                style={`animation-delay: ${navLinks.length * 0.1}s;`}
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                {t('cta.clientLogin')}
+            </a>
+
             <!-- Mobile Language Switcher -->
             <a
                 href={alternateUrl}
-                class="menu-item mt-2 w-auto text-center py-2 px-8 rounded-full border border-white/10 bg-white/5 text-gray-400 font-bold hover:text-white hover:border-white/30 transition-all"
-                style={`animation-delay: ${navLinks.length * 0.1}s;`}
+                class="menu-item w-auto text-center py-2 px-8 rounded-full border border-white/10 bg-white/5 text-gray-400 font-bold hover:text-white hover:border-white/30 transition-all"
+                style={`animation-delay: ${(navLinks.length + 1) * 0.1}s;`}
             >
                 {lang === 'es' ? 'English' : 'Español'}
             </a>
