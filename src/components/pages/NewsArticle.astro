@@ -24,7 +24,7 @@ const articleData = {
     description: data.description,
     datePublished: data.date.toISOString(),
     inLanguage: lang === 'es' ? 'es-ES' : 'en-GB',
-    mainEntityOfPage: `${site}${r.news}/${newsSlug(entry)}/`,
+    mainEntityOfPage: `${site}${r.news}${newsSlug(entry)}/`,
     image: [new URL(data.ogImage ?? data.image ?? (lang === 'es' ? '/og-image.png' : '/og-image-en.png'), site).href],
     author: { '@type': 'Person', name: brand.person, url: brand.portfolio },
     publisher: { '@type': 'Organization', name: brand.name, logo: { '@type': 'ImageObject', url: `${site}/icon-512.png` } },

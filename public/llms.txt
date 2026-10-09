@@ -1,0 +1,27 @@
+# Volmer Studio
+
+> Estudio de desarrollo web y apps a medida en Madrid, de Juan Bautista Delorme Pinedo. Webs, tiendas online, aplicaciones móviles con Flutter, diseño UI/UX y grabación aérea con dron. El cliente trabaja directamente con el desarrollador, sin intermediarios.
+
+Juan Bautista Delorme Pinedo es desarrollador de software, formado en 42 Madrid (Fundación Telefónica), y desarrolla también software embebido para máquinas industriales. Volmer Studio tiene 14 reseñas de 5 estrellas en Google.
+
+## Páginas
+
+- [Servicios](https://volmer.es/servicios/): desarrollo web, apps móviles, diseño UI/UX y grabación con dron
+- [Proyectos](https://volmer.es/proyectos/): webs y apps entregadas a clientes reales
+- [Sobre mí](https://volmer.es/sobre-mi/): quién hay detrás del estudio, reconocimientos y forma de trabajar
+- [Noticias](https://volmer.es/noticias/): premios, proyectos y novedades
+- [Contacto](https://volmer.es/contacto/): formulario, email y WhatsApp; normalmente respondo en menos de 24 horas
+- [Swipe Gallery](https://volmer.es/swipe-gallery-app/): app Android propia para limpiar la galería del móvil
+
+## English
+
+- [Home](https://volmer.es/en/): custom web and app development studio in Madrid
+- [Services](https://volmer.es/en/services/)
+- [Projects](https://volmer.es/en/projects/)
+- [About](https://volmer.es/en/about/)
+- [News](https://volmer.es/en/news/)
+- [Contact](https://volmer.es/en/contact/)
+
+## Más
+
+- [Portfolio personal](https://juandelorme-portfolio.volmer.es/): trayectoria, 42 Madrid y proyectos personales

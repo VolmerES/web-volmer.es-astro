@@ -1,5 +1,13 @@
 ---
 import '../styles/global.css';
+// Fuentes servidas desde el propio dominio (antes, de Google Fonts): una
+// conexión menos y el titular se pinta antes. Outfit va precargada porque es
+// la del h1 de cada página.
+import '@fontsource-variable/outfit';
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import outfitLatin from '@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2?url';
+import geistLatin from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
@@ -47,10 +55,23 @@ const enURL = site + (lang === 'en' ? pathname : alternatePath);
 const imageURL = new URL(image, site).href;
 const imageIsDefault = image === defaultImage;
 
-// Datos para Google: el estudio y quién está detrás.
+// Datos para Google: el sitio (su nombre en los resultados), el estudio y
+// quién está detrás.
 const structuredData = {
     '@context': 'https://schema.org',
+    '@graph': [
+        {
+            '@type': 'WebSite',
+            '@id': `${site}/#website`,
+            name: brand.name,
+            alternateName: 'Volmer',
+            url: `${site}/`,
+            inLanguage: ['es-ES', 'en-GB'],
+            publisher: { '@id': `${site}/#studio` },
+        },
+        {
     '@type': 'ProfessionalService',
+    '@id': `${site}/#studio`,
     name: brand.name,
     url: site,
     logo: `${site}/icon-512.png`,
@@ -64,9 +85,13 @@ const structuredData = {
         '@type': 'Person',
         name: brand.person,
         jobTitle: lang === 'es' ? 'Desarrollador de Software' : 'Software Developer',
-        sameAs: [brand.linkedin, brand.github],
+        url: brand.portfolio,
+        sameAs: [brand.portfolio, brand.linkedin, brand.github],
     },
+    hasMap: brand.maps,
     sameAs: [brand.maps, brand.linkedin, brand.github],
+        },
+    ],
 };
 ---
 
@@ -112,10 +137,9 @@ const structuredData = {
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={imageURL} />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <!-- Tipografía del kit: Outfit en titulares, Geist en texto y Geist Mono en etiquetas -->
-        <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Outfit:wght@300;600;700;800&display=swap" rel="stylesheet">
+        <link rel="preload" href={outfitLatin} as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin />
         <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
         <!--
           Activa las animaciones de scroll antes de pintar (src/scripts/motion.ts).

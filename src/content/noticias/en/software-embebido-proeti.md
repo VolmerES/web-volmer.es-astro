@@ -1,5 +1,6 @@
 ---
 title: "I now build embedded software for industrial machines too"
+seoTitle: "Embedded software for industrial machines | Volmer Studio"
 description: "Since June I have been programming the control system of PROETI's materials testing machines: firmware, embedded Linux and the machine interface."
 date: 2026-06-02
 tag: "Career"

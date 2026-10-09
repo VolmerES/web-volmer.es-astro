@@ -1,4 +1,12 @@
-<div id="cookie-banner" class="fixed bottom-0 right-0 z-50 p-4 md:p-6 w-full md:max-w-[28rem] pointer-events-none opacity-0 transition-all duration-500 transform translate-y-8" role="dialog" aria-modal="true">
+---
+import { getLangFromUrl, useTranslations, useRoutes } from '../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const r = useRoutes(lang);
+---
+
+<div id="cookie-banner" class="fixed bottom-0 right-0 z-50 p-4 md:p-6 w-full md:max-w-[28rem] pointer-events-none opacity-0 transition-all duration-500 transform translate-y-8" role="dialog" aria-modal="false" aria-labelledby="cookie-banner-title">
     <div class="pointer-events-auto bg-[#0f1115]/95 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl p-6 relative group overflow-hidden">
         <!-- Subtle gradient glow -->
         <div class="absolute -top-10 -right-10 w-32 h-32 bg-neon-cyan/5 rounded-full blur-[50px] transition-opacity group-hover:opacity-100"></div>
@@ -6,21 +14,20 @@
         <div class="relative z-10">
             <header class="flex items-center gap-3 mb-3">
                 <span class="text-xl">🍪</span>
-                <h2 class="text-lg font-bold text-white tracking-wide">Preferencias de Privacidad</h2>
+                <p id="cookie-banner-title" class="text-lg font-bold text-white tracking-wide">{t('cookies.title')}</p>
             </header>
             
             <p class="text-gray-400 text-xs leading-relaxed mb-6">
-                Utilizamos cookies para mejorar tu experiencia y analizar el tráfico del sitio. 
-                Respetamos tu privacidad y te damos el control sobre tus datos.
-                <a href="/politica-de-cookies" class="text-neon-cyan/80 hover:text-neon-cyan hover:underline ml-1 transition-colors">Leer política</a>.
+                {t('cookies.text')}
+                <a href={r.cookies} class="text-neon-cyan/80 hover:text-neon-cyan hover:underline ml-1 transition-colors">{t('cookies.read')}</a>.
             </p>
             
             <div class="grid grid-cols-2 gap-3">
                 <button id="reject-cookies" class="px-4 py-2 bg-transparent border border-white/10 text-gray-400 hover:text-white hover:border-white/30 text-xs font-medium rounded-lg transition-all duration-200">
-                    Rechazar
+                    {t('cookies.reject')}
                 </button>
                 <button id="accept-cookies" class="px-4 py-2 bg-gradient-to-r from-neon-cyan/20 to-blue-500/20 hover:from-neon-cyan/30 hover:to-blue-500/30 border border-neon-cyan/30 text-white text-xs font-bold rounded-lg shadow-[0_0_15px_rgba(5,217,232,0.1)] hover:shadow-[0_0_20px_rgba(5,217,232,0.25)] transition-all duration-200 transform active:scale-95">
-                    Aceptar Todo
+                    {t('cookies.accept')}
                 </button>
             </div>
         </div>

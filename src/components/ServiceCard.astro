@@ -4,12 +4,14 @@ import { accents } from '../data/accents';
 import type { Service } from '../data/services';
 
 interface Props {
+    /** Nivel del título: h2 en /servicios, donde las tarjetas cuelgan del h1. */
+    heading?: 'h2' | 'h3';
     service: Service;
     /** Muestra la lista de puntos incluidos. Se usa en /servicios, no en la home. */
     detailed?: boolean;
 }
 
-const { service, detailed = false } = Astro.props;
+const { service, detailed = false, heading: Heading = 'h3' } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const a = accents[service.accent];
@@ -37,9 +39,9 @@ const features = detailed
             </svg>
         </div>
 
-        <h3 class:list={["text-xl md:text-2xl font-heading font-bold mb-3 text-white transition-colors", a.textHover]}>
+        <Heading class:list={["text-xl md:text-2xl font-heading font-bold mb-3 text-white transition-colors", a.textHover]}>
             {t(`services.${service.key}.title` as Key)}
-        </h3>
+        </Heading>
 
         <p class="text-gray-400 leading-relaxed text-sm md:text-base">
             {t(`services.${service.key}.desc` as Key)}

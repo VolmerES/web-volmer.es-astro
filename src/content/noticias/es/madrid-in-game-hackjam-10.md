@@ -1,5 +1,6 @@
 ---
 title: "Ganamos la Madrid in Game HackJam 10 con Next Stop: Madrid"
+seoTitle: "Ganamos la Madrid in Game HackJam 10 | Volmer Studio"
 description: "Un videojuego para recorrer Madrid en autobús, hecho en 48 horas con la EMT en 42 Madrid. Ganó en su categoría."
 date: 2026-01-25
 tag: "Premio"

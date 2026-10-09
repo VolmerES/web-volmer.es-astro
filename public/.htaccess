@@ -1,3 +1,19 @@
+# ---- Un solo dominio ----
+# www.volmer.es respondía con la misma web (contenido duplicado para Google).
+# Ahora redirige con 301 a volmer.es, conservando la ruta.
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.volmer\.es$ [NC]
+RewriteRule ^(.*)$ https://volmer.es/$1 [R=301,L]
+
+# ---- Cabeceras de seguridad ----
+# HSTS sin includeSubDomains: hay subdominios (customer., juandelorme-portfolio.)
+# que se gestionan aparte.
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
 # Contenido personal mudado a juandelorme-portfolio.volmer.es.
 #
 # astro.config.mjs ya declara estas redirecciones, pero en un sitio estático

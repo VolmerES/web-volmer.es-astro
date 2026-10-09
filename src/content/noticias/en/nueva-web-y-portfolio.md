@@ -1,5 +1,6 @@
 ---
 title: "Volmer Studio launches a new website, and my portfolio moves out"
+seoTitle: "Volmer Studio launches a new website and portfolio"
 description: "volmer.es now focuses on what I do for businesses. My career, 42 and personal projects move to juandelorme-portfolio.volmer.es."
 date: 2026-10-09
 tag: "Launch"

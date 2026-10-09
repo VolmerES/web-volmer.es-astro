@@ -25,6 +25,8 @@ const noticias = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
+    /** Título para buscadores, de unos 60 caracteres con « | Volmer Studio». */
+    seoTitle: z.string().optional(),
     description: z.string(),
     date: z.coerce.date(),
     /** Etiqueta corta: Premio, Trayectoria, Lanzamiento, Certificación… */

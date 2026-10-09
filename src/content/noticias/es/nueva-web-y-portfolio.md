@@ -1,5 +1,6 @@
 ---
 title: "Volmer Studio estrena web, y mi portfolio se muda a su propia casa"
+seoTitle: "Volmer Studio estrena web y portfolio aparte"
 description: "volmer.es se centra en lo que hago para negocios. Mi trayectoria, 42 y los proyectos personales pasan a juandelorme-portfolio.volmer.es."
 date: 2026-10-09
 tag: "Lanzamiento"

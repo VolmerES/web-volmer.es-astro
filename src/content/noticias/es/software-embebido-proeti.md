@@ -1,5 +1,6 @@
 ---
 title: "Ahora también desarrollo software embebido para máquinas industriales"
+seoTitle: "Software embebido para máquinas industriales | Volmer Studio"
 description: "Desde junio programo el sistema de control de las máquinas de ensayo de materiales de PROETI: firmware, Linux embebido y la interfaz del equipo."
 date: 2026-06-02
 tag: "Trayectoria"
