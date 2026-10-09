@@ -1,0 +1,356 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-09T14:20:00Z"
+  },
+  "title": "Volmer Studio — Kit de marca",
+  "launch": {
+    "view": "canvas",
+    "page": "es"
+  },
+  "pages": [
+    {
+      "id": "es",
+      "name": "Español"
+    },
+    {
+      "id": "en",
+      "name": "English"
+    }
+  ],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 1180,
+      "title": "Hoja de marca",
+      "page": "es"
+    },
+    "Favicon.dc.html": {
+      "x": 0,
+      "y": 1560,
+      "w": 512,
+      "h": 512,
+      "title": "Favicon · 512 × 512",
+      "page": "es"
+    },
+    "FaviconSizes.dc.html": {
+      "x": 592,
+      "y": 1560,
+      "w": 960,
+      "h": 512,
+      "title": "Favicon · tamaños",
+      "page": "es"
+    },
+    "OpenGraph.dc.html": {
+      "x": 1632,
+      "y": 1560,
+      "w": 1200,
+      "h": 630,
+      "title": "volmer.es · imagen al compartir (1200 × 630)",
+      "page": "es"
+    },
+    "GoogleLogo.dc.html": {
+      "x": 0,
+      "y": 2570,
+      "w": 720,
+      "h": 720,
+      "title": "Google Business · logo (720 × 720)",
+      "page": "es"
+    },
+    "GoogleCover.dc.html": {
+      "x": 800,
+      "y": 2570,
+      "w": 1080,
+      "h": 608,
+      "title": "Google Business · portada (1080 × 608)",
+      "page": "es"
+    },
+    "GooglePost.dc.html": {
+      "x": 1960,
+      "y": 2570,
+      "w": 1200,
+      "h": 900,
+      "title": "Google Business · publicación A: plantilla tachada (1200 × 900)",
+      "page": "es"
+    },
+    "LinkedInLogo.dc.html": {
+      "x": 0,
+      "y": 3850,
+      "w": 400,
+      "h": 400,
+      "title": "LinkedIn · logo (400 × 400)",
+      "page": "es"
+    },
+    "LinkedInCover.dc.html": {
+      "x": 480,
+      "y": 3850,
+      "w": 1128,
+      "h": 191,
+      "title": "LinkedIn · portada de página (1128 × 191)",
+      "page": "es"
+    },
+    "LinkedInPost.dc.html": {
+      "x": 1688,
+      "y": 3850,
+      "w": 1200,
+      "h": 627,
+      "title": "LinkedIn · publicación (1200 × 627)",
+      "page": "es"
+    },
+    "EmailSignature.dc.html": {
+      "x": 0,
+      "y": 4857,
+      "w": 600,
+      "h": 200,
+      "title": "Firma de correo (600 × 200)",
+      "page": "es"
+    },
+    "BusinessCardFront.dc.html": {
+      "x": 680,
+      "y": 4857,
+      "w": 344,
+      "h": 231,
+      "title": "Tarjeta · cara · 85 × 55 mm estándar (archivo con 3 mm de sangrado: 91 × 61)",
+      "page": "es",
+      "guides": [
+        {
+          "kind": "columns",
+          "count": 1,
+          "gutter": 0,
+          "margin": 11,
+          "color": "rgba(255,42,109,0.35)"
+        },
+        {
+          "kind": "rows",
+          "count": 1,
+          "gutter": 0,
+          "margin": 11,
+          "color": "rgba(255,42,109,0.35)"
+        }
+      ]
+    },
+    "BusinessCardBack.dc.html": {
+      "x": 1104,
+      "y": 4857,
+      "w": 344,
+      "h": 231,
+      "title": "Tarjeta · dorso · 85 × 55 mm estándar (archivo con 3 mm de sangrado)",
+      "page": "es",
+      "guides": [
+        {
+          "kind": "columns",
+          "count": 1,
+          "gutter": 0,
+          "margin": 11,
+          "color": "rgba(255,42,109,0.35)"
+        },
+        {
+          "kind": "rows",
+          "count": 1,
+          "gutter": 0,
+          "margin": 11,
+          "color": "rgba(255,42,109,0.35)"
+        }
+      ]
+    },
+    "OpenGraph-en.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1200,
+      "h": 630,
+      "title": "volmer.es/en · share image (1200 × 630)",
+      "page": "en"
+    },
+    "GoogleCover-en.dc.html": {
+      "x": 1280,
+      "y": 0,
+      "w": 1080,
+      "h": 608,
+      "title": "Google Business · cover (1080 × 608)",
+      "page": "en"
+    },
+    "GooglePost-en.dc.html": {
+      "x": 2440,
+      "y": 0,
+      "w": 1200,
+      "h": 900,
+      "title": "Google Business · post A: crossed-out template (1200 × 900)",
+      "page": "en"
+    },
+    "LinkedInCover-en.dc.html": {
+      "x": 0,
+      "y": 1280,
+      "w": 1128,
+      "h": 191,
+      "title": "LinkedIn · page cover (1128 × 191)",
+      "page": "en"
+    },
+    "LinkedInPost-en.dc.html": {
+      "x": 1208,
+      "y": 1280,
+      "w": 1200,
+      "h": 627,
+      "title": "LinkedIn · post (1200 × 627)",
+      "page": "en"
+    },
+    "EmailSignature-en.dc.html": {
+      "x": 0,
+      "y": 2287,
+      "w": 600,
+      "h": 200,
+      "title": "Email signature (600 × 200)",
+      "page": "en"
+    },
+    "BusinessCardFront-en.dc.html": {
+      "x": 680,
+      "y": 2287,
+      "w": 344,
+      "h": 231,
+      "title": "Business card · front · standard 85 × 55 mm (file with 3 mm bleed: 91 × 61)",
+      "page": "en",
+      "guides": [
+        {
+          "kind": "columns",
+          "count": 1,
+          "gutter": 0,
+          "margin": 11,
+          "color": "rgba(255,42,109,0.35)"
+        },
+        {
+          "kind": "rows",
+          "count": 1,
+          "gutter": 0,
+          "margin": 11,
+          "color": "rgba(255,42,109,0.35)"
+        }
+      ]
+    },
+    "BusinessCardBack-en.dc.html": {
+      "x": 1104,
+      "y": 2287,
+      "w": 344,
+      "h": 231,
+      "title": "Business card · back · standard 85 × 55 mm (file with 3 mm bleed)",
+      "page": "en",
+      "guides": [
+        {
+          "kind": "columns",
+          "count": 1,
+          "gutter": 0,
+          "margin": 11,
+          "color": "rgba(255,42,109,0.35)"
+        },
+        {
+          "kind": "rows",
+          "count": 1,
+          "gutter": 0,
+          "margin": 11,
+          "color": "rgba(255,42,109,0.35)"
+        }
+      ]
+    },
+    "GooglePostB.dc.html": {
+      "x": 3240,
+      "y": 2570,
+      "w": 1200,
+      "h": 900,
+      "title": "Google Business · publicación B: corrección (1200 × 900)",
+      "page": "es"
+    },
+    "GooglePostB-en.dc.html": {
+      "x": 3720,
+      "y": 0,
+      "w": 1200,
+      "h": 900,
+      "title": "Google Business · post B: proofreading fix (1200 × 900)",
+      "page": "en"
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Favicon.dc.html",
+    "FaviconSizes.dc.html",
+    "OpenGraph.dc.html",
+    "GoogleLogo.dc.html",
+    "GoogleCover.dc.html",
+    "GooglePost.dc.html",
+    "GooglePostB.dc.html",
+    "LinkedInLogo.dc.html",
+    "LinkedInCover.dc.html",
+    "LinkedInPost.dc.html",
+    "EmailSignature.dc.html",
+    "BusinessCardFront.dc.html",
+    "BusinessCardBack.dc.html",
+    "OpenGraph-en.dc.html",
+    "GoogleCover-en.dc.html",
+    "GooglePost-en.dc.html",
+    "GooglePostB-en.dc.html",
+    "LinkedInCover-en.dc.html",
+    "LinkedInPost-en.dc.html",
+    "EmailSignature-en.dc.html",
+    "BusinessCardFront-en.dc.html",
+    "BusinessCardBack-en.dc.html"
+  ],
+  "notes": {
+    "rowWeb": {
+      "x": 0,
+      "y": 1300,
+      "text": "Favicon y web",
+      "kind": "title1",
+      "maxW": 2832,
+      "page": "es"
+    },
+    "rowGoogle": {
+      "x": 0,
+      "y": 2310,
+      "text": "Google Business",
+      "kind": "title1",
+      "maxW": 4440,
+      "page": "es"
+    },
+    "rowLinkedIn": {
+      "x": 0,
+      "y": 3590,
+      "text": "LinkedIn",
+      "kind": "title1",
+      "maxW": 2888,
+      "page": "es"
+    },
+    "rowPrint": {
+      "x": 0,
+      "y": 4597,
+      "text": "Correo y tarjeta de visita",
+      "kind": "title1",
+      "maxW": 1448,
+      "page": "es"
+    },
+    "enWeb": {
+      "x": 0,
+      "y": -260,
+      "text": "Web and Google Business",
+      "kind": "title1",
+      "maxW": 4920,
+      "page": "en"
+    },
+    "enLinkedIn": {
+      "x": 0,
+      "y": 1020,
+      "text": "LinkedIn",
+      "kind": "title1",
+      "maxW": 2408,
+      "page": "en"
+    },
+    "enPrint": {
+      "x": 0,
+      "y": 2027,
+      "text": "Email and business card",
+      "kind": "title1",
+      "maxW": 1448,
+      "page": "en"
+    }
+  },
+  "designSystems": []
+}

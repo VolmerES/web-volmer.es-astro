@@ -1,0 +1,81 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/ui';
+import { accents } from '../data/accents';
+import type { Project } from '../data/projects';
+
+interface Props {
+    project: Project;
+    /** Muestra el resultado del proyecto y la pila técnica. Se usa en /proyectos. */
+    detailed?: boolean;
+}
+
+const { project, detailed = false } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const a = accents[project.color];
+
+const external = project.external
+    ? { target: '_blank', rel: 'noopener noreferrer' }
+    : {};
+---
+
+<a
+    href={project.link}
+    {...external}
+    class:list={[
+        "group flex flex-col h-full bg-[#111] rounded-xl border border-white/5 overflow-hidden transition-all duration-300 hover:bg-white/[0.03] hover:-translate-y-1",
+        a.borderHover,
+        a.glow,
+    ]}
+>
+    <!-- Preview -->
+    <div class="relative h-40 md:h-44 bg-gray-900 overflow-hidden shrink-0 border-b border-white/5">
+        <img
+            src={project.image}
+            alt={project.title}
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 w-full h-full object-cover object-top opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent"></div>
+    </div>
+
+    <!-- Body -->
+    <div class="flex flex-col flex-grow p-5">
+        <p class:list={["text-[10px] font-bold uppercase tracking-widest mb-2", a.text]}>
+            {project.kind[lang]}
+        </p>
+        <h3 class:list={["font-heading font-bold text-white mb-2 transition-colors", detailed ? "text-xl" : "text-base", a.textHover]}>
+            {project.title}
+        </h3>
+        <p class="text-sm text-gray-400 leading-relaxed">
+            {project.description[lang]}
+        </p>
+
+        {detailed && (
+            <p class="text-xs text-gray-500 leading-relaxed mt-3 pt-3 border-t border-white/5">
+                {project.outcome[lang]}
+            </p>
+        )}
+
+        {detailed && (
+            <div class="flex flex-wrap gap-1.5 mt-4">
+                {project.tech.map((item) => (
+                    <span class:list={["text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded border", a.chip]}>
+                        {item}
+                    </span>
+                ))}
+            </div>
+        )}
+
+        <span
+            class:list={[
+                "mt-auto pt-4 inline-flex items-center gap-1.5 text-xs font-bold transition-colors text-gray-500",
+                a.textHover,
+            ]}
+        >
+            {project.external ? t('cta.viewSite') : t('cta.viewCase')}
+            <span class="group-hover:translate-x-1 transition-transform">→</span>
+        </span>
+    </div>
+</a>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Favicon 512</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 512px; height: 512px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; background: transparent">
+  <div style="width: 512px; height: 512px; border-radius: {{radius}}px; background: #0A0A0A; box-sizing: border-box; border: 6px solid rgba(5,217,232,0.30); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden">
+    <div style="position: absolute; width: 360px; height: 360px; right: -140px; top: -150px; border-radius: 50%; background: radial-gradient(circle, rgba(5,217,232,0.22), rgba(5,217,232,0) 70%)"></div>
+    <span style="position: relative; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 340px; line-height: 1; letter-spacing: -0.05em; color: #F4F4F5; margin-top: -18px">V<span style="color: #FF2A6D">.</span></span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"radius":{"editor":"range","default":112,"min":0,"max":256,"step":4,"unit":"px"},"$preview":{"width":512,"height":512}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { radius: this.props.radius ?? 112 };
+  }
+}
+</script>
+</body>
+</html>

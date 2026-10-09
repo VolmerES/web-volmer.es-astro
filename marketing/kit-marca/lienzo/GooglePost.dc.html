@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Google Business · publicación A, plantilla tachada</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@500&amp;family=Outfit:wght@800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<!-- Arriba, una plantilla genérica a propósito (gris, Arial, «tu logo aquí»), tachada. Abajo, la marca. -->
+<div style="width: 1200px; height: 900px; box-sizing: border-box; background: #0A0A0A; color: #F4F4F5; font-family: 'Geist', system-ui, sans-serif; display: flex; flex-direction: column; position: relative; overflow: hidden">
+
+  <!-- La plantilla -->
+  <div style="height: 560px; box-sizing: border-box; padding: 48px 64px 0; background: #D4D4D8; position: relative; overflow: hidden">
+    <div style="height: 100%; background: #F4F4F5; border-radius: 12px 12px 0 0; box-shadow: 0 10px 40px rgba(0,0,0,0.12); font-family: Arial, Helvetica, sans-serif; color: #52525B; display: flex; flex-direction: column; overflow: hidden">
+      <div style="display: flex; align-items: center; gap: 8px; padding: 14px 18px; background: #E4E4E7">
+        <span style="width: 12px; height: 12px; border-radius: 50%; background: #A1A1AA"></span>
+        <span style="width: 12px; height: 12px; border-radius: 50%; background: #A1A1AA"></span>
+        <span style="width: 12px; height: 12px; border-radius: 50%; background: #A1A1AA"></span>
+        <span style="margin-left: 16px; padding: 5px 16px; border-radius: 6px; background: #F4F4F5; font-size: 14px; color: #71717A">www.tunegocio.com</span>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 22px 40px; border-bottom: 1px solid #E4E4E7">
+        <span style="padding: 8px 18px; border: 2px dashed #A1A1AA; font-size: 15px; font-weight: 700; color: #71717A">TU LOGO AQUÍ</span>
+        <span style="font-size: 15px; color: #71717A">Inicio &nbsp; · &nbsp; Servicios &nbsp; · &nbsp; Sobre nosotros &nbsp; · &nbsp; Contacto</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; padding: 36px 40px; flex-grow: 1">
+        <div style="display: flex; flex-direction: column; gap: 16px">
+          <span style="font-size: 40px; font-weight: 700; color: #3F3F46; line-height: 1.1">Título de ejemplo para tu web</span>
+          <span style="font-size: 17px; line-height: 1.5; color: #71717A">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</span>
+          <span style="align-self: flex-start; padding: 12px 26px; border-radius: 4px; background: #3B82F6; color: #FFFFFF; font-size: 16px">Saber más</span>
+        </div>
+        <div style="border-radius: 8px; background: #E4E4E7; position: relative; overflow: hidden">
+          <div style="position: absolute; left: -20%; top: 50%; width: 140%; height: 2px; background: #A1A1AA; transform: rotate(32deg)"></div>
+          <div style="position: absolute; left: -20%; top: 50%; width: 140%; height: 2px; background: #A1A1AA; transform: rotate(-32deg)"></div>
+          <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 6px 12px; background: #E4E4E7; font-size: 14px; color: #71717A">Imagen 800 × 600</span>
+        </div>
+      </div>
+    </div>
+    <!-- El tachón -->
+    <div style="position: absolute; left: -40px; right: -40px; top: 268px; height: 26px; background: #FF2A6D; transform: rotate(-9deg); box-shadow: 0 0 40px rgba(255,42,109,0.45)"></div>
+  </div>
+
+  <!-- La marca -->
+  <div style="flex-grow: 1; box-sizing: border-box; padding: 40px 64px 44px; display: flex; flex-direction: column; justify-content: space-between; background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 24px 24px">
+    <h1 style="margin: 0; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 64px; letter-spacing: -0.03em; line-height: 1">Tu negocio merece algo mejor que una <span style="color: #FF2A6D">plantilla.</span></h1>
+    <div style="display: flex; align-items: center; justify-content: space-between">
+      <div style="display: flex; align-items: baseline; gap: 10px">
+        <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.03em; line-height: 1">VOLMER<span style="color: #FF2A6D">.</span></span>
+        <span style="font-family: 'Geist Mono', monospace; font-weight: 500; font-size: 11px; letter-spacing: 0.42em; color: #05D9E8">STUDIO</span>
+      </div>
+      <span style="padding: 16px 28px; border-radius: 999px; background: #05D9E8; color: #0A0A0A; font-weight: 600; font-size: 22px">Pide presupuesto en volmer.es</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

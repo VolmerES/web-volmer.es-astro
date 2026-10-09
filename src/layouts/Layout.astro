@@ -5,62 +5,124 @@ import Footer from '../components/Footer.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import { ClientRouter } from 'astro:transitions';
+import { getLangFromUrl, getAlternateUrl, brand } from '../i18n/ui';
 
 interface Props {
 	title: string;
-    showBackground?: boolean;
     description?: string;
+    image?: string;
+    noindex?: boolean;
 }
 
-const { title, description = "Juan Bautista Volmer - Software Engineer Portfolio" } = Astro.props;
-
-import { getLangFromUrl } from '../i18n/ui';
 const lang = getLangFromUrl(Astro.url);
+
+const defaultDescription = lang === 'es'
+    ? 'Desarrollo web y aplicaciones móviles a medida. Trabajas directamente con el desarrollador: webs rápidas, tiendas online y apps Flutter para tu negocio.'
+    : 'Custom web and mobile development. You work directly with the developer: fast websites, online stores and Flutter apps for your business.';
+
+// Imagen al compartir: la del kit de marca (marketing/), una por idioma.
+const defaultImage = lang === 'es' ? '/og-image.png' : '/og-image-en.png';
+
+const {
+    title,
+    description = defaultDescription,
+    image = defaultImage,
+    noindex = false,
+} = Astro.props;
 
 const site = 'https://volmer.es';
 const pathname = Astro.url.pathname;
 const canonicalURL = site + pathname;
-const isEnglish = pathname.startsWith('/en/') || pathname === '/en';
-const isExamrank = pathname.includes('examrank06');
-const esPath = isEnglish ? (pathname.replace(/^\/en/, '') || '/') : pathname;
-const enPath = isEnglish ? pathname : '/en' + pathname;
-const esURL = site + esPath;
-const enURL = site + enPath;
+
+// La ruta equivalente en el otro idioma, respetando los slugs traducidos.
+const alternatePath = getAlternateUrl(pathname, lang);
+const esURL = site + (lang === 'es' ? pathname : alternatePath);
+const enURL = site + (lang === 'en' ? pathname : alternatePath);
+const imageURL = new URL(image, site).href;
+const imageIsDefault = image === defaultImage;
+
+// Datos para Google: el estudio y quién está detrás.
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    name: brand.name,
+    url: site,
+    logo: `${site}/icon-512.png`,
+    image: `${site}/og-image.png`,
+    description: defaultDescription,
+    email: brand.email,
+    telephone: brand.phone,
+    address: { '@type': 'PostalAddress', addressLocality: 'Madrid', addressCountry: 'ES' },
+    areaServed: 'ES',
+    founder: {
+        '@type': 'Person',
+        name: brand.person,
+        jobTitle: lang === 'es' ? 'Desarrollador de Software' : 'Software Developer',
+        sameAs: [brand.linkedin, brand.github],
+    },
+    sameAs: [brand.maps, brand.linkedin, brand.github],
+};
 ---
 
 <!doctype html>
 <html lang={lang} class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<meta name="description" content={description} />
+		<!-- Favicon del kit de marca (marketing/exportaciones/web) -->
+		<link rel="icon" href="/favicon.ico" sizes="48x48" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="theme-color" content="#0A0A0A" />
+		<meta name="generator" content={Astro.generator} />
 		<link rel="canonical" href={canonicalURL} />
-		{!isExamrank && (
-			<>
-				<link rel="alternate" hreflang="es" href={esURL} />
-				<link rel="alternate" hreflang="en" href={enURL} />
-				<link rel="alternate" hreflang="x-default" href={esURL} />
-			</>
-		)}
+		{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+		<link rel="alternate" hreflang="es" href={esURL} />
+		<link rel="alternate" hreflang="en" href={enURL} />
+		<link rel="alternate" hreflang="x-default" href={esURL} />
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={brand.name} />
+		<meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={imageURL} />
+		{imageIsDefault && <meta property="og:image:width" content="1200" />}
+		{imageIsDefault && <meta property="og:image:height" content="630" />}
+		<meta property="og:image:alt" content={lang === 'es' ? 'Volmer Studio: transformando tu visión en código' : 'Volmer Studio: turning your vision into code'} />
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={imageURL} />
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+        <!-- Tipografía del kit: Outfit en titulares, Geist en texto y Geist Mono en etiquetas -->
+        <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Outfit:wght@300;600;700;800&display=swap" rel="stylesheet">
+        <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
         <ClientRouter />
 	</head>
 	<body class="bg-dark-bg text-white overflow-x-hidden selection:bg-neon-pink selection:text-white flex flex-col min-h-screen">
-        
+
         <!-- Background Elements -->
         <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
             <!-- Grid -->
             <div class="absolute inset-0 bg-[linear-gradient(rgba(5,217,232,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(5,217,232,0.015)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
-            
+
             <!-- Glow spots -->
             <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-deep-purple/20 blur-[100px] animate-float"></div>
             <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-neon-pink/8 blur-[100px] animate-float" style="animation-delay: -3s;"></div>
-            
+
             <!-- Mouse Spotlight (Managed by JS) -->
             <div id="spotlight" class="absolute inset-0 bg-[radial-gradient(circle_at_var(--x,_50%)_var(--y,_50%),rgba(5,217,232,0.05),transparent_25%)] opacity-0 transition-opacity duration-500"></div>
         </div>
@@ -75,14 +137,14 @@ const enURL = site + enPath;
 
         <script>
             const spotlight = document.getElementById('spotlight');
-            
+
             if (spotlight) {
                 document.addEventListener('mousemove', (e) => {
                     spotlight.style.opacity = '1';
                     spotlight.style.setProperty('--x', `${e.clientX}px`);
                     spotlight.style.setProperty('--y', `${e.clientY}px`);
                 });
-                
+
                 document.addEventListener('mouseleave', () => {
                     spotlight.style.opacity = '0';
                 });

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LinkedIn · page cover</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500&amp;family=Outfit:wght@800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<!-- LinkedIn places the page logo over the bottom-left corner: that area stays empty -->
+<div style="width: 1128px; height: 191px; box-sizing: border-box; padding: 0 56px 0 300px; background: #0A0A0A; color: #F4F4F5; display: flex; align-items: center; justify-content: space-between; gap: 32px; position: relative; overflow: hidden; background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 20px 20px">
+  <div style="position: absolute; width: 520px; height: 520px; right: -120px; top: -300px; border-radius: 50%; background: radial-gradient(circle, rgba(50,10,92,0.95), rgba(10,10,10,0) 66%)"></div>
+  <div style="position: absolute; width: 360px; height: 360px; left: 120px; top: -120px; border-radius: 50%; background: radial-gradient(circle, rgba(5,217,232,0.14), rgba(10,10,10,0) 65%)"></div>
+  <img src="/_blob/31ffa674e93b6f16324715e061baa091" alt="" style="position: absolute; left: 118px; top: 22px; width: 150px; height: auto">
+
+  <div style="display: flex; flex-direction: column; gap: 10px; position: relative">
+    <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 40px; letter-spacing: -0.025em; line-height: 1">Turning your vision <span style="color: #05D9E8">into code<span style="color: #FF2A6D">.</span></span></span>
+    <span style="font-family: 'Geist Mono', monospace; font-weight: 500; font-size: 13px; letter-spacing: 0.26em; color: #A1A1AA">WEBSITES · APPS · EMBEDDED SOFTWARE · DRONES</span>
+  </div>
+  <span style="position: relative; font-family: 'Geist Mono', monospace; font-weight: 500; font-size: 18px; color: #05D9E8">volmer.es</span>
+
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: linear-gradient(90deg, #05D9E8, #FF2A6D)"></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1128,"height":191}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
