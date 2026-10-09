@@ -4,31 +4,66 @@ import { getLangFromUrl, useTranslations } from '../i18n/ui';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
+/**
+ * Los cuatro pasos se encienden en orden según bajas: la línea avanza y cada
+ * paso se ilumina cuando ella llega (--p lo calcula src/scripts/motion.ts; sin
+ * JavaScript vale 1 y salen todos encendidos). Las clases van enteras, porque
+ * Tailwind solo genera las que encuentra escritas tal cual.
+ */
 const steps = [
-    { n: 1, title: t('process.s1.title'), desc: t('process.s1.desc'), ring: 'border-neon-cyan/50 text-neon-cyan', fill: 'group-hover:bg-neon-cyan' },
-    { n: 2, title: t('process.s2.title'), desc: t('process.s2.desc'), ring: 'border-neon-pink/50 text-neon-pink', fill: 'group-hover:bg-neon-pink' },
-    { n: 3, title: t('process.s3.title'), desc: t('process.s3.desc'), ring: 'border-purple-500/50 text-purple-400', fill: 'group-hover:bg-purple-500' },
-    { n: 4, title: t('process.s4.title'), desc: t('process.s4.desc'), ring: 'border-yellow-400/50 text-yellow-400', fill: 'group-hover:bg-yellow-400' },
+    { title: t('process.s1.title'), desc: t('process.s1.desc'), lit: 'border-neon-cyan text-neon-cyan bg-neon-cyan/10 shadow-[0_0_24px_rgba(5,217,232,0.35)]' },
+    { title: t('process.s2.title'), desc: t('process.s2.desc'), lit: 'border-neon-pink text-neon-pink bg-neon-pink/10 shadow-[0_0_24px_rgba(255,42,109,0.35)]' },
+    { title: t('process.s3.title'), desc: t('process.s3.desc'), lit: 'border-purple-400 text-purple-300 bg-purple-500/10 shadow-[0_0_24px_rgba(168,85,247,0.35)]' },
+    { title: t('process.s4.title'), desc: t('process.s4.desc'), lit: 'border-yellow-400 text-yellow-400 bg-yellow-400/10 shadow-[0_0_24px_rgba(250,204,21,0.3)]' },
 ];
 ---
 
-<div class="flex flex-col md:flex-row justify-between gap-8 relative">
-    <!-- Línea conectora -->
-    <div class="hidden md:block absolute top-8 left-[12%] right-[12%] h-px bg-gradient-to-r from-neon-cyan/30 via-purple-500/30 to-yellow-400/30 z-0"></div>
+<div data-scroll-p="enter" class="process relative grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8">
+    <!-- La línea: horizontal en escritorio, vertical en móvil -->
+    <div aria-hidden="true" class="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-white/10">
+        <div class="process-line-x h-full origin-left bg-gradient-to-r from-neon-cyan via-neon-pink via-60% to-yellow-400"></div>
+    </div>
+    <div aria-hidden="true" class="md:hidden absolute left-8 top-8 bottom-8 w-px bg-white/10">
+        <div class="process-line-y w-full h-full origin-top bg-gradient-to-b from-neon-cyan via-neon-pink via-60% to-yellow-400"></div>
+    </div>
 
-    {steps.map(({ n, title, desc, ring, fill }) => (
-        <div class="relative z-10 flex-1 text-center group">
-            <div
-                class:list={[
-                    "w-16 h-16 mx-auto bg-dark-bg border rounded-full flex items-center justify-center text-xl font-bold font-heading mb-4 transition-colors duration-300 group-hover:text-dark-bg",
-                    ring,
-                    fill,
-                ]}
-            >
-                {n}
+    {steps.map(({ title, desc, lit }, i) => (
+        <div class="process-step relative z-10 flex md:flex-col items-start md:items-center gap-5 md:gap-0 md:text-center" style={`--i: ${i}`}>
+            <div class="relative w-16 h-16 shrink-0 md:mx-auto md:mb-4">
+                <div class="absolute inset-0 rounded-full bg-dark-bg border border-white/15 flex items-center justify-center text-xl font-bold font-heading text-gray-600">
+                    {i + 1}
+                </div>
+                <div class:list={["process-dot absolute inset-0 rounded-full border flex items-center justify-center text-xl font-bold font-heading", lit]}>
+                    {i + 1}
+                </div>
             </div>
-            <h3 class="text-lg font-bold mb-2 text-white">{title}</h3>
-            <p class="text-sm text-gray-400 leading-relaxed max-w-[16rem] mx-auto">{desc}</p>
+            <div class="process-text pt-3 md:pt-0">
+                <h3 class="text-lg font-bold mb-2 text-white">{title}</h3>
+                <p class="text-sm text-gray-400 leading-relaxed md:max-w-[16rem] md:mx-auto">{desc}</p>
+            </div>
         </div>
     ))}
 </div>
+
+<style>
+    /* Cada paso se enciende en su tramo: 0, 0,3, 0,6 y 0,9 de --p. */
+    .process {
+        --p: 1;
+    }
+    .process-line-x {
+        scale: min(1, calc(var(--p) / 0.9)) 1;
+    }
+    .process-line-y {
+        scale: 1 min(1, calc(var(--p) / 0.9));
+    }
+    .process-step {
+        --on: clamp(0, calc((var(--p) - var(--i) * 0.3) * 10), 1);
+    }
+    .process-dot {
+        opacity: var(--on);
+        scale: calc(0.85 + var(--on) * 0.15);
+    }
+    .process-text {
+        opacity: calc(0.35 + var(--on) * 0.65);
+    }
+</style>

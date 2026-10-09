@@ -52,6 +52,7 @@ export const ui = {
     "nav.about": "SOBRE MÍ",
     "nav.blog": "BLOG",
     "nav.contact": "CONTACTO",
+    "nav.news": "NOTICIAS",
 
     // ---------- CTAs ----------
     "cta.quote": "SOLICITAR PRESUPUESTO",
@@ -91,10 +92,13 @@ export const ui = {
     "home.cred.drone.title": "Piloto de dron",
     "home.cred.drone.desc": "Licencia oficial A1/A3",
     "home.manifesto1": "Tu negocio merece",
-    "home.manifesto2": "algo mejor que una plantilla.",
+    "home.manifesto2": "algo mejor que una",
+    "home.manifestoStrike": "plantilla",
+    "home.manifestoTag": "// manifiesto",
+    "home.manifestoTyped": "hecho a medida, desde cero.",
     "home.manifestoText":
       "Nada de temas comprados ni webs clonadas. Cada proyecto se diseña y se programa desde cero pensando en tu negocio, en cómo trabajas y en quién te compra.",
-    "home.manifestoWords": "A medida · Trato directo · Sin plantillas · Programado desde cero · Me quedo después del lanzamiento ·",
+    "home.principles": "Trato directo|Diseño propio|Programado desde cero|Me quedo después del lanzamiento",
     "home.stat1": "proyectos entregados",
     "home.stat2": "en {n} reseñas de Google",
     "home.stat3": "trato directo, sin intermediarios",
@@ -110,6 +114,8 @@ export const ui = {
     "home.processTitle": "Del primer mensaje a la web publicada",
     "home.blogTag": "Blog",
     "home.blogTitle": "Últimas publicaciones",
+    "home.newsTag": "Noticias",
+    "home.newsTitle": "Lo último del estudio",
     "home.blogEmpty": "Estoy preparando los primeros artículos. Vuelve pronto.",
     "home.finalTitle": "¿Hablamos de tu proyecto?",
     "home.formEmail": "Tu email",
@@ -266,6 +272,10 @@ export const ui = {
     "reviews.title": "Lo que dicen mis clientes",
     "reviews.maps": "Ver en Google Maps ↗",
     "reviews.verified": "Cliente verificado",
+    "reviews.prev": "Reseña anterior",
+    "reviews.next": "Reseña siguiente",
+    "reviews.pause": "Pausar las reseñas",
+    "reviews.play": "Reanudar las reseñas",
 
     // ---------- Blog ----------
     "blog.title": "Blog",
@@ -276,6 +286,22 @@ export const ui = {
       "Estoy preparando los primeros. Mientras tanto, si tienes una duda concreta sobre tu proyecto, escríbeme y te respondo.",
 
     // ---------- Footer ----------
+    "news.tag": "Noticias",
+    "news.title1": "Lo último",
+    "news.title2": "del estudio.",
+    "news.subtitle": "Premios, proyectos y novedades de Volmer Studio. Lo cuento también en LinkedIn, por si prefieres seguirlo allí.",
+    "news.metaTitle": "Noticias | Volmer Studio",
+    "news.metaDescription": "Premios, proyectos y novedades de Volmer Studio, el estudio de desarrollo web y apps a medida de Juan Bautista Delorme en Madrid.",
+    "news.follow": "Seguir en LinkedIn",
+    "news.back": "Todas las noticias",
+    "news.readMore": "Leer la noticia",
+    "news.linkedinPost": "Comentar en LinkedIn",
+    "news.links": "Enlaces",
+    "news.more": "Más noticias",
+    "news.rss": "RSS",
+    "recognitions.title": "Reconocimientos",
+    "recognitions.subtitle": "Premios y certificaciones que he ido sumando por el camino.",
+    "recognitions.tag": "Trayectoria",
     "footer.tagline": "Desarrollo web y móvil a medida.",
     "footer.servicesTitle": "Servicios",
     "footer.siteTitle": "Web",
@@ -293,6 +319,7 @@ export const ui = {
     "nav.about": "ABOUT",
     "nav.blog": "BLOG",
     "nav.contact": "CONTACT",
+    "nav.news": "NEWS",
 
     // ---------- CTAs ----------
     "cta.quote": "REQUEST A QUOTE",
@@ -332,10 +359,13 @@ export const ui = {
     "home.cred.drone.title": "Drone pilot",
     "home.cred.drone.desc": "Official A1/A3 licence",
     "home.manifesto1": "Your business deserves",
-    "home.manifesto2": "better than a template.",
+    "home.manifesto2": "better than a",
+    "home.manifestoStrike": "template",
+    "home.manifestoTag": "// manifesto",
+    "home.manifestoTyped": "custom-built, from scratch.",
     "home.manifestoText":
       "No bought themes, no cloned sites. Every project is designed and coded from scratch around your business, the way you work and the people who buy from you.",
-    "home.manifestoWords": "Custom-built · Direct contact · No templates · Coded from scratch · I stay after launch ·",
+    "home.principles": "Direct contact|Original design|Coded from scratch|I stay after launch",
     "home.stat1": "projects delivered",
     "home.stat2": "across {n} Google reviews",
     "home.stat3": "direct contact, no middlemen",
@@ -351,6 +381,8 @@ export const ui = {
     "home.processTitle": "From first message to live site",
     "home.blogTag": "Blog",
     "home.blogTitle": "Latest posts",
+    "home.newsTag": "News",
+    "home.newsTitle": "Latest from the studio",
     "home.blogEmpty": "First articles coming soon. Check back shortly.",
     "home.finalTitle": "Shall we talk about your project?",
     "home.formEmail": "Your email",
@@ -507,6 +539,10 @@ export const ui = {
     "reviews.title": "What my clients say",
     "reviews.maps": "View on Google Maps ↗",
     "reviews.verified": "Verified client",
+    "reviews.prev": "Previous review",
+    "reviews.next": "Next review",
+    "reviews.pause": "Pause reviews",
+    "reviews.play": "Resume reviews",
 
     // ---------- Blog ----------
     "blog.title": "Blog",
@@ -517,6 +553,22 @@ export const ui = {
       "The first ones are on the way. In the meantime, if you have a specific question about your project, write to me and I'll answer.",
 
     // ---------- Footer ----------
+    "news.tag": "News",
+    "news.title1": "Latest",
+    "news.title2": "from the studio.",
+    "news.subtitle": "Awards, projects and updates from Volmer Studio. I share them on LinkedIn too, if you would rather follow along there.",
+    "news.metaTitle": "News | Volmer Studio",
+    "news.metaDescription": "Awards, projects and updates from Volmer Studio, the custom web and app development studio of Juan Bautista Delorme in Madrid.",
+    "news.follow": "Follow on LinkedIn",
+    "news.back": "All news",
+    "news.readMore": "Read the story",
+    "news.linkedinPost": "Comment on LinkedIn",
+    "news.links": "Links",
+    "news.more": "More news",
+    "news.rss": "RSS",
+    "recognitions.title": "Recognition",
+    "recognitions.subtitle": "Awards and certifications collected along the way.",
+    "recognitions.tag": "Track record",
     "footer.tagline": "Custom web and mobile development.",
     "footer.servicesTitle": "Services",
     "footer.siteTitle": "Site",
@@ -561,6 +613,7 @@ export const routes = {
     about: "/sobre-mi",
     contact: "/contacto",
     blog: "/blog",
+    news: "/noticias",
     privacy: "/politica-privacidad",
     cookies: "/politica-de-cookies",
     swipeApp: "/swipe-gallery-app",
@@ -573,6 +626,7 @@ export const routes = {
     about: "/en/about",
     contact: "/en/contact",
     blog: "/en/blog",
+    news: "/en/news",
     privacy: "/en/privacy-policy",
     cookies: "/en/cookie-policy",
     swipeApp: "/en/swipe-gallery-app",
@@ -601,6 +655,12 @@ export function getAlternateUrl(pathname: string, lang: keyof typeof ui) {
   const blogMatch = pathname.match(/^\/(?:en\/)?blog\/(.+)$/);
   if (blogMatch) {
     return `${to.blog}/${blogMatch[1]}`;
+  }
+
+  // Noticias: mismo slug en los dos idiomas (/noticias/slug <-> /en/news/slug)
+  const newsMatch = pathname.match(/^\/(?:noticias|en\/news)\/(.+)$/);
+  if (newsMatch) {
+    return `${to.news}/${newsMatch[1]}`;
   }
 
   return to.home;
