@@ -1,0 +1,41 @@
+---
+import { getLangFromUrl, useTranslations, useRoutes, brand } from '../../i18n/ui';
+import { getNews } from '../../lib/news';
+import NewsCard from '../NewsCard.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const r = useRoutes(lang);
+const news = await getNews(lang);
+---
+
+<main class="relative pt-28 md:pt-36 pb-16">
+    <section class="max-w-7xl mx-auto px-6 mb-12 md:mb-16">
+        <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-yellow-400/30 bg-yellow-400/5 text-yellow-400 text-xs font-bold tracking-wider mb-6">
+                <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
+                {t('news.tag')}
+            </div>
+            <h1 class="font-heading text-4xl md:text-6xl font-bold leading-[1.05] mb-6">
+                {t('news.title1')}
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-neon-pink">{t('news.title2')}</span>
+            </h1>
+            <p class="text-lg text-gray-400 leading-relaxed max-w-2xl mb-8">{t('news.subtitle')}</p>
+            <div class="flex flex-wrap gap-3">
+                <a href={brand.linkedin} target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 text-sm font-bold text-white bg-[#0A66C2] hover:bg-[#0a5bb0] rounded-full transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.063 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 22.227.792 23 1.771 23h20.451C23.2 23 24 22.227 24 21.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    {t('news.follow')} ↗
+                </a>
+                <a href={`${r.news}/rss.xml`} class="px-5 py-2.5 text-sm font-bold text-gray-300 bg-white/5 border border-white/10 hover:border-white/30 rounded-full transition-colors">
+                    {t('news.rss')}
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6">
+        <div data-reveal-stagger class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {news.map((item) => <NewsCard item={item} />)}
+        </div>
+    </section>
+</main>

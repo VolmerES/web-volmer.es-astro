@@ -24,7 +24,7 @@ const getInitials = (name: string) =>
 ---
 
 <section class="max-w-7xl mx-auto px-6 py-12 md:py-16 border-t border-white/5">
-    <div class="flex items-end justify-between mb-8 gap-4">
+    <div data-reveal class="flex items-end justify-between mb-8 gap-4">
         <div>
             <span class="text-xs font-bold tracking-widest uppercase mb-2 flex items-center gap-2">
                 <span class="text-yellow-500">★★★★★</span>
@@ -37,19 +37,19 @@ const getInitials = (name: string) =>
                 {t('reviews.maps')}
             </a>
             <div class="flex gap-2">
-                <button id="scroll-left-reviews" aria-label="Anterior" class="hidden md:flex w-8 h-8 items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-neon-cyan/50 transition-all text-white">
+                <button id="scroll-left-reviews" aria-label={t('reviews.prev')} class="hidden md:flex w-8 h-8 items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-neon-cyan/50 transition-all text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                 </button>
-                <button id="scroll-right-reviews" aria-label="Siguiente" class="hidden md:flex w-8 h-8 items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-neon-cyan/50 transition-all text-white">
+                <button id="scroll-right-reviews" aria-label={t('reviews.next')} class="hidden md:flex w-8 h-8 items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-neon-cyan/50 transition-all text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="reviews-container" class="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-8 -mx-6 px-6 md:mx-0 md:px-0 md:pb-4 [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] md:[mask-image:none]" style="scrollbar-width: none;">
+    <div id="reviews-container" data-reveal class="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-8 -mx-6 px-6 md:mx-0 md:px-0 md:pb-4 [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] md:[mask-image:none]" style="scrollbar-width: none;">
         {reviews.map((review, index) => (
-            <div class="min-w-[300px] w-[85%] md:w-[350px] snap-center flex flex-col justify-between p-6 rounded-2xl bg-[#111] border border-white/5 hover:border-neon-cyan/50 transition-all duration-300 relative group">
+            <div class="min-w-[300px] w-[85%] md:w-[350px] snap-center md:snap-start flex flex-col justify-between p-6 rounded-2xl bg-[#111] border border-white/5 hover:border-neon-cyan/50 transition-all duration-300 relative group">
                 <!-- Marca de agua de Google -->
                 <svg class="absolute top-6 right-6 w-6 h-6 opacity-20 filter grayscale group-hover:grayscale-0 transition-all" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -78,6 +78,30 @@ const getInitials = (name: string) =>
         ))}
     </div>
 
+    <!--
+      Pasan solas, de una en una. El tiempo lo marca la animación de la barra:
+      cada vez que se llena, avanza una reseña. Así, pausar la barra (ratón
+      encima, foco, fuera de pantalla, botón) pausa el carrusel sin más.
+    -->
+    <div class="flex items-center gap-3 mt-2 md:mt-4">
+        <button
+            id="reviews-toggle"
+            type="button"
+            aria-pressed="false"
+            data-label-pause={t('reviews.pause')}
+            data-label-play={t('reviews.play')}
+            aria-label={t('reviews.pause')}
+            class="w-7 h-7 shrink-0 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-neon-cyan/50 transition-colors"
+        >
+            <svg class="reviews-icon-pause w-3 h-3" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z" /></svg>
+            <svg class="reviews-icon-play w-3 h-3 hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z" /></svg>
+        </button>
+        <span class="font-mono text-[11px] text-gray-500 tabular-nums"><span id="reviews-current" class="text-white">01</span> / {String(reviews.length).padStart(2, '0')}</span>
+        <span class="relative h-px w-20 md:w-28 bg-white/10 overflow-hidden" aria-hidden="true">
+            <span id="reviews-timer" class="reviews-timer absolute inset-0 origin-left bg-gradient-to-r from-neon-cyan to-neon-pink"></span>
+        </span>
+    </div>
+
     <div class="text-center mt-4 md:hidden">
         <a href={brand.maps} target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-neon-cyan hover:underline">
             {t('reviews.maps')}
@@ -88,17 +112,91 @@ const getInitials = (name: string) =>
 <script>
     document.addEventListener('astro:page-load', () => {
         const container = document.getElementById('reviews-container');
-        const leftBtn = document.getElementById('scroll-left-reviews');
-        const rightBtn = document.getElementById('scroll-right-reviews');
+        const timer = document.getElementById('reviews-timer');
+        const toggle = document.getElementById('reviews-toggle');
+        const current = document.getElementById('reviews-current');
+        if (!container || !timer || !toggle || !current) return;
 
-        if (container && leftBtn && rightBtn) {
-            leftBtn.addEventListener('click', () => {
-                container.scrollBy({ left: -320, behavior: 'smooth' });
-            });
+        const cards = Array.from(container.children) as HTMLElement[];
+        const cardStep = () => cards[0].offsetWidth + (parseFloat(getComputedStyle(container).columnGap) || 0);
 
-            rightBtn.addEventListener('click', () => {
-                container.scrollBy({ left: 320, behavior: 'smooth' });
-            });
-        }
+        // Una reseña adelante o atrás; al llegar al final, vuelve al principio.
+        const go = (dir: 1 | -1) => {
+            const max = container.scrollWidth - container.clientWidth;
+            if (dir > 0 && container.scrollLeft >= max - 4) container.scrollTo({ left: 0, behavior: 'smooth' });
+            else if (dir < 0 && container.scrollLeft <= 4) container.scrollTo({ left: max, behavior: 'smooth' });
+            else container.scrollBy({ left: dir * cardStep(), behavior: 'smooth' });
+        };
+
+        document.getElementById('scroll-left-reviews')?.addEventListener('click', () => { go(-1); restart(); });
+        document.getElementById('scroll-right-reviews')?.addEventListener('click', () => { go(1); restart(); });
+
+        // Contador «03 / 14»
+        container.addEventListener('scroll', () => {
+            const max = container.scrollWidth - container.clientWidth;
+            const i = container.scrollLeft >= max - 4 ? cards.length - 1 : Math.round(container.scrollLeft / cardStep());
+            current.textContent = String(i + 1).padStart(2, '0');
+        }, { passive: true });
+
+        // ---- Avance automático ----
+        const reasons = new Set<string>();
+        const sync = () => timer.classList.toggle('is-paused', reasons.size > 0);
+        const pause = (why: string) => { reasons.add(why); sync(); };
+        const resume = (why: string) => { reasons.delete(why); sync(); };
+        // Vuelve a empezar la cuenta (tras usar las flechas o deslizar a mano).
+        const restart = () => {
+            timer.style.animation = 'none';
+            void timer.offsetWidth;
+            timer.style.animation = '';
+        };
+
+        timer.addEventListener('animationiteration', () => go(1));
+
+        container.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') pause('hover'); });
+        container.addEventListener('pointerleave', () => resume('hover'));
+        container.addEventListener('focusin', () => pause('focus'));
+        container.addEventListener('focusout', () => resume('focus'));
+        // Al deslizar con el dedo, se reinicia la cuenta en vez de saltar enseguida.
+        container.addEventListener('touchstart', restart, { passive: true });
+
+        toggle.addEventListener('click', () => {
+            const stopped = toggle.getAttribute('aria-pressed') !== 'true';
+            toggle.setAttribute('aria-pressed', String(stopped));
+            toggle.setAttribute('aria-label', (stopped ? toggle.dataset.labelPlay : toggle.dataset.labelPause) || '');
+            toggle.querySelector('.reviews-icon-pause')?.classList.toggle('hidden', stopped);
+            toggle.querySelector('.reviews-icon-play')?.classList.toggle('hidden', !stopped);
+            if (stopped) pause('user'); else resume('user');
+        });
+
+        // Fuera de pantalla no corre: al volver, la reseña sigue donde estaba.
+        pause('offscreen');
+        const seen = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) resume('offscreen'); else pause('offscreen');
+        }, { threshold: 0.4 });
+        seen.observe(container);
+        document.addEventListener('astro:before-swap', () => seen.disconnect(), { once: true });
     });
 </script>
+
+<style>
+    .reviews-timer {
+        scale: 0 1;
+        animation: reviews-timer 5.5s linear infinite;
+    }
+    .reviews-timer.is-paused {
+        animation-play-state: paused;
+    }
+    @keyframes reviews-timer {
+        from { scale: 0 1; }
+        to { scale: 1 1; }
+    }
+    /* Con «reducir movimiento» no pasan solas: quedan las flechas y el dedo. */
+    @media (prefers-reduced-motion: reduce) {
+        .reviews-timer {
+            animation: none;
+        }
+        #reviews-toggle {
+            display: none;
+        }
+    }
+</style>

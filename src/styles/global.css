@@ -59,3 +59,32 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #ff2a6d;
 }
+
+/* ---------- Movimiento al hacer scroll (src/scripts/motion.ts) ----------
+ * Solo con la clase `motion` en <html>: sin JavaScript o con «reducir
+ * movimiento» no hay estados ocultos y todo se ve en su sitio. */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+html.motion :is([data-reveal], [data-reveal-stagger] > *):not(.is-in) {
+  opacity: 0;
+}
+/* `backwards` y no `both`: al acabar, el elemento vuelve a sus propios estilos
+ * (y a sus transiciones de hover). */
+html.motion :is([data-reveal], [data-reveal-stagger] > *).is-in {
+  animation: reveal-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms) backwards;
+}
+
+#scroll-progress {
+  scale: var(--page-p, 0) 1;
+}
+html:not(.motion) #scroll-progress {
+  display: none;
+}

@@ -1,0 +1,21 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import NewsArticle from '../../../components/pages/NewsArticle.astro';
+import { getNews, newsSlug } from '../../../lib/news';
+
+export async function getStaticPaths() {
+    return (await getNews('en')).map((entry) => ({ params: { slug: newsSlug(entry) }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+---
+
+<Layout
+    title={`${entry.data.title} | Volmer Studio`}
+    description={entry.data.description}
+    image={entry.data.ogImage ?? entry.data.image}
+    type="article"
+    rss="/en/news/rss.xml"
+>
+    <NewsArticle entry={entry} />
+</Layout>

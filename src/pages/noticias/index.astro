@@ -1,0 +1,9 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NewsIndex from '../../components/pages/NewsIndex.astro';
+import { ui } from '../../i18n/ui';
+---
+
+<Layout title={ui.es['news.metaTitle']} description={ui.es['news.metaDescription']} rss="/noticias/rss.xml">
+    <NewsIndex />
+</Layout>

@@ -12,6 +12,10 @@ interface Props {
     description?: string;
     image?: string;
     noindex?: boolean;
+    /** «article» en las noticias; el resto de páginas son «website». */
+    type?: 'website' | 'article';
+    /** Canal RSS que anunciar en la cabecera (páginas de noticias). */
+    rss?: string;
 }
 
 const lang = getLangFromUrl(Astro.url);
@@ -28,6 +32,8 @@ const {
     description = defaultDescription,
     image = defaultImage,
     noindex = false,
+    type = 'website',
+    rss,
 } = Astro.props;
 
 const site = 'https://volmer.es';
@@ -86,9 +92,10 @@ const structuredData = {
 		<link rel="alternate" hreflang="es" href={esURL} />
 		<link rel="alternate" hreflang="en" href={enURL} />
 		<link rel="alternate" hreflang="x-default" href={esURL} />
+		{rss && <link rel="alternate" type="application/rss+xml" title={lang === 'es' ? 'Volmer Studio · Noticias' : 'Volmer Studio · News'} href={rss} />}
 
 		<!-- Open Graph -->
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content={type} />
 		<meta property="og:site_name" content={brand.name} />
 		<meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
 		<meta property="og:url" content={canonicalURL} />
@@ -110,6 +117,18 @@ const structuredData = {
         <!-- Tipografía del kit: Outfit en titulares, Geist en texto y Geist Mono en etiquetas -->
         <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Outfit:wght@300;600;700;800&display=swap" rel="stylesheet">
         <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+        <!--
+          Activa las animaciones de scroll antes de pintar (src/scripts/motion.ts).
+          Si el módulo no llega a cargar, a los 4 s se quitan para no dejar nada oculto.
+        -->
+        <script is:inline>
+            if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+                document.documentElement.classList.add('motion');
+                setTimeout(function () {
+                    if (!window.__motionReady) document.documentElement.classList.remove('motion');
+                }, 4000);
+            }
+        </script>
         <ClientRouter />
 	</head>
 	<body class="bg-dark-bg text-white overflow-x-hidden selection:bg-neon-pink selection:text-white flex flex-col min-h-screen">
@@ -127,6 +146,9 @@ const structuredData = {
             <div id="spotlight" class="absolute inset-0 bg-[radial-gradient(circle_at_var(--x,_50%)_var(--y,_50%),rgba(5,217,232,0.05),transparent_25%)] opacity-0 transition-opacity duration-500"></div>
         </div>
 
+        <!-- Barra de lectura: lo que llevas de página -->
+        <div id="scroll-progress" aria-hidden="true" class="fixed top-0 inset-x-0 h-0.5 z-[60] origin-left pointer-events-none bg-gradient-to-r from-neon-cyan via-purple-500 to-neon-pink"></div>
+
         <Header />
 		<div class="flex-grow">
             <slot />
@@ -134,6 +156,10 @@ const structuredData = {
         <Footer />
         <WhatsAppButton />
         <CookieBanner />
+
+        <script>
+            import '../scripts/motion';
+        </script>
 
         <script>
             const spotlight = document.getElementById('spotlight');
