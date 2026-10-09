@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery_swipe_ai&pcampaignid=web_share";
 ---
 
-<Layout title="Swipe Gallery | Volmer Studio">
+<Layout title="Swipe Gallery: clean up your photo gallery | Volmer Studio" description="Swipe Gallery is the Android app by Volmer Studio for cleaning up your phone gallery by swiping through your photos. Over 1,000 downloads on Google Play.">
 
     <main class="relative pt-32 pb-20">
         <!-- Hero Section with Interactive Screenshots -->
@@ -54,23 +54,23 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
                     <div class="flex flex-col items-center lg:items-start mb-12">
                         <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-3">
                             <a href={appLink} target="_blank" rel="noopener noreferrer" class="transition-transform hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(5,217,232,0.3)] rounded-lg overflow-hidden">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" class="h-16" />
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" width="180" height="53" class="h-16 w-auto" />
                             </a>
                         </div>
-                        <a href="/en/privacy-policy" class="text-xs text-gray-500 hover:text-gray-300 transition-colors">
+                        <a href="/en/privacy-policy/" class="text-xs text-gray-500 hover:text-gray-300 transition-colors">
                             Privacy Policy
                         </a>
                     </div>
 
                     <!-- Interactive Screenshot Selector -->
                     <div class="relative">
-                        <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center justify-center lg:justify-start gap-2">
+                        <p class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center justify-center lg:justify-start gap-2">
                             <span>Screenshots</span>
                             <div class="flex gap-1 text-neon-pink text-xs">
                                 <span class="animate-bounce">←</span>
                                 <span class="animate-bounce delay-100">→</span>
                             </div>
-                        </h3>
+                        </p>
                         
                         <!-- Scrollable Screenshots with gradient fade -->
                         <div class="relative -mx-6 lg:mx-0">
@@ -285,13 +285,13 @@ const appLink = "https://play.google.com/store/apps/details?id=es.volmer.gallery
                 </p>
                 <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
                      <a href={appLink} target="_blank" rel="noopener noreferrer" class="transition-transform hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] rounded-lg overflow-hidden">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" class="h-20" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" width="180" height="53" class="h-20 w-auto" />
                     </a>
                 </div>
                 <p class="mt-8 text-sm text-gray-500">
                     Available for Android. Coming soon to iOS. <br class="md:hidden" />
                     <span class="hidden md:inline mx-2">•</span>
-                    <a href="/en/privacy-policy" class="hover:text-gray-300 transition-colors">Privacy Policy</a>
+                    <a href="/en/privacy-policy/" class="hover:text-gray-300 transition-colors">Privacy Policy</a>
                 </p>
             </div>
          </section>

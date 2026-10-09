@@ -12,7 +12,7 @@ const escape = (text: string) =>
 export async function newsFeed(lang: 'es' | 'en') {
     const base = `${site}${routes[lang].news}`;
     const items = (await getNews(lang)).map((entry) => {
-        const url = `${base}/${newsSlug(entry)}/`;
+        const url = `${base}${newsSlug(entry)}/`;
         return `    <item>
       <title>${escape(entry.data.title)}</title>
       <link>${url}</link>
@@ -32,10 +32,10 @@ export async function newsFeed(lang: 'es' | 'en') {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${title}</title>
-    <link>${base}/</link>
+    <link>${base}</link>
     <description>${description}</description>
     <language>${lang === 'es' ? 'es-ES' : 'en-GB'}</language>
-    <atom:link href="${base}/rss.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="${base}rss.xml" rel="self" type="application/rss+xml" />
 ${items.join('\n')}
   </channel>
 </rss>

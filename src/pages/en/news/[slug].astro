@@ -11,7 +11,7 @@ const { entry } = Astro.props;
 ---
 
 <Layout
-    title={`${entry.data.title} | Volmer Studio`}
+    title={entry.data.seoTitle ?? `${entry.data.title} | Volmer Studio`}
     description={entry.data.description}
     image={entry.data.ogImage ?? entry.data.image}
     type="article"

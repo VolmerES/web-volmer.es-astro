@@ -171,7 +171,8 @@ export const appProjects: Project[] = [
     image: "/swipe-gallery-banner-main.png",
     tech: ["Flutter", "Dart", "Provider"],
     // ⚠️ Ruta congelada: declarada en la ficha de Google Play. No renombrar.
-    link: "/swipe-gallery-app",
+    // En inglés, ProjectCard la cambia por /en/swipe-gallery-app/.
+    link: "/swipe-gallery-app/",
     external: false,
     color: "pink",
     featured: true,
@@ -189,25 +190,26 @@ export const featuredProjects = allProjects.filter((p) => p.featured);
  * Solo empresas con las que hay relación de trabajo real (clientes o empleador):
  * quien solo ha dado un premio va en texto, no aquí.
  */
-export const clientLogos: { name: string; logo: string; url: string; tone?: string }[] = [
-  { name: "PROETI", logo: "/empresas/Proeti.png", url: "https://proetisa.com" },
-  { name: "Equidae", logo: "/empresas/Equidae.png", url: "https://equidae.es", tone: "brightness-[1.35]" },
-  { name: "Fitgood", logo: "/empresas/Fitgood.png", url: "https://fitgood.be" },
+/** w y h: tamaño real del fichero, para que el navegador reserve el hueco. */
+export const clientLogos: { name: string; logo: string; url: string; w: number; h: number; tone?: string }[] = [
+  { name: "PROETI", logo: "/empresas/Proeti.png", w: 210, h: 60, url: "https://proetisa.com" },
+  { name: "Equidae", logo: "/empresas/Equidae.png", w: 400, h: 207, url: "https://equidae.es", tone: "brightness-[1.35]" },
+  { name: "Fitgood", logo: "/empresas/Fitgood.png", w: 243, h: 120, url: "https://fitgood.be" },
   {
     name: "Introspectia",
-    logo: "/empresas/Introspectia.webp",
-    url: "https://instrospectiapsicologia.com",
+    logo: "/empresas/Introspectia.webp", w: 228, h: 60,
+    url: "https://introspectiapsicologia.com",
     tone: "brightness-[2.2] saturate-[1.3]",
   },
-  { name: "Maingoo", logo: "/empresas/Maingoo.svg", url: "https://maingoo.tech" },
-  { name: "Mesetair", logo: "/empresas/Mesetair.webp", url: "https://mesetair.com" },
+  { name: "Maingoo", logo: "/empresas/Maingoo.svg", w: 1216, h: 1292, url: "https://maingoo.tech" },
+  { name: "Mesetair", logo: "/empresas/Mesetair.webp", w: 160, h: 160, url: "https://mesetair.com" },
   {
     name: "Psi Violeta",
-    logo: "/empresas/PsiVioleta.png",
+    logo: "/empresas/PsiVioleta.png", w: 513, h: 120,
     url: "https://violetapsicologia.com",
     tone: "brightness-[1.6]",
   },
-  { name: "Winegang", logo: "/empresas/Winegang.png", url: "https://winegang.es" },
+  { name: "Winegang", logo: "/empresas/Winegang.png", w: 562, h: 124, url: "https://winegang.es" },
 ];
 
 /** Tecnologías del marquee, con su color de marca. */

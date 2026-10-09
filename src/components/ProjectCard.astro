@@ -1,5 +1,5 @@
 ---
-import { getLangFromUrl, useTranslations } from '../i18n/ui';
+import { getLangFromUrl, useTranslations, useRoutes, routes } from '../i18n/ui';
 import { accents } from '../data/accents';
 import type { Project } from '../data/projects';
 
@@ -14,13 +14,16 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const a = accents[project.color];
 
+// Las páginas propias tienen su versión en cada idioma.
+const href = project.link === routes.es.swipeApp ? useRoutes(lang).swipeApp : project.link;
+
 const external = project.external
     ? { target: '_blank', rel: 'noopener noreferrer' }
     : {};
 ---
 
 <a
-    href={project.link}
+    href={href}
     {...external}
     class:list={[
         "group flex flex-col h-full bg-[#111] rounded-xl border border-white/5 overflow-hidden transition-all duration-300 hover:bg-white/[0.03] hover:-translate-y-1",

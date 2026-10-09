@@ -7,9 +7,9 @@
   --color-dark-bg: #0a0a0a;
   --color-vapor-blue: #005678;
 
-  --font-heading: "Outfit", sans-serif;
-  --font-body: "Geist", system-ui, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --font-heading: "Outfit Variable", "Outfit", sans-serif;
+  --font-body: "Geist Variable", "Geist", system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", "Geist Mono", ui-monospace, monospace;
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-glow: pulse-glow 3s infinite;

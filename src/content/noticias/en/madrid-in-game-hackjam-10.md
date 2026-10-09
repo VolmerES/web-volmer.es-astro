@@ -1,5 +1,6 @@
 ---
 title: "We won the Madrid in Game HackJam 10 with Next Stop: Madrid"
+seoTitle: "We won the Madrid in Game HackJam 10 | Volmer Studio"
 description: "A game about exploring Madrid by bus, built in 48 hours with the EMT at 42 Madrid. It won its category."
 date: 2026-01-25
 tag: "Award"

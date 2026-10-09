@@ -290,7 +290,7 @@ export const ui = {
     "news.title1": "Lo último",
     "news.title2": "del estudio.",
     "news.subtitle": "Premios, proyectos y novedades de Volmer Studio. Lo cuento también en LinkedIn, por si prefieres seguirlo allí.",
-    "news.metaTitle": "Noticias | Volmer Studio",
+    "news.metaTitle": "Noticias: premios y novedades | Volmer Studio",
     "news.metaDescription": "Premios, proyectos y novedades de Volmer Studio, el estudio de desarrollo web y apps a medida de Juan Bautista Delorme en Madrid.",
     "news.follow": "Seguir en LinkedIn",
     "news.back": "Todas las noticias",
@@ -302,6 +302,11 @@ export const ui = {
     "recognitions.title": "Reconocimientos",
     "recognitions.subtitle": "Premios y certificaciones que he ido sumando por el camino.",
     "recognitions.tag": "Trayectoria",
+    "cookies.title": "Preferencias de privacidad",
+    "cookies.text": "Utilizamos cookies para mejorar tu experiencia y analizar el tráfico del sitio. Respetamos tu privacidad y te damos el control sobre tus datos.",
+    "cookies.read": "Leer política",
+    "cookies.reject": "Rechazar",
+    "cookies.accept": "Aceptar todo",
     "footer.tagline": "Desarrollo web y móvil a medida.",
     "footer.servicesTitle": "Servicios",
     "footer.siteTitle": "Web",
@@ -557,7 +562,7 @@ export const ui = {
     "news.title1": "Latest",
     "news.title2": "from the studio.",
     "news.subtitle": "Awards, projects and updates from Volmer Studio. I share them on LinkedIn too, if you would rather follow along there.",
-    "news.metaTitle": "News | Volmer Studio",
+    "news.metaTitle": "News: awards and updates | Volmer Studio",
     "news.metaDescription": "Awards, projects and updates from Volmer Studio, the custom web and app development studio of Juan Bautista Delorme in Madrid.",
     "news.follow": "Follow on LinkedIn",
     "news.back": "All news",
@@ -569,6 +574,11 @@ export const ui = {
     "recognitions.title": "Recognition",
     "recognitions.subtitle": "Awards and certifications collected along the way.",
     "recognitions.tag": "Track record",
+    "cookies.title": "Privacy preferences",
+    "cookies.text": "We use cookies to improve your experience and analyse site traffic. We respect your privacy and give you control over your data.",
+    "cookies.read": "Read the policy",
+    "cookies.reject": "Reject",
+    "cookies.accept": "Accept all",
     "footer.tagline": "Custom web and mobile development.",
     "footer.servicesTitle": "Services",
     "footer.siteTitle": "Site",
@@ -596,6 +606,9 @@ export function useTranslations(lang: keyof typeof ui) {
  * Rutas canónicas del sitio por idioma. Los slugs se traducen para que cada
  * idioma tenga URLs legibles y posicionables en su propio mercado.
  *
+ * Todas acaban en «/»: el servidor sirve cada página como carpeta y sin la
+ * barra responde con un 301. Para concatenar, `${r.news}${slug}/`.
+ *
  * ⚠️ RUTAS CONGELADAS — no renombrar ni redirigir nunca:
  *   /privacy-policy       Política de privacidad de la app Swipe Gallery.
  *                         Está declarada en la ficha de Google Play; si cambia,
@@ -608,29 +621,29 @@ export function useTranslations(lang: keyof typeof ui) {
 export const routes = {
   es: {
     home: "/",
-    services: "/servicios",
-    projects: "/proyectos",
-    about: "/sobre-mi",
-    contact: "/contacto",
-    blog: "/blog",
-    news: "/noticias",
-    privacy: "/politica-privacidad",
-    cookies: "/politica-de-cookies",
-    swipeApp: "/swipe-gallery-app",
-    appPrivacy: "/privacy-policy",
+    services: "/servicios/",
+    projects: "/proyectos/",
+    about: "/sobre-mi/",
+    contact: "/contacto/",
+    blog: "/blog/",
+    news: "/noticias/",
+    privacy: "/politica-privacidad/",
+    cookies: "/politica-de-cookies/",
+    swipeApp: "/swipe-gallery-app/",
+    appPrivacy: "/privacy-policy/",
   },
   en: {
     home: "/en/",
-    services: "/en/services",
-    projects: "/en/projects",
-    about: "/en/about",
-    contact: "/en/contact",
-    blog: "/en/blog",
-    news: "/en/news",
-    privacy: "/en/privacy-policy",
-    cookies: "/en/cookie-policy",
-    swipeApp: "/en/swipe-gallery-app",
-    appPrivacy: "/en/privacy-policy",
+    services: "/en/services/",
+    projects: "/en/projects/",
+    about: "/en/about/",
+    contact: "/en/contact/",
+    blog: "/en/blog/",
+    news: "/en/news/",
+    privacy: "/en/privacy-policy/",
+    cookies: "/en/cookie-policy/",
+    swipeApp: "/en/swipe-gallery-app/",
+    appPrivacy: "/en/privacy-policy/",
   },
 } as const;
 
@@ -644,9 +657,10 @@ export function getAlternateUrl(pathname: string, lang: keyof typeof ui) {
   const from = routes[lang];
   const to = routes[target];
 
-  // Coincidencia exacta con una ruta conocida.
+  // Coincidencia exacta con una ruta conocida, con o sin la barra final.
+  const clean = (p: string) => p.replace(/\/+$/, "");
   for (const key of Object.keys(from) as Array<keyof typeof from>) {
-    if (pathname === from[key] || pathname === `${from[key]}/`) {
+    if (clean(pathname) === clean(from[key])) {
       return to[key];
     }
   }
@@ -654,13 +668,13 @@ export function getAlternateUrl(pathname: string, lang: keyof typeof ui) {
   // Entradas de blog: /blog/slug <-> /en/blog/slug
   const blogMatch = pathname.match(/^\/(?:en\/)?blog\/(.+)$/);
   if (blogMatch) {
-    return `${to.blog}/${blogMatch[1]}`;
+    return `${to.blog}${blogMatch[1]}`;
   }
 
   // Noticias: mismo slug en los dos idiomas (/noticias/slug <-> /en/news/slug)
   const newsMatch = pathname.match(/^\/(?:noticias|en\/news)\/(.+)$/);
   if (newsMatch) {
-    return `${to.news}/${newsMatch[1]}`;
+    return `${to.news}${newsMatch[1]}`;
   }
 
   return to.home;
