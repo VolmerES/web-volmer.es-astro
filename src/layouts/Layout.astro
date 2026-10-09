@@ -20,10 +20,13 @@ const defaultDescription = lang === 'es'
     ? 'Desarrollo web y aplicaciones móviles a medida. Trabajas directamente con el desarrollador: webs rápidas, tiendas online y apps Flutter para tu negocio.'
     : 'Custom web and mobile development. You work directly with the developer: fast websites, online stores and Flutter apps for your business.';
 
+// Imagen al compartir: la del kit de marca (marketing/), una por idioma.
+const defaultImage = lang === 'es' ? '/og-image.png' : '/og-image-en.png';
+
 const {
     title,
     description = defaultDescription,
-    image = '/profile.png',
+    image = defaultImage,
     noindex = false,
 } = Astro.props;
 
@@ -36,6 +39,29 @@ const alternatePath = getAlternateUrl(pathname, lang);
 const esURL = site + (lang === 'es' ? pathname : alternatePath);
 const enURL = site + (lang === 'en' ? pathname : alternatePath);
 const imageURL = new URL(image, site).href;
+const imageIsDefault = image === defaultImage;
+
+// Datos para Google: el estudio y quién está detrás.
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    name: brand.name,
+    url: site,
+    logo: `${site}/icon-512.png`,
+    image: `${site}/og-image.png`,
+    description: defaultDescription,
+    email: brand.email,
+    telephone: brand.phone,
+    address: { '@type': 'PostalAddress', addressLocality: 'Madrid', addressCountry: 'ES' },
+    areaServed: 'ES',
+    founder: {
+        '@type': 'Person',
+        name: brand.person,
+        jobTitle: lang === 'es' ? 'Desarrollador de Software' : 'Software Developer',
+        sameAs: [brand.linkedin, brand.github],
+    },
+    sameAs: [brand.maps, brand.linkedin, brand.github],
+};
 ---
 
 <!doctype html>
@@ -45,7 +71,14 @@ const imageURL = new URL(image, site).href;
 		<meta name="viewport" content="width=device-width" />
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		<!-- Favicon del kit de marca (marketing/exportaciones/web) -->
+		<link rel="icon" href="/favicon.ico" sizes="48x48" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="theme-color" content="#0A0A0A" />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="canonical" href={canonicalURL} />
 		{noindex && <meta name="robots" content="noindex, nofollow" />}
@@ -62,6 +95,9 @@ const imageURL = new URL(image, site).href;
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={imageURL} />
+		{imageIsDefault && <meta property="og:image:width" content="1200" />}
+		{imageIsDefault && <meta property="og:image:height" content="630" />}
+		<meta property="og:image:alt" content={lang === 'es' ? 'Volmer Studio: transformando tu visión en código' : 'Volmer Studio: turning your vision into code'} />
 
 		<!-- Twitter -->
 		<meta name="twitter:card" content="summary_large_image" />
@@ -71,7 +107,9 @@ const imageURL = new URL(image, site).href;
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+        <!-- Tipografía del kit: Outfit en titulares, Geist en texto y Geist Mono en etiquetas -->
+        <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Outfit:wght@300;600;700;800&display=swap" rel="stylesheet">
+        <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
         <ClientRouter />
 	</head>
 	<body class="bg-dark-bg text-white overflow-x-hidden selection:bg-neon-pink selection:text-white flex flex-col min-h-screen">

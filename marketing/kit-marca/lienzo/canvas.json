@@ -73,7 +73,7 @@
       "y": 2570,
       "w": 1200,
       "h": 900,
-      "title": "Google Business · publicación (1200 × 900)",
+      "title": "Google Business · publicación A: plantilla tachada (1200 × 900)",
       "page": "es"
     },
     "LinkedInLogo.dc.html": {
@@ -177,7 +177,7 @@
       "y": 0,
       "w": 1200,
       "h": 900,
-      "title": "Google Business · post (1200 × 900)",
+      "title": "Google Business · post A: crossed-out template (1200 × 900)",
       "page": "en"
     },
     "LinkedInCover-en.dc.html": {
@@ -251,6 +251,22 @@
           "color": "rgba(255,42,109,0.35)"
         }
       ]
+    },
+    "GooglePostB.dc.html": {
+      "x": 3240,
+      "y": 2570,
+      "w": 1200,
+      "h": 900,
+      "title": "Google Business · publicación B: corrección (1200 × 900)",
+      "page": "es"
+    },
+    "GooglePostB-en.dc.html": {
+      "x": 3720,
+      "y": 0,
+      "w": 1200,
+      "h": 900,
+      "title": "Google Business · post B: proofreading fix (1200 × 900)",
+      "page": "en"
     }
   },
   "order": [
@@ -261,6 +277,7 @@
     "GoogleLogo.dc.html",
     "GoogleCover.dc.html",
     "GooglePost.dc.html",
+    "GooglePostB.dc.html",
     "LinkedInLogo.dc.html",
     "LinkedInCover.dc.html",
     "LinkedInPost.dc.html",
@@ -270,6 +287,7 @@
     "OpenGraph-en.dc.html",
     "GoogleCover-en.dc.html",
     "GooglePost-en.dc.html",
+    "GooglePostB-en.dc.html",
     "LinkedInCover-en.dc.html",
     "LinkedInPost-en.dc.html",
     "EmailSignature-en.dc.html",
@@ -290,7 +308,7 @@
       "y": 2310,
       "text": "Google Business",
       "kind": "title1",
-      "maxW": 3160,
+      "maxW": 4440,
       "page": "es"
     },
     "rowLinkedIn": {
@@ -314,7 +332,7 @@
       "y": -260,
       "text": "Web and Google Business",
       "kind": "title1",
-      "maxW": 3640,
+      "maxW": 4920,
       "page": "en"
     },
     "enLinkedIn": {
