@@ -251,7 +251,7 @@ const news = (await getNews(lang)).slice(0, 3);
             <button type="button" data-wuri-close aria-label={t('home.close')} class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-white/30 transition-colors flex items-center justify-center">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
-            <h3 id="wuri-title" class="font-heading font-bold text-xl md:text-2xl text-white pr-10 mb-4">{t('home.wuriTitle')}</h3>
+            <h2 id="wuri-title" class="font-heading font-bold text-xl md:text-2xl text-white pr-10 mb-4">{t('home.wuriTitle')}</h2>
             <a href={brand.wuriPdf} target="_blank" rel="noopener noreferrer" class="block rounded-lg overflow-hidden border border-white/10 hover:border-neon-cyan/50 transition-colors">
                 <!-- En móvil, solo la columna de los puestos 1-12: la tabla entera no se lee -->
                 <picture>
