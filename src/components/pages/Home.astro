@@ -341,6 +341,7 @@ const manifestoWords = Array(4).fill(t('home.manifestoWords')).join(' ');
                         class:list={["relative", service.id === 'web' ? "z-0" : "z-10"]}
                     >
                         {service.id === 'web' ? (
+                            <>
                             <div
                                 id="scroll-laptop-container"
                                 class="absolute pointer-events-none z-20 opacity-0 w-36 h-36 md:w-[220px] md:h-[220px] top-[-10%] md:top-[-20%]"
@@ -353,7 +354,15 @@ const manifestoWords = Array(4).fill(t('home.manifestoWords')).join(' ');
                                     style="width: 100%; height: 100%;"
                                 ></dotlottie-wc>
                             </div>
+                            <div
+                                id="scroll-laptop-shadow"
+                                aria-hidden="true"
+                                class="absolute pointer-events-none z-10 opacity-0 rounded-[50%] blur-md w-28 h-4 md:w-40 md:h-6 top-[38%] md:top-[30%] right-[2%]"
+                                style="background: radial-gradient(ellipse at center, rgba(168,85,247,0.55), rgba(5,217,232,0.18) 45%, transparent 72%);"
+                            ></div>
+                            </>
                         ) : (
+                            <>
                             <img
                                 id="scroll-drone"
                                 src="/drone.png"
@@ -362,6 +371,13 @@ const manifestoWords = Array(4).fill(t('home.manifestoWords')).join(' ');
                                 class="absolute pointer-events-none z-20 w-28 md:w-48 opacity-0 top-[-2%] md:top-[-5%]"
                                 style="right: -5%; transform: translate(20%, 50%) rotate(-15deg) scale(0.5);"
                             />
+                            <div
+                                id="scroll-drone-shadow"
+                                aria-hidden="true"
+                                class="absolute pointer-events-none z-10 opacity-0 rounded-[50%] blur-md w-24 h-4 md:w-40 md:h-6 top-[44%] md:top-[40%] right-[3%]"
+                                style="background: radial-gradient(ellipse at center, rgba(5,217,232,0.6), rgba(5,217,232,0.15) 45%, transparent 72%);"
+                            ></div>
+                            </>
                         )}
                         <ServiceCard service={service} />
                     </div>
@@ -515,135 +531,167 @@ const manifestoWords = Array(4).fill(t('home.manifestoWords')).join(' ');
 
 <script>
     /**
-     * Animaciones al hacer scroll de las tarjetas de servicio.
+     * Animaciones de las tarjetas de servicio: el portátil (Lottie) y el dron.
      *
-     * El dron entra volando desde la derecha, frena inclinándose y se queda
-     * flotando con dos senos superpuestos para que el vaivén no parezca
-     * mecánico. El portátil (Lottie) entra deslizándose en lateral.
-     *
-     * Ambas se saltan si el usuario pide movimiento reducido.
+     * - Entrada guiada por el scroll: el dron llega volando desde la derecha y
+     *   frena inclinándose; el portátil entra deslizándose en lateral.
+     * - Al posarse flotan con dos senos superpuestos, para que el vaivén no
+     *   parezca mecánico, y proyectan sobre la tarjeta una sombra con brillo que
+     *   crece y encoge con la altura.
+     * - Con el ratón encima de su tarjeta se elevan un poco.
+     * - Los bucles se paran fuera de pantalla y con la pestaña oculta, y se
+     *   limpian al cambiar de página (ClientRouter).
+     * - Con «reducir movimiento» se quedan quietos en su sitio.
      */
-    const prefersReducedMotion = () =>
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    type Pose = { x: number; y: number; r: number; s: number };
 
-    /** Ejecuta handleScroll como mucho una vez por frame. */
-    const onScrollThrottled = (handleScroll: () => void) => {
-        let ticking = false;
+    interface Flyer {
+        el: HTMLElement;
+        card: HTMLElement;
+        shadow: HTMLElement | null;
+        /** Pose según el avance del scroll, ya suavizado: 0 fuera, 1 posado. */
+        flight: (p: number) => Pose;
+        /** Vaivén una vez posado (y en %, r en grados). */
+        hover: (t: number) => { y: number; r: number };
+        /** Cuánto sube y se inclina con el ratón encima. */
+        lift: { y: number; r: number };
+    }
+
+    const easeOutCubic = (p: number) => 1 - Math.pow(1 - p, 3);
+    const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
+
+    function fly(f: Flyer): () => void {
+        const place = (pose: Pose, opacity: number) => {
+            f.el.style.transform = `translate(${pose.x}%, ${pose.y}%) rotate(${pose.r}deg) scale(${pose.s})`;
+            f.el.style.opacity = String(opacity);
+        };
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            place(f.flight(1), 1);
+            if (f.shadow) f.shadow.style.opacity = '0.7';
+            return () => {};
+        }
+
+        let progress = 0;
+        let visible = false;
+        let hovered = false;
+        let lift = 0;
+        let raf = 0;
+
+        const readProgress = () => {
+            const top = f.card.getBoundingClientRect().top;
+            const start = window.innerHeight * 0.95;
+            const end = window.innerHeight * 0.6;
+            progress = clamp((start - top) / (start - end), 0, 1);
+        };
+
+        const frame = (now: number) => {
+            raf = 0;
+            const p = easeOutCubic(progress);
+            const landed = progress >= 1;
+            // La elevación llega y se va con suavidad, no de golpe.
+            lift += ((hovered && landed ? 1 : 0) - lift) * 0.12;
+            const sway = landed ? f.hover(now / 1000) : { y: 0, r: 0 };
+            const pose = f.flight(p);
+            const rise = sway.y + f.lift.y * lift; // negativo = más alto
+            place({ ...pose, y: pose.y + rise, r: pose.r + sway.r + f.lift.r * lift }, p);
+
+            if (f.shadow) {
+                // Más alto → sombra más pequeña y más tenue.
+                const scale = clamp(1 + rise * 0.025, 0.55, 1.15);
+                const strength = clamp(0.75 + rise * 0.035, 0.25, 0.9);
+                f.shadow.style.transform = `scale(${scale}, ${scale * 0.9})`;
+                f.shadow.style.opacity = String(strength * p * p);
+            }
+
+            const moving = landed || Math.abs(lift - (hovered ? 1 : 0)) > 0.002;
+            if (visible && !document.hidden && moving) raf = requestAnimationFrame(frame);
+        };
+
+        const kick = () => {
+            if (!raf) raf = requestAnimationFrame(frame);
+        };
+        const onScroll = () => {
+            readProgress();
+            kick();
+        };
+        const onEnter = () => {
+            hovered = true;
+            kick();
+        };
+        const onLeave = () => {
+            hovered = false;
+            kick();
+        };
+
+        const observer = new IntersectionObserver(([entry]) => {
+            visible = entry.isIntersecting;
+            if (visible) onScroll();
+        }, { rootMargin: '120px 0px' });
+        observer.observe(f.card);
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        document.addEventListener('visibilitychange', kick);
+        f.card.addEventListener('mouseenter', onEnter);
+        f.card.addEventListener('mouseleave', onLeave);
+        onScroll();
+
         return () => {
-            if (ticking) return;
-            window.requestAnimationFrame(() => {
-                handleScroll();
-                ticking = false;
-            });
-            ticking = true;
+            if (raf) cancelAnimationFrame(raf);
+            observer.disconnect();
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+            document.removeEventListener('visibilitychange', kick);
+            f.card.removeEventListener('mouseenter', onEnter);
+            f.card.removeEventListener('mouseleave', onLeave);
         };
-    };
+    }
 
-    const initDroneAnimation = () => {
-        const drone = document.getElementById('scroll-drone');
-        const droneCard = document.getElementById('drone-card-container');
-        if (!drone || !droneCard) return;
-
-        if (prefersReducedMotion()) {
-            drone.style.opacity = '1';
-            drone.style.transform = 'translate(0%, 10%) rotate(5deg) scale(1.4)';
-            return;
-        }
-
-        let isHovering = false;
-        let hoverLoopId: number | null = null;
-
-        // Flotación continua una vez ha aterrizado.
-        const animateHover = () => {
-            if (!isHovering) return;
-            const time = Date.now() / 1000;
-            const floatY = Math.sin(time) * 4 + Math.sin(time * 2.5) * 1.5;
-            const floatRot = Math.cos(time * 0.8) * 2.5;
-            drone.style.transform = `translate(0%, ${10 + floatY}%) rotate(${5 + floatRot}deg) scale(1.4)`;
-            hoverLoopId = requestAnimationFrame(animateHover);
-        };
-
-        const handleScroll = () => {
-            const rect = droneCard.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-            const scrollStart = windowHeight * 0.95;
-            const scrollEnd = windowHeight * 0.6;
-            const scrollProgress = Math.max(0, Math.min(1, (scrollStart - rect.top) / (scrollStart - scrollEnd)));
-
-            if (scrollProgress > 0 && scrollProgress < 1) {
-                // En vuelo: la posición la manda el scroll, no un temporizador.
-                isHovering = false;
-                if (hoverLoopId) cancelAnimationFrame(hoverLoopId);
-
-                const easeProgress = 1 - Math.pow(1 - scrollProgress, 3);
-                const translateX = 200 - easeProgress * 200;
-                const translateY = 50 - easeProgress * 40;
-                // Se inclina al entrar en la curva y se nivela al final.
-                const rotate = easeProgress < 0.8 ? 20 - easeProgress * 15 : 5;
-                const scale = 0.5 + easeProgress * 0.9;
-
-                drone.style.transform = `translate(${translateX}%, ${translateY}%) rotate(${rotate}deg) scale(${scale})`;
-                drone.style.opacity = easeProgress.toString();
-            } else if (scrollProgress >= 1) {
-                drone.style.opacity = '1';
-                if (!isHovering) {
-                    isHovering = true;
-                    animateHover();
-                }
-            } else {
-                isHovering = false;
-                if (hoverLoopId) cancelAnimationFrame(hoverLoopId);
-                drone.style.opacity = '0';
-                drone.style.transform = 'translate(200%, 50%) rotate(20deg) scale(0.5)';
-            }
-        };
-
-        window.addEventListener('scroll', onScrollThrottled(handleScroll));
-        handleScroll();
-    };
-
-    const initLaptopAnimation = () => {
-        const laptop = document.getElementById('scroll-laptop-container');
-        const laptopCard = document.getElementById('web-card-container');
-        if (!laptop || !laptopCard) return;
-
-        if (prefersReducedMotion()) {
-            laptop.style.opacity = '1';
-            laptop.style.transform = 'translate(0%, -10%) rotate(5deg)';
-            return;
-        }
-
-        const handleScroll = () => {
-            const rect = laptopCard.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-            const scrollStart = windowHeight * 0.95;
-            const scrollEnd = windowHeight * 0.6;
-            const scrollProgress = Math.max(0, Math.min(1, (scrollStart - rect.top) / (scrollStart - scrollEnd)));
-
-            if (scrollProgress > 0 && scrollProgress <= 1) {
-                const easeProgress = 1 - Math.pow(1 - scrollProgress, 3);
-                // Entra en lateral desde detrás de la tarjeta del dron.
-                const translateX = 150 - easeProgress * 150;
-                // La escala se queda en 1 para que el Lottie no se pixele.
-                laptop.style.transform = `translate(${translateX}%, -10%) rotate(5deg) scale(1)`;
-                laptop.style.opacity = easeProgress.toString();
-            } else if (scrollProgress > 1) {
-                laptop.style.opacity = '1';
-                const floatY = Math.sin(Date.now() / 1000) * 3;
-                laptop.style.transform = `translate(0%, ${-10 + floatY}%) rotate(5deg) scale(1)`;
-            } else {
-                laptop.style.opacity = '0';
-                laptop.style.transform = 'translate(150%, -10%) rotate(5deg) scale(1)';
-            }
-        };
-
-        window.addEventListener('scroll', onScrollThrottled(handleScroll));
-        handleScroll();
-    };
+    let stopFlyers: (() => void)[] = [];
 
     document.addEventListener('astro:page-load', () => {
-        initDroneAnimation();
-        initLaptopAnimation();
+        const byId = (id: string) => document.getElementById(id);
+
+        const drone = byId('scroll-drone');
+        const droneCard = byId('drone-card-container');
+        if (drone && droneCard) {
+            stopFlyers.push(fly({
+                el: drone,
+                card: droneCard,
+                shadow: byId('scroll-drone-shadow'),
+                // Llega desde la derecha y abajo, creciendo y nivelándose.
+                flight: (p) => ({ x: 200 - p * 200, y: 50 - p * 40, r: 20 - p * 15, s: 0.5 + p * 0.9 }),
+                hover: (t) => ({
+                    y: Math.sin(t) * 4 + Math.sin(t * 2.5) * 1.5,
+                    r: Math.cos(t * 0.8) * 2.5,
+                }),
+                lift: { y: -9, r: -4 },
+            }));
+        }
+
+        const laptop = byId('scroll-laptop-container');
+        const laptopCard = byId('web-card-container');
+        if (laptop && laptopCard) {
+            stopFlyers.push(fly({
+                el: laptop,
+                card: laptopCard,
+                shadow: byId('scroll-laptop-shadow'),
+                // Entra en lateral desde detrás de la tarjeta del dron. Escala fija
+                // en 1 para que el Lottie no se pixele.
+                flight: (p) => ({ x: 150 - p * 150, y: -10, r: 5, s: 1 }),
+                hover: (t) => ({
+                    y: Math.sin(t * 0.9) * 2.5 + Math.sin(t * 2.1) * 0.6,
+                    r: Math.sin(t * 0.6) * 0.8,
+                }),
+                lift: { y: -6, r: -2 },
+            }));
+        }
+    });
+
+    document.addEventListener('astro:before-swap', () => {
+        stopFlyers.forEach((stop) => stop());
+        stopFlyers = [];
     });
 </script>
 

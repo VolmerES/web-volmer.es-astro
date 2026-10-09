@@ -20,6 +20,8 @@ export const brand = {
    * el dominio en producción. El bueno es customer.volmer.es.
    */
   clientPanel: "https://customer.volmer.es/login",
+  /** Portfolio personal (repo volmer-personal): 42, proyectos propios y trayectoria. */
+  portfolio: "https://juandelorme-portfolio.volmer.es",
   /**
    * Donde guardan los formularios: el panel los muestra en /admin/solicitudes.
    * Para probar contra un panel local: PUBLIC_LEADS_URL=http://localhost:3000/api/leads
@@ -206,6 +208,8 @@ export const ui = {
     "about.skillsTitle": "Tecnologías",
     "about.cred42": "Formado en 42 Madrid, en Arquitectura de Software. 42 es la 3.ª universidad más innovadora del mundo según el ranking WURI (2025 y 2026)",
     "about.credEmbedded": "Desarrollador de software embebido para robótica",
+    "about.portfolioText": "Si quieres conocer mi lado más personal (42, los proyectos que hago por gusto y cómo he llegado hasta aquí), está en mi portfolio.",
+    "about.portfolioLink": "Ver mi portfolio personal",
     "about.credDrone": "Piloto de drones con licencia oficial A1/A3",
 
     // ---------- Contacto ----------
@@ -277,6 +281,7 @@ export const ui = {
     "footer.siteTitle": "Web",
     "footer.contactTitle": "Contacto",
     "footer.rights": "Todos los derechos reservados.",
+    "footer.portfolio": "Portfolio personal",
     "footer.privacy": "Política de Privacidad",
     "footer.cookies": "Política de Cookies",
   },
@@ -444,6 +449,8 @@ export const ui = {
     "about.skillsTitle": "Technologies",
     "about.cred42": "Trained in Software Architecture at 42 Madrid. 42 is the world's 3rd most innovative university in the WURI ranking (2025 and 2026)",
     "about.credEmbedded": "Embedded software developer for robotics",
+    "about.portfolioText": "If you want to see my more personal side (42, the projects I build for fun and how I got here), it lives in my portfolio.",
+    "about.portfolioLink": "See my personal portfolio",
     "about.credDrone": "Officially licensed A1/A3 drone pilot",
 
     // ---------- Contact ----------
@@ -515,6 +522,7 @@ export const ui = {
     "footer.siteTitle": "Site",
     "footer.contactTitle": "Contact",
     "footer.rights": "All rights reserved.",
+    "footer.portfolio": "Personal portfolio",
     "footer.privacy": "Privacy Policy",
     "footer.cookies": "Cookie Policy",
   },
