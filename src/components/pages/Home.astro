@@ -259,7 +259,7 @@ const manifestoWords = Array(4).fill(t('home.manifestoWords')).join(' ');
 
     <!-- ============ LOGOS DE CLIENTES ============ -->
     <section class="max-w-7xl mx-auto px-6 py-10 border-t border-white/5">
-        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-6 text-center">{t('home.trustCompanies')}</p>
+        <p class="text-xs text-gray-400 uppercase tracking-widest mb-6 text-center">{t('home.trustCompanies')}</p>
         <div class="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
             <div class="flex animate-marquee-companies whitespace-nowrap gap-12 w-max hover:[animation-play-state:paused]">
                 {Array(2).fill(null).map(() => (
@@ -270,7 +270,7 @@ const manifestoWords = Array(4).fill(t('home.manifestoWords')).join(' ');
                                     src={client.logo}
                                     alt={client.name}
                                     loading="lazy"
-                                    class="h-8 md:h-10 w-auto object-contain opacity-40 grayscale hover:opacity-90 hover:grayscale-0 transition-all duration-300"
+                                    class:list={["h-8 md:h-10 w-auto object-contain opacity-85 hover:opacity-100 hover:scale-105 transition-all duration-300", client.tone]}
                                 />
                             </a>
                         ))}
