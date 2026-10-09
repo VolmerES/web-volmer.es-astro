@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Google Business · logo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500&amp;family=Outfit:wght@800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<!-- Google lo recorta en círculo en muchos sitios: todo lo importante cabe en el círculo central -->
+<div style="width: 720px; height: 720px; box-sizing: border-box; background: #0A0A0A; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden">
+  <div style="position: absolute; width: 620px; height: 620px; border-radius: 50%; background: radial-gradient(circle at 70% 25%, rgba(5,217,232,0.20), rgba(50,10,92,0.35) 45%, rgba(10,10,10,0) 72%)"></div>
+  <div style="position: absolute; width: 560px; height: 560px; border-radius: 50%; border: 3px solid rgba(5,217,232,0.28)"></div>
+  <div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px">
+    <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 360px; line-height: 0.9; letter-spacing: -0.05em; color: #F4F4F5">V<span style="color: #FF2A6D">.</span></span>
+    <sc-if value="{{showStudio}}" hint-placeholder-val="{{ true }}">
+      <span style="font-family: 'Geist Mono', monospace; font-weight: 500; font-size: 30px; letter-spacing: 0.5em; color: #05D9E8; margin-left: 0.5em">STUDIO</span>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"showStudio":{"editor":"boolean","default":true},"$preview":{"width":720,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { showStudio: this.props.showStudio ?? true };
+  }
+}
+</script>
+</body>
+</html>

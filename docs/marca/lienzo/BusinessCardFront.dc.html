@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Tarjeta de visita · cara</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500&amp;family=Outfit:wght@800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<!-- 91 × 61 mm: 85 × 55 de tarjeta + 3 mm de sangrado por lado. El texto queda a más de 6 mm del borde. -->
+<div style="width: 344px; height: 231px; box-sizing: border-box; padding: 26px 26px 24px 28px; background: #0A0A0A; color: #F4F4F5; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden">
+  <!-- Monograma gigante en contorno, que se sale por la esquina -->
+  <span style="position: absolute; right: -34px; bottom: -86px; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 300px; line-height: 1; letter-spacing: -0.06em; color: transparent; -webkit-text-stroke: 1.3px rgba(5,217,232,0.6)">V<span style="color: #FF2A6D; -webkit-text-stroke: 0">.</span></span>
+  <!-- Filo de color en el borde izquierdo (dentro del sangrado y algo más) -->
+  <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 15px; background: linear-gradient(180deg, #05D9E8, #FF2A6D)"></div>
+
+  <div style="display: flex; flex-direction: column; gap: 3px; position: relative">
+    <span style="font-family: 'Geist Mono', monospace; font-weight: 500; font-size: 10px; color: #A1A1AA">&gt; transformando tu visión<span style="display: inline-block; width: 6px; height: 11px; margin-left: 3px; vertical-align: -2px; background: #FF2A6D"></span></span>
+    <span style="font-family: 'Geist Mono', monospace; font-weight: 500; font-size: 10px; color: #05D9E8">&gt; en código</span>
+  </div>
+
+  <div style="display: flex; align-items: baseline; gap: 6px; position: relative">
+    <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.03em; line-height: 1">VOLMER<span style="color: #FF2A6D">.</span></span>
+    <span style="font-family: 'Geist Mono', monospace; font-weight: 500; font-size: 8px; letter-spacing: 0.42em; color: #05D9E8">STUDIO</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":344,"height":231}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

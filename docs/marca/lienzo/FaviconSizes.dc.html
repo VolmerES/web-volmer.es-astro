@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Favicon en todos los tamaños</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Outfit:wght@800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 960px; height: 512px; box-sizing: border-box; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); font-family: 'Geist', system-ui, sans-serif">
+
+  <!-- Sobre oscuro -->
+  <div style="background: #0A0A0A; padding: 36px 36px 28px; display: flex; flex-direction: column; justify-content: space-between">
+    <span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.22em; color: #A1A1AA">SOBRE OSCURO</span>
+    <div style="display: flex; align-items: flex-end; gap: 28px">
+      <sc-for list="{{sizes}}" as="s" hint-placeholder-count="4">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px">
+          <div style="width: {{s.px}}px; height: {{s.px}}px; border-radius: {{s.radius}}px; background: #0A0A0A; box-sizing: border-box; border: {{s.border}}px solid rgba(5,217,232,0.40); display: flex; align-items: center; justify-content: center">
+            <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: {{s.font}}px; line-height: 1; letter-spacing: -0.05em; color: #F4F4F5">V<span style="color: #FF2A6D">.</span></span>
+          </div>
+          <span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #A1A1AA">{{s.px}}</span>
+        </div>
+      </sc-for>
+    </div>
+    <!-- Pestaña del navegador -->
+    <div style="align-self: flex-start; display: flex; align-items: center; gap: 10px; padding: 9px 16px 9px 12px; border-radius: 10px 10px 0 0; background: #27272A; color: #E4E4E7; font-size: 13px">
+      <div style="width: 16px; height: 16px; border-radius: 4px; background: #0A0A0A; display: flex; align-items: center; justify-content: center">
+        <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 12px; line-height: 1; letter-spacing: -0.05em; color: #F4F4F5">V<span style="color: #FF2A6D">.</span></span>
+      </div>
+      Volmer Studio | Webs y apps a medida
+    </div>
+  </div>
+
+  <!-- Sobre claro -->
+  <div style="background: #F5F5F4; padding: 36px 36px 28px; display: flex; flex-direction: column; justify-content: space-between">
+    <span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.22em; color: #57534E">SOBRE CLARO</span>
+    <div style="display: flex; align-items: flex-end; gap: 28px">
+      <sc-for list="{{sizes}}" as="s" hint-placeholder-count="4">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px">
+          <div style="width: {{s.px}}px; height: {{s.px}}px; border-radius: {{s.radius}}px; background: #0A0A0A; display: flex; align-items: center; justify-content: center">
+            <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: {{s.font}}px; line-height: 1; letter-spacing: -0.05em; color: #F4F4F5">V<span style="color: #FF2A6D">.</span></span>
+          </div>
+          <span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #57534E">{{s.px}}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 1.7; color: #44403C">
+      favicon.svg · favicon-32.png · favicon-16.png<br>
+      apple-touch-icon.png (180) · icon-512.png (Android)
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":960,"height":512}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const sizes = [180, 64, 32, 16].map((px) => ({
+      px,
+      radius: Math.round(px * 0.22),
+      font: Math.round(px * 0.66),
+      border: px >= 64 ? 2 : 0
+    }));
+    return { sizes };
+  }
+}
+</script>
+</body>
+</html>
