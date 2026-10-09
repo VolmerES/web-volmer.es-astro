@@ -31,4 +31,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
           server-dir: /public_html/
-          dangerous-clean-slate: true
+          # Nunca dangerous-clean-slate: vacía public_html entero antes de
+          # subir, y ahí viven cosas que no salen de este repo. Desde el
+          # 21-09-2026, public_html/swipe/ es el backend de invitaciones de
+          # Swipe Gallery (swipe.volmer.es), con su config.php. Sin esa opción
+          # la acción borra solo lo que ella misma subió la vez anterior.
