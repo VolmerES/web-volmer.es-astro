@@ -98,7 +98,7 @@ export const ui = {
     "home.stat1": "proyectos entregados",
     "home.stat2": "en {n} reseñas de Google",
     "home.stat3": "trato directo, sin intermediarios",
-    "home.trustCompanies": "Empresas que han confiado en mí",
+    "home.trustCompanies": "Empresas que confían en mí",
     "home.trustTech": "Tecnologías que utilizo",
 
     // ---------- Home: secciones ----------
@@ -339,7 +339,7 @@ export const ui = {
     "home.stat1": "projects delivered",
     "home.stat2": "across {n} Google reviews",
     "home.stat3": "direct contact, no middlemen",
-    "home.trustCompanies": "Businesses that trusted me",
+    "home.trustCompanies": "Businesses that trust me",
     "home.trustTech": "Technologies I work with",
 
     // ---------- Home: sections ----------

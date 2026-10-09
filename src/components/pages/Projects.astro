@@ -39,7 +39,7 @@ const r = useRoutes(lang);
                         src={client.logo}
                         alt={client.name}
                         loading="lazy"
-                        class="h-7 md:h-9 w-auto object-contain opacity-40 grayscale hover:opacity-90 hover:grayscale-0 transition-all duration-300"
+                        class:list={["h-7 md:h-9 w-auto object-contain opacity-85 hover:opacity-100 hover:scale-105 transition-all duration-300", client.tone]}
                     />
                 </a>
             ))}

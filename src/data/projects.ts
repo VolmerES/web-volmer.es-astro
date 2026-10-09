@@ -183,13 +183,21 @@ export const allProjects = [...webProjects, ...appProjects];
 export const featuredProjects = allProjects.filter((p) => p.featured);
 
 /** Logos de clientes para el carrusel de confianza de la home. */
-export const clientLogos = [
-  { name: "Equidae", logo: "/empresas/Equidae.png", url: "https://equidae.es" },
+/**
+ * Logos de «Empresas que confían en mí», en color. `tone` levanta los que son
+ * oscuros o muy finos y se perderían sobre el fondo negro, sin quitarles color.
+ * Solo empresas con las que hay relación de trabajo real (clientes o empleador):
+ * quien solo ha dado un premio va en texto, no aquí.
+ */
+export const clientLogos: { name: string; logo: string; url: string; tone?: string }[] = [
+  { name: "PROETI", logo: "/empresas/Proeti.png", url: "https://proetisa.com" },
+  { name: "Equidae", logo: "/empresas/Equidae.png", url: "https://equidae.es", tone: "brightness-[1.35]" },
   { name: "Fitgood", logo: "/empresas/Fitgood.png", url: "https://fitgood.be" },
   {
     name: "Introspectia",
     logo: "/empresas/Introspectia.webp",
     url: "https://instrospectiapsicologia.com",
+    tone: "brightness-[2.2] saturate-[1.3]",
   },
   { name: "Maingoo", logo: "/empresas/Maingoo.svg", url: "https://maingoo.tech" },
   { name: "Mesetair", logo: "/empresas/Mesetair.webp", url: "https://mesetair.com" },
@@ -197,6 +205,7 @@ export const clientLogos = [
     name: "Psi Violeta",
     logo: "/empresas/PsiVioleta.png",
     url: "https://violetapsicologia.com",
+    tone: "brightness-[1.6]",
   },
   { name: "Winegang", logo: "/empresas/Winegang.png", url: "https://winegang.es" },
 ];
