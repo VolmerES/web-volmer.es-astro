@@ -1,5 +1,5 @@
 ---
-import { getLangFromUrl, useTranslations, useRoutes, getAlternateUrl, brand } from '../i18n/ui';
+import { getLangFromUrl, useTranslations, useRoutes, getAlternateUrl, brand, blogVisible } from '../i18n/ui';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -10,7 +10,7 @@ const navLinks = [
     { href: r.services, label: t('nav.services') },
     { href: r.projects, label: t('nav.projects') },
     { href: r.about, label: t('nav.about') },
-    { href: r.blog, label: t('nav.blog') },
+    ...(blogVisible ? [{ href: r.blog, label: t('nav.blog') }] : []),
 ];
 
 const alternateUrl = getAlternateUrl(Astro.url.pathname, lang);
@@ -48,7 +48,7 @@ const isActive = (href: string) => {
                 <a
                     href={href}
                     class:list={[
-                        "relative text-xs font-bold px-4 py-1.5 rounded-full transition-colors duration-300",
+                        "relative text-xs font-bold px-4 py-1.5 rounded-full whitespace-nowrap transition-colors duration-300",
                         isActive(href) ? "text-black" : "text-gray-400 hover:text-white hover:bg-white/10"
                     ]}
                 >

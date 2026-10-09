@@ -1,0 +1,14 @@
+# Contenido personal mudado a juandelorme-portfolio.volmer.es.
+#
+# astro.config.mjs ya declara estas redirecciones, pero en un sitio estático
+# Astro las genera como páginas con <meta refresh>, que Google no siempre trata
+# como un traslado permanente. Aquí van como 301 de verdad. El PDF solo puede ir
+# aquí: Astro no genera redirecciones para ficheros.
+#
+# Las URLs de Swipe Gallery (/privacy-policy, /en/privacy-policy,
+# /swipe-gallery-app) no se tocan: están declaradas en su ficha de Google Play.
+
+RedirectMatch 301 ^/Juan_Bautista_CV\.pdf$ https://juandelorme-portfolio.volmer.es/Juan_Bautista_CV.pdf
+RedirectMatch 301 ^/(en/)?42/?$ https://juandelorme-portfolio.volmer.es/$142/
+RedirectMatch 301 ^/examrank06/?$ https://juandelorme-portfolio.volmer.es/examrank06/
+RedirectMatch 301 ^/(en/)?blog/(como-es-la-piscina-de-42-madrid|de-un-asus-a-42-madrid|mi-primera-game-jam)/?$ https://juandelorme-portfolio.volmer.es/$1blog/$2/

@@ -4,7 +4,7 @@ export const brand = {
   name: "Volmer Studio",
   logo: "VOLMER",
   logoSuffix: "STUDIO",
-  person: "Juan Delorme Pinedo",
+  person: "Juan Bautista Delorme Pinedo",
   // Dirección declarada en las políticas de privacidad; cambiarla implica
   // actualizar también politica-privacidad.astro y en/privacy-policy.astro.
   email: "juanbautista.dev@volmer.es",
@@ -12,7 +12,7 @@ export const brand = {
   whatsapp: "34622557739",
   github: "https://github.com/VolmerES",
   linkedin: "https://linkedin.com/in/jdelorme",
-  maps: "https://www.google.com/maps/place/Volmer+Tech/@23.1139177,-94.2923106,3z/data=!4m6!3m5!1s0x25d3edcd640fe0a3:0xd35547f3117ff6d0!8m2!3d23.1139177!4d-94.2923106!16s%2Fg%2F11y3n_0_0?entry=ttu",
+  maps: "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
   formspree: "https://formspree.io/f/xykkznrl",
   /**
    * Panel de clientes (Next.js, repo customer-volmer-es).
@@ -20,7 +20,27 @@ export const brand = {
    * el dominio en producción. El bueno es customer.volmer.es.
    */
   clientPanel: "https://customer.volmer.es/login",
+  /**
+   * Donde guardan los formularios: el panel los muestra en /admin/solicitudes.
+   * Para probar contra un panel local: PUBLIC_LEADS_URL=http://localhost:3000/api/leads
+   */
+  leads: "https://customer.volmer.es/api/leads",
+  /**
+   * Clasificación WURI (World University Rankings for Innovation), donde 42 es
+   * 3.ª en 2025 y 2026. La página oficial enlaza al PDF de cada año; la captura
+   * de public/wuri-2026.webp sale de la página 2 de ese PDF.
+   */
+  wuriRanking: "https://wuri-world.circle.so/wuri-ranking",
+  wuriPdf: "https://drive.google.com/file/d/18wRtS_m5B-3mL-xZ4jff2AFMz1XNYXz2/view",
 };
+
+/**
+ * El blog se quedó vacío al mudar los artículos al portfolio. Sus páginas
+ * siguen existiendo, pero fuera del menú, de la portada y del índice de Google
+ * hasta que haya artículos pensados para clientes. Ponerlo a `true` lo
+ * devuelve a todos esos sitios a la vez.
+ */
+export const blogVisible = false;
 
 export const ui = {
   es: {
@@ -45,12 +65,36 @@ export const ui = {
 
     // ---------- Home: hero ----------
     "home.badge": "DISPONIBLE PARA NUEVOS PROYECTOS",
-    "home.title1": "Tu negocio merece",
-    "home.title2": "algo mejor que una plantilla",
+    "home.hello": "Hola, soy Juan",
+    "home.title1": "Transformando tu visión",
+    "home.title2": "en código.",
     "home.subtitle":
-      "Diseño y desarrollo webs y aplicaciones a medida. Trabajas directamente conmigo, sin intermediarios ni agencias: entiendo tu negocio, lo construyo, y me quedo para mantenerlo.",
+      "Diseño y programo webs y aplicaciones a medida para negocios. Hablas directamente conmigo, sin agencias ni intermediarios: te escucho, lo construyo y me quedo para mantenerlo.",
+    "home.whatsapp": "ESCRÍBEME POR WHATSAPP",
+    "home.cred.42.title": "Formado en 42 Madrid",
+    "home.cred.42.desc": "3.ª universidad más innovadora del mundo (WURI)",
+    "home.cred.42.more": "Ver ranking",
+    "home.wuriTitle": "42, la 3.ª universidad más innovadora del mundo",
+    "home.wuriCaption":
+      "Extracto de la clasificación oficial WURI 2026 (Global Top 500 Innovative Universities). 42 repite en el tercer puesto, como en 2025, por delante del MIT, Stanford y Harvard.",
+    "home.wuriLink": "Ver la clasificación oficial",
+    "home.wuriPdf": "Abrir el PDF de 2026",
+    "home.close": "Cerrar",
+    "home.cred.studio.title": "Volmer Studio",
+    "home.cred.studio.desc": "Webs y apps a medida para negocios",
+    "home.cred.play.title": "Apps en Google Play",
+    "home.cred.play.desc": "Mis propias apps, publicadas",
+    "home.cred.embedded.title": "Software embebido",
+    "home.cred.embedded.desc": "Desarrollo para robótica",
+    "home.cred.drone.title": "Piloto de dron",
+    "home.cred.drone.desc": "Licencia oficial A1/A3",
+    "home.manifesto1": "Tu negocio merece",
+    "home.manifesto2": "algo mejor que una plantilla.",
+    "home.manifestoText":
+      "Nada de temas comprados ni webs clonadas. Cada proyecto se diseña y se programa desde cero pensando en tu negocio, en cómo trabajas y en quién te compra.",
+    "home.manifestoWords": "A medida · Trato directo · Sin plantillas · Programado desde cero · Me quedo después del lanzamiento ·",
     "home.stat1": "proyectos entregados",
-    "home.stat2": "en reseñas de Google",
+    "home.stat2": "en {n} reseñas de Google",
     "home.stat3": "trato directo, sin intermediarios",
     "home.trustCompanies": "Empresas que han confiado en mí",
     "home.trustTech": "Tecnologías que utilizo",
@@ -66,6 +110,10 @@ export const ui = {
     "home.blogTitle": "Últimas publicaciones",
     "home.blogEmpty": "Estoy preparando los primeros artículos. Vuelve pronto.",
     "home.finalTitle": "¿Hablamos de tu proyecto?",
+    "home.formEmail": "Tu email",
+    "home.formMessage": "Cuéntame en dos líneas qué tienes en mente",
+    "home.formSubject": "Mensaje desde la portada",
+    "home.formOr": "o si lo prefieres",
     "home.finalSubtitle":
       "Cuéntame qué necesitas y te respondo con una propuesta clara: qué incluye, cuánto cuesta y cuándo estará listo. Sin compromiso.",
 
@@ -156,7 +204,8 @@ export const ui = {
     "about.v3.desc":
       "Entregar la web no es el final. Sigo disponible para mantenerla, actualizarla y hacerla crecer.",
     "about.skillsTitle": "Tecnologías",
-    "about.cred42": "42 Madrid — Estudiante de Arquitectura de Software",
+    "about.cred42": "Formado en 42 Madrid, en Arquitectura de Software. 42 es la 3.ª universidad más innovadora del mundo según el ranking WURI (2025 y 2026)",
+    "about.credEmbedded": "Desarrollador de software embebido para robótica",
     "about.credDrone": "Piloto de drones con licencia oficial A1/A3",
 
     // ---------- Contacto ----------
@@ -254,12 +303,36 @@ export const ui = {
 
     // ---------- Home: hero ----------
     "home.badge": "AVAILABLE FOR NEW PROJECTS",
-    "home.title1": "Your business deserves",
-    "home.title2": "better than a template",
+    "home.hello": "Hi, I'm Juan",
+    "home.title1": "Turning your vision",
+    "home.title2": "into code.",
     "home.subtitle":
       "I design and build custom websites and apps. You work directly with me — no middlemen, no agency layers: I learn your business, build it, and stick around to maintain it.",
+    "home.whatsapp": "MESSAGE ME ON WHATSAPP",
+    "home.cred.42.title": "Trained at 42 Madrid",
+    "home.cred.42.desc": "World's 3rd most innovative university (WURI)",
+    "home.cred.42.more": "See ranking",
+    "home.wuriTitle": "42, the world's 3rd most innovative university",
+    "home.wuriCaption":
+      "Excerpt from the official WURI 2026 ranking (Global Top 500 Innovative Universities). 42 holds third place again, as in 2025, ahead of MIT, Stanford and Harvard.",
+    "home.wuriLink": "See the official ranking",
+    "home.wuriPdf": "Open the 2026 PDF",
+    "home.close": "Close",
+    "home.cred.studio.title": "Volmer Studio",
+    "home.cred.studio.desc": "Custom websites and apps for businesses",
+    "home.cred.play.title": "Apps on Google Play",
+    "home.cred.play.desc": "My own apps, published",
+    "home.cred.embedded.title": "Embedded software",
+    "home.cred.embedded.desc": "Development for robotics",
+    "home.cred.drone.title": "Drone pilot",
+    "home.cred.drone.desc": "Official A1/A3 licence",
+    "home.manifesto1": "Your business deserves",
+    "home.manifesto2": "better than a template.",
+    "home.manifestoText":
+      "No bought themes, no cloned sites. Every project is designed and coded from scratch around your business, the way you work and the people who buy from you.",
+    "home.manifestoWords": "Custom-built · Direct contact · No templates · Coded from scratch · I stay after launch ·",
     "home.stat1": "projects delivered",
-    "home.stat2": "average on Google reviews",
+    "home.stat2": "across {n} Google reviews",
     "home.stat3": "direct contact, no middlemen",
     "home.trustCompanies": "Businesses that trusted me",
     "home.trustTech": "Technologies I work with",
@@ -275,6 +348,10 @@ export const ui = {
     "home.blogTitle": "Latest posts",
     "home.blogEmpty": "First articles coming soon. Check back shortly.",
     "home.finalTitle": "Shall we talk about your project?",
+    "home.formEmail": "Your email",
+    "home.formMessage": "Tell me in a couple of lines what you have in mind",
+    "home.formSubject": "Message from the home page",
+    "home.formOr": "or if you prefer",
     "home.finalSubtitle":
       "Tell me what you need and I'll come back with a clear proposal: what's included, what it costs and when it ships. No strings attached.",
 
@@ -365,7 +442,8 @@ export const ui = {
     "about.v3.desc":
       "Shipping the site isn't the end. I stay available to maintain it, update it and help it grow.",
     "about.skillsTitle": "Technologies",
-    "about.cred42": "42 Madrid — Software Architecture student",
+    "about.cred42": "Trained in Software Architecture at 42 Madrid. 42 is the world's 3rd most innovative university in the WURI ranking (2025 and 2026)",
+    "about.credEmbedded": "Embedded software developer for robotics",
     "about.credDrone": "Officially licensed A1/A3 drone pilot",
 
     // ---------- Contact ----------

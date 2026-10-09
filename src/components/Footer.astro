@@ -1,5 +1,5 @@
 ---
-import { getLangFromUrl, useTranslations, useRoutes, brand } from '../i18n/ui';
+import { getLangFromUrl, useTranslations, useRoutes, brand, blogVisible } from '../i18n/ui';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -16,7 +16,7 @@ const serviceLinks = [
 const siteLinks = [
     { href: r.projects, label: t('nav.projects') },
     { href: r.about, label: t('nav.about') },
-    { href: r.blog, label: t('nav.blog') },
+    ...(blogVisible ? [{ href: r.blog, label: t('nav.blog') }] : []),
     { href: r.contact, label: t('nav.contact') },
     { href: brand.clientPanel, label: t('cta.clientLogin') },
 ];

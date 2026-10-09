@@ -1,9 +1,11 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+import { blogVisible } from '../../../i18n/ui';
 import BlogIndex from '../../../components/pages/BlogIndex.astro';
 ---
 
 <Layout
+    noindex={!blogVisible}
     title="Blog | Volmer Studio"
     description="Articles on web development, digital business and the technical decisions behind a good project."
 >

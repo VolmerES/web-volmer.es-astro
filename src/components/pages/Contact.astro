@@ -77,9 +77,14 @@ const t = useTranslations(lang);
                             name="message"
                             rows="6"
                             required
+                            maxlength="5000"
                             class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors resize-none"
                             placeholder={t('contact.phMessage')}
                         ></textarea>
+                    </div>
+
+<div aria-hidden="true" class="absolute -left-[9999px] w-px h-px overflow-hidden">
+                        <label>Website <input type="text" id="cp-website" name="website" tabindex="-1" autocomplete="off" /></label>
                     </div>
 
                     <button
@@ -89,7 +94,8 @@ const t = useTranslations(lang);
                         data-label-sending={t('contact.sending')}
                         data-label-sent={t('contact.sent')}
                         data-label-error={t('contact.error')}
-                        data-endpoint={brand.formspree}
+                        data-panel={import.meta.env.PUBLIC_LEADS_URL ?? brand.leads}
+                        data-formspree={brand.formspree}
                         class="w-full bg-gradient-to-r from-neon-cyan to-blue-600 text-white font-bold py-3.5 rounded-lg hover:shadow-[0_0_20px_rgba(5,217,232,0.4)] transition-all transform hover:scale-[1.01] disabled:opacity-50 disabled:grayscale disabled:transform-none"
                     >
                         {t('contact.send')}
@@ -140,6 +146,8 @@ const t = useTranslations(lang);
 </main>
 
 <script>
+    import { sendLead, LeadRejected } from '../../lib/leads';
+
     document.addEventListener('astro:page-load', () => {
         const form = document.getElementById('contact-page-form') as HTMLFormElement | null;
         const submitBtn = document.getElementById('cp-submit') as HTMLButtonElement | null;
@@ -151,7 +159,10 @@ const t = useTranslations(lang);
             sent: submitBtn.dataset.labelSent || '',
             error: submitBtn.dataset.labelError || '',
         };
-        const endpoint = submitBtn.dataset.endpoint || '';
+        const endpoints = {
+            panel: submitBtn.dataset.panel || '',
+            formspree: submitBtn.dataset.formspree || '',
+        };
 
         const setState = (text: string, add: string[] = [], remove: string[] = []) => {
             submitBtn.innerText = text;
@@ -168,18 +179,13 @@ const t = useTranslations(lang);
             const subject = (document.getElementById('cp-subject') as HTMLInputElement).value;
             const phone = (document.getElementById('cp-phone') as HTMLInputElement).value;
             const message = (document.getElementById('cp-message') as HTMLTextAreaElement).value;
+            const website = (document.getElementById('cp-website') as HTMLInputElement | null)?.value;
 
             setState(labels.sending);
             submitBtn.disabled = true;
 
             try {
-                const response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, subject, phone, message }),
-                });
-
-                if (!response.ok) throw new Error('Formspree error');
+                await sendLead({ source: 'contact', email, subject, phone, message, website }, endpoints);
 
                 setState(labels.sent, ['bg-emerald-500'], gradient);
                 form.reset();
@@ -190,7 +196,8 @@ const t = useTranslations(lang);
                 }, 2500);
             } catch (error) {
                 console.error(error);
-                setState(labels.error, ['bg-red-500'], gradient);
+                // El panel explica qué falla (email mal escrito, demasiados envíos).
+                setState(error instanceof LeadRejected ? error.message : labels.error, ['bg-red-500'], gradient);
 
                 setTimeout(() => {
                     setState(labels.idle, gradient, ['bg-red-500']);

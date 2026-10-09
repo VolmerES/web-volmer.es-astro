@@ -1,24 +1,128 @@
-[{
-  "title": "Volmer Tech",
-  "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Tech&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
-  "stars": 5,
-  "name": "Luis Pastor",
-  "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xWVU1qUkVjVFEyVWtGaUxYUXRSMU5QU1daWE4yYxAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOlVUMjREcTQ2UkFiLXQtR1NPSWZXN2c%7C0dQtjT3XwB5%7C?hl=es",
-  "text": "Muy buen desarrollador, me ayudó en diversos proyectos trabajando de foma espléndida."
-},
-{
-  "title": "Volmer Tech",
-  "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Tech&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
-  "stars": 5,
-  "name": "Violeta Medialdea Morillas",
-  "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25GNlNEZzFTbnAxVWtaekxWaEJkbkZ2VFZCT1ZFRRAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOnF6SDg1Snp1UkZzLVhBdnFvTVBOVEE%7C0dQsPdLDtFR%7C?hl=es",
-  "text": "Limpio, organizado, diligente, todo cuanto quieres en un programador. Sabe captar tu esencia y transformarla en código"
-},
-{
-  "title": "Volmer Tech",
-  "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Tech&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
-  "stars": 5,
-  "name": "Sergio Marín Álvarez",
-  "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tKTlpGOVFXa2RTTTAxME5FczFWekIyTkdaaVdXYxAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOkJNZF9QWkdSM010NEs1VzB2NGZiWWc%7C0dQsFDUuury%7C?hl=es",
-  "text": "Increíble profesional. Solventó todas mis cuestiones referentes al trabajo que el encargue. 5/5"
-}]
+[
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "Marco Antonio Huyhua",
+    "date": "2026-08-04",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21SdVJGbEVSRzl3YkhkSVp6SkJkVVZCUmxCM2IxRRAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOmRuRFlERG9wbHdIZzJBdUVBRlB3b1E%7C%7C?hl=es-419",
+    "text": "Un muy BUEN trabajo que a hecho a mi restaurante, deseo que esto sea el inicio para seguir trabajando, gracias Juan, un saludo."
+  },
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "Reformas Vlady",
+    "date": "2026-07-11",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21ZeVVURTNhVGhNWTBKb1NrZHBRa3BaTUV4c1JYYxAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOmYyUTE3aThMY0JoSkdpQkpZMExsRXc%7C%7C?hl=es-419",
+    "text": "Juan supo plasmar lo que yo quería en mi web, súper recomendable y precio muy asequible"
+  },
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "Marta Herrero",
+    "date": "2026-05-27",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xKRmRIQkZha1JYV2xFNU1WTldaMEpJY21jMVZWRRAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOlJFdHBFakRXWlE5MVNWZ0JIcmc1VVE%7C%7C?hl=es-419",
+    "text": "Muy profesional! Responde rápido y te propone distintas soluciones a los problemas que le llevas! Una maravilla desde luego!\nOrganizar proyectos es fácil con Juan, la comunicación es fluida y muy clara."
+  },
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "Adrian Robles Ordoňez",
+    "date": "2026-05-26",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xGelpHTlNUbXBFVUdWVVVqWlFPVnBWUldoTVVVRRAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOlFzZGNSTmpEUGVUUjZQOVpVRWhMUUE%7C%7C?hl=es-419",
+    "text": "10/10 Eficiente, preciso y correcto, todo lo que se puede pedir y mas"
+  },
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "diego bp",
+    "date": "2026-05-24",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2prNWVtNDVkV2MxT0dkRFdIWjZlV1JqTlVaMFdVRRAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOjk5em45dWc1OGdDWHZ6eWRjNUZ0WUE%7C%7C?hl=es-419",
+    "text": "El trabajo ha sido perfecto y en tiempo.\n10 de 10"
+  },
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "kanutone",
+    "date": "2026-05-23",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21JdFlXVTRiM2RaZHkxdVpFdHNaVFJSUlVJNVYzYxAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOmItYWU4b3dZdy1uZEtsZTRRRUI5V3c%7C%7C?hl=es-419",
+    "text": "Trabajar con Juan ha sido una de las mejores decisiones que hemos tomado para el desarrollo de nuestra app. Desde el principio no se limitó a ejecutar tareas o hacer “lo que le pedíamos”, sino que se implicó de verdad en el proyecto. Propuso mejoras constantemente, detectó problemas antes de que aparecieran y aportó ideas muy útiles tanto a nivel técnico como de diseño y experiencia de usuario.\n\nNos ayudó muchísimo en la definición y construcción de la app, participando de forma muy activa en todo el proceso. Se nota que le importa que el proyecto salga bien y no simplemente terminar un encargo.\n\nAdemás, cumplió los plazos acordados, fue muy transparente en la comunicación y siempre estuvo disponible para resolver dudas o buscar soluciones. Da gusto trabajar con alguien que combina conocimientos técnicos con implicación real y visión de producto. Lo recomendaría sin ninguna duda."
+  },
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "Guille Rodriguez",
+    "date": "2026-05-06",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pkclZVTkNhR0ZUWjFKNmFtcENTVk41VlRaUlNIYxAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOjdrVUNCaGFTZ1J6ampCSVN5VTZRSHc%7C%7C?hl=es-419",
+    "text": "Estoy satisfecho 100% con la atención de Juan. Tiene una implicación total y siempre sabe como resolver problemas y ayudar a que nuestra web mejore sea más profesional.\n\nLo recomiendo totalmente, por su profesionalidad y por su trato humano y cercano."
+  },
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "Sergio Parrilla",
+    "date": "2026-02-11",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tsdGFFeFhXVUpUWDFORlNHWXRVMXBJU1VoaUxYYxAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOkltaExXWUJTX1NFSGYtU1pISUhiLXc%7C%7C?hl=es-419",
+    "text": "Le contratamos para hacer el servicio de mantenimiento de una web. Nos resolvió todas las incidencias y aporto nuevas ideas que nos vinieron genial para aumentar las visitas. Todo un acierto"
+  },
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "Amaia Ramos",
+    "date": "2026-02-05",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xodFZFWnVha2x2VmpaQ05IWlhjamw0Tm1GUGEzYxAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOlhtVEZuaklvVjZCNHZXcjl4NmFPa3c%7C%7C?hl=es-419",
+    "text": "Juan es muy eficiente, rápido y eficaz. Tiene una solución para todo. Está siendo genial contar con él para el mantenimiento y desarrollo de la web de la clínica. ¡Gracias!"
+  },
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "Ana Sánchez Preysler",
+    "date": "2026-02-05",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25weFkyRm5PVWt3YlRsU1QyaE1kalZSVFdrME9IYxAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOnpxY2FnOUkwbTlST2hMdjVRTWk0OHc%7C%7C?hl=es-419",
+    "text": "Llevo trabajando con Juan casi un año y estoy/estamos mi equipo y yo encantados con él. Lleva la gestión informática y la web de mi centro de Psicología: Equidae Psicología. Destacaría su cercanía, seriedad y compromiso. Además de tarifas muy competentes. Gracias!"
+  },
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "Brais Janeiro D'apolito",
+    "date": "2026-01-21",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25OV2FFZDNWRkJoYVhKeFFYaDRhWE5UYld3d1gzYxAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOnNWaEd3VFBhaXJxQXh4aXNTbWwwX3c%7C%7C?hl=es-419",
+    "text": "10/10"
+  },
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "Luis Pastor",
+    "date": "2026-01-20",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xWVU1qUkVjVFEyVWtGaUxYUXRSMU5QU1daWE4yYxAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOlVUMjREcTQ2UkFiLXQtR1NPSWZXN2c%7C%7C?hl=es-419",
+    "text": "Muy buen desarrollador, me ayudó en diversos proyectos trabajando de foma espléndida."
+  },
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "Violeta Medialdea Morillas",
+    "date": "2026-01-20",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25GNlNEZzFTbnAxVWtaekxWaEJkbkZ2VFZCT1ZFRRAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOnF6SDg1Snp1UkZzLVhBdnFvTVBOVEE%7C%7C?hl=es-419",
+    "text": "Limpio, organizado, diligente, todo cuanto quieres en un programador. Sabe captar tu esencia y transformarla en código"
+  },
+  {
+    "title": "Volmer Studio",
+    "url": "https://www.google.com/maps/search/?api=1&query=Volmer%20Studio&query_place_id=ChIJo-APZM3t0yUR0PZ_EfNHVdM",
+    "stars": 5,
+    "name": "Sergio Marín Álvarez",
+    "date": "2026-01-20",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tKTlpGOVFXa2RTTTAxME5FczFWekIyTkdaaVdXYxAB!2m1!1s0x0:0xd35547f3117ff6d0!3m1!1s2@1:CAIQACodChtycF9oOkJNZF9QWkdSM010NEs1VzB2NGZiWWc%7C%7C?hl=es-419",
+    "text": "Increíble profesional. Solventó todas mis cuestiones referentes al trabajo que el encargue. 5/5"
+  }
+]

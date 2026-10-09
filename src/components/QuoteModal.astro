@@ -93,6 +93,7 @@ const serviceOptions = [
     id="quote-modal"
     data-mail={JSON.stringify(mailCopy)}
     data-formspree={brand.formspree}
+    data-panel={import.meta.env.PUBLIC_LEADS_URL ?? brand.leads}
     data-whatsapp={brand.whatsapp}
     class="bg-transparent p-0 m-0 backdrop:bg-black/80 backdrop:backdrop-blur-sm w-full h-full max-w-none max-h-none fixed inset-0 z-[120] open:flex items-center justify-center pointer-events-none open:pointer-events-auto transition-all duration-300 opacity-0 open:opacity-100"
 >
@@ -197,8 +198,12 @@ const serviceOptions = [
 
                 <div class="mb-6">
                     <label for="quote-message" class="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">{t('budget.messageLabel')}</label>
-                    <textarea id="quote-message" rows="7" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors resize-y text-sm leading-relaxed"></textarea>
+                    <textarea id="quote-message" rows="7" maxlength="5000" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors resize-y text-sm leading-relaxed"></textarea>
                 </div>
+
+<div aria-hidden="true" class="absolute -left-[9999px] w-px h-px overflow-hidden">
+                        <label>Website <input type="text" id="quote-website" name="website" tabindex="-1" autocomplete="off" /></label>
+                    </div>
 
                 <div class="flex flex-col gap-3">
                     <button id="quote-send-mail" class="w-full bg-white text-black font-bold py-3.5 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
@@ -215,6 +220,8 @@ const serviceOptions = [
 </dialog>
 
 <script>
+    import { sendLead } from '../lib/leads';
+
     document.addEventListener('astro:page-load', () => {
         const modal = document.getElementById('quote-modal') as HTMLDialogElement | null;
         if (!modal) return;
@@ -223,7 +230,10 @@ const serviceOptions = [
         const closeBtn = document.getElementById('close-quote-modal');
 
         const copy = JSON.parse(modal.dataset.mail || '{}');
-        const formspree = modal.dataset.formspree || '';
+        const endpoints = {
+            panel: modal.dataset.panel || '',
+            formspree: modal.dataset.formspree || '',
+        };
         const whatsapp = modal.dataset.whatsapp || '';
 
         let selection = { service: '', webType: '', ecommerce: '' };
@@ -310,18 +320,16 @@ const serviceOptions = [
             mailBtn.disabled = true;
 
             try {
-                const response = await fetch(formspree, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        email: emailInput.value,
-                        phone: phoneInput?.value || '',
-                        subject: copy.subjectPrefix + serviceLabel(),
-                        message: withPhone(),
-                    }),
-                });
-
-                if (!response.ok) throw new Error('Formspree error');
+                const messageInput = document.getElementById('quote-message') as HTMLTextAreaElement | null;
+                await sendLead({
+                    source: 'quote',
+                    service: selection.service || 'web',
+                    email: emailInput.value,
+                    phone: phoneInput?.value || '',
+                    subject: copy.subjectPrefix + serviceLabel(),
+                    message: messageInput?.value || '',
+                    website: (document.getElementById('quote-website') as HTMLInputElement | null)?.value,
+                }, endpoints);
 
                 mailBtn.innerText = '✓';
                 mailBtn.style.backgroundColor = '#10b981';

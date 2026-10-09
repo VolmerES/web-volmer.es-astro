@@ -3,9 +3,10 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
 import tailwindcss from "@tailwindcss/vite";
+import { blogVisible } from "./src/i18n/ui.ts";
 
 // Dominio del portafolio personal, al que se mudó todo el contenido no comercial.
-const PORTFOLIO = "https://juanbautista.volmer.es";
+const PORTFOLIO = "https://juandelorme-portfolio.volmer.es";
 
 // https://astro.build/config
 export default defineConfig({
@@ -47,6 +48,8 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      // Mientras el blog esté oculto, fuera del sitemap (ver blogVisible).
+      filter: (page) => blogVisible || !page.includes("/blog"),
       i18n: {
         defaultLocale: "es",
         locales: {
